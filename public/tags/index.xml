@@ -1,36 +1,94 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-      <title>Tags on My New Hugo Site </title>
+    <title>Tags on Teaching Resources</title>
     <link>/tags/</link>
+    <description>Recent content in Tags on Teaching Resources</description>
+    <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <author>Alexander Ivanov</author>
-    <updated>2015-07-23 21:13:14 -0500 -0500</updated>
+    <lastBuildDate>Thu, 25 Jan 2018 21:13:14 -0500</lastBuildDate>
+    
+	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
-      <title>Plot</title>
-      <link>/tags/plot/</link>
-      <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
-      <author>Alexander Ivanov</author>
-      <guid>/tags/plot/</guid>
+      <title>Bamm</title>
+      <link>/tags/bamm/</link>
+      <pubDate>Thu, 25 Jan 2018 21:13:14 -0500</pubDate>
+      
+      <guid>/tags/bamm/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>R Markdown</title>
-      <link>/tags/r-markdown/</link>
-      <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
-      <author>Alexander Ivanov</author>
-      <guid>/tags/r-markdown/</guid>
+      <title>Diversitree</title>
+      <link>/tags/diversitree/</link>
+      <pubDate>Thu, 25 Jan 2018 21:13:14 -0500</pubDate>
+      
+      <guid>/tags/diversitree/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Regression</title>
-      <link>/tags/regression/</link>
-      <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
-      <author>Alexander Ivanov</author>
-      <guid>/tags/regression/</guid>
+      <title>Dtt</title>
+      <link>/tags/dtt/</link>
+      <pubDate>Thu, 25 Jan 2018 21:13:14 -0500</pubDate>
+      
+      <guid>/tags/dtt/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Ltt</title>
+      <link>/tags/ltt/</link>
+      <pubDate>Thu, 25 Jan 2018 21:13:14 -0500</pubDate>
+      
+      <guid>/tags/ltt/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Macroevolução</title>
+      <link>/tags/macroevolu%C3%A7%C3%A3o/</link>
+      <pubDate>Thu, 25 Jan 2018 21:13:14 -0500</pubDate>
+      
+      <guid>/tags/macroevolu%C3%A7%C3%A3o/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Ouwie</title>
+      <link>/tags/ouwie/</link>
+      <pubDate>Thu, 25 Jan 2018 21:13:14 -0500</pubDate>
+      
+      <guid>/tags/ouwie/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>R</title>
+      <link>/tags/r/</link>
+      <pubDate>Thu, 25 Jan 2018 21:13:14 -0500</pubDate>
+      
+      <guid>/tags/r/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Simmap</title>
+      <link>/tags/simmap/</link>
+      <pubDate>Thu, 25 Jan 2018 21:13:14 -0500</pubDate>
+      
+      <guid>/tags/simmap/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tutorial</title>
+      <link>/tags/tutorial/</link>
+      <pubDate>Thu, 25 Jan 2018 21:13:14 -0500</pubDate>
+      
+      <guid>/tags/tutorial/</guid>
       <description></description>
     </item>
     

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-      <title>R Markdown on My New Hugo Site </title>
+      <title>R Markdown on Teaching Resources </title>
     <link>/tags/r-markdown/</link>
     <language>en-us</language>
     <author>Alexander Ivanov</author>
-    <updated>2015-07-23 21:13:14 -0500 -0500</updated>
+    <updated>2018-01-25 21:13:14 -0500 -0500</updated>
     
     <item>
-      <title>Hello R Markdown</title>
+      <title>Aula Prática - Macroevolução (BIE5795)</title>
       <link>/post/2015-07-23-r-rmarkdown/</link>
-      <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
+      <pubDate>Thu, 25 Jan 2018 21:13:14 -0500</pubDate>
       <author>Alexander Ivanov</author>
       <guid>/post/2015-07-23-r-rmarkdown/</guid>
       <description>&lt;div id=&#34;r-markdown&#34; class=&#34;section level1&#34;&gt;

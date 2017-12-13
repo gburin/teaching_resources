@@ -4,10 +4,10 @@ licenselink = "https://github.com/AlexFinn/simple-a/blob/master/LICENSE.md"
 description = "Minimalistic Hugo theme"
 min_version = 0.14
 
-tags = ["AlexFinn", ]
+tags = ["Gustavo Burin", ]
 features = ["blog", ]
 
 [author]
-    name = "AlexFinn"
-    homepage = "http://ru.alexfinn.eu/"
+    name = "Gustavo Burin"
+    homepage = "https://www.gburin.com/"
     source_repo = "https://github.com/AlexFinn/simple-a"

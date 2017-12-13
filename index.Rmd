@@ -1,3 +1,5 @@
 ---
 site: blogdown:::blogdown_site
+title: Teaching Resources
+author: Gustavo Burin
 ---

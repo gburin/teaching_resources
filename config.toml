@@ -1,4 +1,17 @@
-theme = "simple-a"
-baseURL = "http://example.org/"
+baseURL = "http://resources.gburin.com/"
 languageCode = "en-us"
-title = "My New Hugo Site"
+title = "Teaching Resources"
+theme = "slim"
+ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
+author = "Gustavo Burin"
+
+[params]
+  Subtitle = "Tutoriais e exercícios"
+  GithubID = "gburin"
+  TwitterID = "gustavoburin"
+  AnalyticsID = "UA-111140994-1"
+  DisqusShortname = "gburin"
+  Summary = true  # takes true or false
+  Content = false  # takes true or false
+  # if both are set to true, summary is shown.
+  # FooterMsg = "Copyright Me 2016. Powered by Hugo."

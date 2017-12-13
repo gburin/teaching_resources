@@ -2,7 +2,7 @@
 	<!doctype html>
 <html lang="en">
   <head>    
-    <title>ALEXFINN - Hello R Markdown</title>
+    <title>ALEXFINN - Aula Prática - Macroevolução (BIE5795)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 
@@ -13,10 +13,10 @@
     <link href="/css/fonts.css" rel="stylesheet" type="text/css" media="all">
     <link rel="shortcut icon" href="/images/alexfinn.ico"> 
     <link rel="apple-touch-icon" href="">
-    <link rel="canonical" href="/post/2015-07-23-r-rmarkdown/">
+    <link rel="canonical" href="/post/2018-01-25-pratica_macroevo_bie5795/">
 
     
-    <link href="/rss.xml" type="application/atom+xml" rel="alternate" title="My New Hugo Site">    
+    <link href="/rss.xml" type="application/atom+xml" rel="alternate" title="Teaching Resources">    
 
   </head>
   <body>    
@@ -39,17 +39,29 @@
 	    
 	  <div class="post">
 	    <header class="post-header">
-	        <h1><a href="/post/2015-07-23-r-rmarkdown/">Hello R Markdown</a></h1>
-	        <div class="post-time">July 23 2015</div>
+	        <h1><a href="/post/2018-01-25-pratica_macroevo_bie5795/">Aula Prática - Macroevolução (BIE5795)</a></h1>
+	        <div class="post-time">January 25 2018</div>
 	    </header>
 	    <div class="post-after">
 	        <div class="tags">
 	            
-	                <a href="//tags/r-markdown">R Markdown</a>              
+	                <a href="//tags/r">R</a>              
 	            
-	                <a href="//tags/plot">plot</a>              
+	                <a href="//tags/tutorial">Tutorial</a>              
 	            
-	                <a href="//tags/regression">regression</a>              
+	                <a href="//tags/macroevolu%C3%A7%C3%A3o">Macroevolução</a>              
+	            
+	                <a href="//tags/bamm">BAMM</a>              
+	            
+	                <a href="//tags/ouwie">OUwie</a>              
+	            
+	                <a href="//tags/simmap">Simmap</a>              
+	            
+	                <a href="//tags/ltt">LTT</a>              
+	            
+	                <a href="//tags/dtt">DTT</a>              
+	            
+	                <a href="//tags/diversitree">Diversitree</a>              
 	            
 	        </div>
 	    </div>
@@ -88,7 +100,7 @@ pie(
   init.angle = -50, border = NA
 )</code></pre>
 <div class="figure"><span id="fig:pie"></span>
-<img src="/post/2015-07-23-r-rmarkdown_files/figure-html/pie-1.png" alt="A fancy pie chart." width="672" />
+<img src="/post/2018-01-25-pratica_macroevo_bie5795_files/figure-html/pie-1.png" alt="A fancy pie chart." width="672" />
 <p class="caption">
 Figure 1: A fancy pie chart.
 </p>
@@ -103,7 +115,7 @@ Figure 1: A fancy pie chart.
     </p>
 </div>
 		<nav id="pagination">
-			
+			<a class="prev" href="/post/2015-07-23-r-rmarkdown/">Prev</a>
 			
 		</nav>
 	
