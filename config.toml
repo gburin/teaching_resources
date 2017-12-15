@@ -15,3 +15,5 @@ author = "Gustavo Burin"
   Content = false  # takes true or false
   # if both are set to true, summary is shown.
   # FooterMsg = "Copyright Me 2016. Powered by Hugo."
+  googleAnalytics = "UA-111310024-1"
+
