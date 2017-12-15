@@ -8,6 +8,16 @@
   </url>
   
   <url>
+    <loc>/post/2015-07-28-ggplot2-tutorial/</loc>
+    <lastmod>2015-07-28T21:13:14-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/2015-07-28-ssh-tutorial/</loc>
+    <lastmod>2015-07-28T14:05:19+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/tags/bamm/</loc>
     <lastmod>2018-01-25T21:13:14-05:00</lastmod>
     <priority>0</priority>
@@ -31,6 +41,18 @@
   </url>
   
   <url>
+    <loc>/tags/ggplot2/</loc>
+    <lastmod>2015-07-28T21:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/graphs/</loc>
+    <lastmod>2015-07-28T21:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/ltt/</loc>
     <lastmod>2018-01-25T21:13:14-05:00</lastmod>
     <priority>0</priority>
@@ -45,6 +67,12 @@
   <url>
     <loc>/tags/ouwie/</loc>
     <lastmod>2018-01-25T21:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/portuguese/</loc>
+    <lastmod>2015-07-28T21:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -67,8 +95,20 @@
   </url>
   
   <url>
+    <loc>/tags/server/</loc>
+    <lastmod>2015-07-28T14:05:19+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/tags/simmap/</loc>
     <lastmod>2018-01-25T21:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/ssh/</loc>
+    <lastmod>2015-07-28T14:05:19+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -87,6 +127,18 @@
   <url>
     <loc>/tags/tutorial/</loc>
     <lastmod>2018-01-25T21:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/tutorial/</loc>
+    <lastmod>2015-07-28T21:13:14-05:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/visualization/</loc>
+    <lastmod>2015-07-28T21:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   

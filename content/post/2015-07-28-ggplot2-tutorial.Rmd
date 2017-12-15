@@ -1,6 +1,6 @@
 ---
 title:      "Tutorial de ggplot2"
-date:       2015-07-28 14:05:19
+date:       2015-07-28T21:13:14-05:00
 summary:    Tutorial básico de uso do pacote ggplot2 (ainda em desenvolvimento)
 categories: ["tutorial"]
 tags:       ["portuguese", "tutorial", "ggplot2", "graphs", "visualization", "R"]
@@ -14,13 +14,13 @@ Instalação
 
 O pacote deve ser instalado como qualquer outro pacote no **R**:
 
-``` r
+```{r eval = FALSE}
 install.packages("ggplot2")
 ```
 
 É possível também instalar as versões mais recentes do pacote (mas que podem apresentar instabilidades ou serem incompletas) através da função *install\_github* do pacote **devtools**. Este tipo de instalação usa os arquivos disponíveis no repositório público do *ggplot2* no github.
 
-``` r
+```{r eval = FALSE}
 install.packages("devtools")
 library(devtools)
 install_github("hadley/ggplot2")
@@ -28,8 +28,8 @@ install_github("hadley/ggplot2")
 
 Após a instalação, carregue o pacote para utilização.
 
-``` r
-library(ggplot2)
+```{r}
+library("ggplot2")
 ```
 
 Como organizar os dados para o *ggplot2*
@@ -72,7 +72,7 @@ Como dito na introdução, um gráfico feito no *ggplot2* consiste de diversas c
 
 Diogo Melo, do Laboratório de Evolução de Mamíferos do IB-USP sintetizou uma regra geral para gráficos no *ggplot2*:
 
-``` r
+```{r eval = FALSE}
 ggplot(data_frame_entrada, aes(x = coluna_eixo_x,
                                y = coluna_eixo_y,
                                group = coluna_agrupadora,
