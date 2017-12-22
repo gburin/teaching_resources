@@ -1,5 +1,5 @@
 ---
-title: "Aula Prática - Macroevolução (BIE5795)"
+title: "Aula Pratica - Macroevolucao (BIE5795)"
 author: "Gustavo Burin & Laura Alencar"
 date: 2018-01-25T21:13:14-05:00
 categories: ["R"]
@@ -97,8 +97,6 @@ ed <- getEventData(whales, events.whales, burnin=0.25)
 head(ed$eventData)
 
 bamm.whales <- plot.bammdata(ed, lwd=2, labels = T, cex = 0.5, legend = TRUE)
-#addBAMMshifts(ed, cex=2, legend = TRUE)
-#addBAMMlegend(bamm.whales, corners = c(-1, -0.5, 40, 80), nTicks = 4, side = 4, las = 1)
 ```
 
 ## Rate through time plots
