@@ -13,21 +13,20 @@
     
     <item>
       <title>Aula Prática - Macroevolução (BIE5795)</title>
-      <link>/post/2018-01-25-pratica_macroevo_bie5795/</link>
+      <link>/aula-pr%C3%A1tica---macroevolu%C3%A7%C3%A3o-bie5795/</link>
       <pubDate>Thu, 25 Jan 2018 21:13:14 -0500</pubDate>
       
-      <guid>/post/2018-01-25-pratica_macroevo_bie5795/</guid>
-      <description>R Markdown This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
-You can embed an R code chunk like this:
-summary(cars) ## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</description>
+      <guid>/aula-pr%C3%A1tica---macroevolu%C3%A7%C3%A3o-bie5795/</guid>
+      <description>BAMM Downloading and installing BAMM BAMM (Bayesian Analysis of Macroevolutionary Mixtures) is a piece of software that uses rjMCMC to model complex dynamics of speciation, extinction and trait evolution on phylogenetic trees. However, the following tutorial will focus only on speciation and extinction rates estimation.
+The first step to use BAMM is to download the executable file and examples from the program’s website. To install the program, you must follow the operating system’s specific instructions on the website.</description>
     </item>
     
     <item>
       <title>Tutorial de ggplot2</title>
-      <link>/post/2015-07-28-ggplot2-tutorial/</link>
+      <link>/tutorial-de-ggplot2/</link>
       <pubDate>Tue, 28 Jul 2015 21:13:14 -0500</pubDate>
       
-      <guid>/post/2015-07-28-ggplot2-tutorial/</guid>
+      <guid>/tutorial-de-ggplot2/</guid>
       <description>O pacote ggplot2 foi desenvolvido pelo Dr. Hadley Wickham (que desenvolveu diversos outros pacotes importantes para R como o (d)plyr por exemplo. Este pacote implementa uma nova maneira de criar gráficos a partir dos dados, trazendo o conceito de camadas (layers) para a sintaxe do R. Com esse novo conceito, surge também a necessidade de se organizar os dados de uma maneira que facilite a utilização da nova sintaxe. Para isso, os outros pacotes (como os já mencionados (d)plyr) foram desenvolvidos pelo Dr.</description>
     </item>
     

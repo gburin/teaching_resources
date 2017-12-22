@@ -10,28 +10,337 @@ tags: ["R", "Tutorial", "Macroevolução", "BAMM", "OUwie", "Simmap", "LTT", "DT
 knitr::opts_chunk$set(collapse = TRUE)
 ```
 
-# R Markdown
+# BAMM
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+## Downloading and installing BAMM
 
-You can embed an R code chunk like this:
+[BAMM](www.bamm-project.org) (Bayesian Analysis of
+Macroevolutionary Mixtures) is a piece of software that uses rjMCMC to
+model complex dynamics of speciation, extinction and trait evolution
+on phylogenetic trees. However, the following tutorial will focus only
+on speciation and extinction rates estimation.
 
-```{r cars}
-summary(cars)
-fit <- lm(dist ~ speed, data = cars)
-fit
+The first step to use BAMM is to download the executable file and
+examples from
+the [program's website](http://www.bamm-project.org). To install the program,
+you must follow the operating system's specific instructions on the
+website.
+
+As previously commented, the ideal way of working with BAMM analysis
+is to create a separate folder for each independent
+run/project/analysis. This way, you can have all necessary files in
+the right place, and you keep your results organized.
+
+There are three mandatory files for running BAMM:
+
+- BAMM executable
+
+- Control file
+
+- Tree file (in newick format)
+
+## Whale tree
+
+We will use the phylogeny of whales as an example. You can get this
+phylogeny, along with other files, from [this link](http://www-personal.umich.edu/~carlosja/bamm-examples.zip).
+
+The next step is to edit the control file.
+
+## Control file
+
+The control file contains all the information you need to run BAMM
+including the names of the input files you want to analyze. Control
+file has several options and priors which are all comented in the
+example and you can check more detailed explanation at BAMM website.
+
+## Running BAMM
+
+Navigate to the folder containing the BAMM executable file, the
+control file and the tree.
+
+```{r, engine="bash", eval=FALSE}
+./bamm -c divcontrol.txt ## copy and paste into the terminal
 ```
 
-# Including Plots
+## BAMMtools R Package
 
-You can also embed plots. See Figure \@ref(fig:pie) for example:
+```{r eval=FALSE}
+install.packages("BAMMtools")
 
-```{r pie, fig.cap='A fancy pie chart.', tidy=FALSE}
-par(mar = c(0, 1, 0, 1))
-pie(
-  c(280, 60, 20),
-  c('Sky', 'Sunny side of pyramid', 'Shady side of pyramid'),
-  col = c('#0292D8', '#F7EA39', '#C4B632'),
-  init.angle = -50, border = NA
-)
+tree <- read.tree("whaletree.tre")
+plot(tree, cex = 0.35)
 ```
+
+Read the file "eventdata.txt" which contains the information that
+BAMMtools needs to analyze BAMM output.
+
+```{r eval=FALSE}
+events <- read.csv("event_data.txt")
+```
+
+However, to explore some of the functions in BAMMtools, let's use an
+eventfile from a BAMM analysis that ran with a longer chain length.
+
+```{r}
+library("BAMMtools")
+data(whales, events.whales)
+```
+
+Here we will use the function "getEventData" to generate an object of
+the class "bammdata". "bammdata" object is a complex data structure
+that includes a phylogenetic tree and a mapping of all
+macroevolutionary rate parameters sampled using BAMM. Many of the
+methods in BAMMtools operate directly on objects of class bammdata".
+
+```{r}
+ed <- getEventData(whales, events.whales, burnin=0.25)
+head(ed$eventData)
+
+bamm.whales <- plot.bammdata(ed, lwd=2, labels = T, cex = 0.5, legend = TRUE)
+#addBAMMshifts(ed, cex=2, legend = TRUE)
+#addBAMMlegend(bamm.whales, corners = c(-1, -0.5, 40, 80), nTicks = 4, side = 4, las = 1)
+```
+
+## Rate through time plots
+
+We can also plot the rate through time estimated by BAMM.
+
+```{r}
+plot.new()
+plotRateThroughTime(ed, intervalCol="red", avgCol="red", ylim=c(0,1), cex.axis=2)
+text(x=30, y= 0.8, label="All whales", font=4, cex=2.0, pos=4)
+```
+
+Or plot the rate through time estimated for a given clade:
+
+```{r}
+plotRateThroughTime(ed, intervalCol="blue", avgCol="blue", node=141, ylim=c(0,1),cex.axis=1.5)
+text(x=30, y= 0.8, label="Dolphins only", font=4, cex=2.0, pos=4)
+```
+
+Or exclude this given clade and thus plot the rate through time for the "background clade".
+
+```{r}
+plotRateThroughTime(ed, intervalCol="darkgreen", avgCol="darkgreen", node=141, nodetype = "exclude", ylim=c(0,1), cex.axis=1.5)
+text(x=30, y= 0.8, label="Non-dolphins", font=4, cex=2.0, pos=4)
+```
+
+## Extracting tip rates
+
+Bamm estimates speciation and extinction rates for each branch on the
+tree. Here we will extract the rates estimated for each tip and plot
+in different ways.
+
+```{r}
+tip.rates <- getTipRates(ed)
+str(tip.rates)
+```
+
+You can explore the tip rates with a histogram:
+
+```{r}
+hist(tip.rates$lambda.avg,xlab="average lambda")
+hist(tip.rates$mu.avg,xlab="average mu")
+```
+
+Or you can separate different groups of taxa to compare their tip rates:
+
+```{r}
+boxplot(tip.rates$lambda.avg[53:87], tip.rates$lambda.avg[1:52], col = c("red", "blue"), names = c("dolphins", "other cetaceans"))
+```
+
+# RPANDA
+
+[RPANDA](http://cran.r-project.org/web/packages/RPANDA/index.html) is
+another recently developed R package that allows us to fit different
+models of rate variation through time and select the best fitting
+model using maximum likelihood analysis.
+
+RPANDA shows basically two main differences from BAMM:
+
+1. In RPANDA, the user must inform which models are going to be
+tested, whereas in BAMM the program itself will average among the
+rates for each clade;
+
+2. In RPANDA, the user must know *a priori* which are the clades that
+might show a particular diversification regime, while BAMM will
+estimate where rate shifts are positioned using a rjMCMC algorithm.
+
+The package also contains some simuation functions as well as
+datasets. You can find more details on [CRAN](http://cran.r-project.org/web/packages/RPANDA/RPANDA.pdf).
+
+## Model selection
+
+For this exercise, we will test four different scenarios with all
+combinations of constant and variable speciation and extinction rates
+as follows (based on
+[Morlon *et al.* 2011, PNAS](http://www.pnas.org/content/108/39/16327.abstract?tab=ds))
+:
+
+```{r}
+library("RPANDA")
+lambda.cst <- function(x,y){y}
+lambda.var <- function(x,y){y[1]*exp(y[2]*x)}
+mu.cst <- function(x,y){y}
+mu.var <- function(x,y){y[1]*exp(y[2]*x)}
+```
+
+The rate variations for the four possible pairwise combinations look
+like this:
+
+```{r fig.width=9, fig.height=8, echo=FALSE}
+par(mfrow=c(2,2))
+plot(rep(1,length(seq(0,25,0.1)))~seq(0,25,0.1), type="l", ylim=c(0,1.2), xlab="time",ylab="rate", main="BCSTDCST", lwd=2)
+legend("topleft",legend=c("speciation","extinction"),col=c(1,2), lty=1, cex=0.75, lwd=2)
+abline(h=0.2,col=2, lwd=2)
+plot(lambda.var(seq(0,25,0.1),c(1,-0.1))~seq(0,25,0.1), type="l", xlab="time",ylab="rate", main="BVARDCST", lwd=2)
+legend("topright",legend=c("speciation","extinction"),col=c(1,2), lty=1, cex=0.75, lwd=2)
+abline(h=0.2,col=2, lwd=2)
+plot(mu.var(seq(0,25,0.1),c(0.2,0.075))~seq(0,25,0.1), type="l",col=2, xlab="time",ylab="rate", main="BCSTDVAR", lwd=2)
+legend("topleft",legend=c("speciation","extinction"),col=c(1,2), lty=1, cex=0.75, lwd=2)
+abline(h=1, lwd=2)
+plot(lambda.var(seq(0,25,0.1),c(1,-0.1))~seq(0,25,0.1), type="l", xlab="time",ylab="rate", main="BVARDVAR", lwd=2)
+legend("topright",legend=c("speciation","extinction"),col=c(1,2), lty=1, cex=0.75, lwd=2)
+lines(mu.var(seq(0,25,0.1),c(0.1,0.075))~seq(0,25,0.1), type="l",col=2, lwd=2)
+```
+
+Having decided which models one would like to test, the next step is
+to extract the clades that most likely share similar diversification
+regimes. As said previously, RPANDA needs the user to *a priori*
+indicate these clades. In this example, we will use the four main cetacean
+families plus the rest of cetaceans as a fifth clade.
+
+```{r}
+balaenidae <- c(whales$tip.label[grep("Balaena",whales$tip.label)],whales$tip.label[grep("Eubalaena",whales$tip.label)])
+balaenopteridae <- c(whales$tip.label[grep("Balaenoptera",whales$tip.label)],whales$tip.label[grep("Megaptera",whales$tip.label)])
+delphinidae <- c(whales$tip.label[grep("Delphinus",whales$tip.label)],whales$tip.label[grep("Cephalorhynchus",whales$tip.label)],whales$tip.label[grep("Feresa",whales$tip.label)],whales$tip.label[grep("Globicephala",whales$tip.label)],whales$tip.label[grep("Lagenodelphis",whales$tip.label)],whales$tip.label[grep("Lagenorhynchus",whales$tip.label)],whales$tip.label[grep("Lissodelphis",whales$tip.label)],whales$tip.label[grep("Orcaella",whales$tip.label)],whales$tip.label[grep("Orcinus",whales$tip.label)],whales$tip.label[grep("Peponocephala",whales$tip.label)],whales$tip.label[grep("Pseudorca",whales$tip.label)],whales$tip.label[grep("Sotalia",whales$tip.label)],whales$tip.label[grep("Sousa",whales$tip.label)],whales$tip.label[grep("Stenella",whales$tip.label)],whales$tip.label[grep("Steno",whales$tip.label)],whales$tip.label[grep("Tursiops",whales$tip.label)],whales$tip.label[grep("Grampus",whales$tip.label)])
+phocoenidae <- c(whales$tip.label[grep("Neophocaena",whales$tip.label)],whales$tip.label[grep("Phocoena",whales$tip.label)],whales$tip.label[grep("Phocoenoides",whales$tip.label)])
+ziphidae <- c(whales$tip.label[grep("Berardius",whales$tip.label)],whales$tip.label[grep("Hyperoodon",whales$tip.label)],whales$tip.label[grep("Indopacetus",whales$tip.label)],whales$tip.label[grep("Mesoplodon",whales$tip.label)],whales$tip.label[grep("Tasmacetus",whales$tip.label)],whales$tip.label[grep("Ziphius",whales$tip.label)])
+balaenidae.tree <- drop.tip(whales,whales$tip.label[-match(balaenidae,whales$tip.label)])
+```
+
+```{r}
+balaenopteridae.tree <- drop.tip(whales,whales$tip.label[-match(balaenopteridae,whales$tip.label)])
+delphinidae.tree <- drop.tip(whales,whales$tip.label[-match(delphinidae,whales$tip.label)])
+phocoenidae.tree <- drop.tip(whales,whales$tip.label[-match(phocoenidae,whales$tip.label)])
+ziphidae.tree <- drop.tip(whales,whales$tip.label[-match(ziphidae,whales$tip.label)])
+othercetaceans.tree <- drop.tip(whales,c(balaenopteridae,delphinidae, phocoenidae, ziphidae))
+fit.multi.rpanda <- function(tree,par)
+    {
+        bcstdcst <- fit_bd(tree, max(branching.times(tree)), f.lamb=lambda.cst, f.mu=mu.cst, lamb_par=par[[1]][1],mu_par=par[[1]][2],cst.lamb=TRUE,cst.mu=TRUE,cond="crown",f=87/89,dt=1e-3)
+        bvardcst <- fit_bd(tree, max(branching.times(tree)), f.lamb=lambda.var, f.mu=mu.cst, lamb_par=par[[2]][c(1,2)],mu_par=par[[2]][3],expo.lamb=TRUE,cst.mu=TRUE,cond="crown",f=87/89,dt=1e-3)
+        bcstdvar <- fit_bd(tree, max(branching.times(tree)), f.lamb=lambda.cst, f.mu=mu.var, lamb_par=par[[3]][1],mu_par=par[[3]][c(2,3)],cst.lamb=TRUE,expo.mu=TRUE,cond="crown",f=87/89,dt=1e-3)
+        bvardvar <- fit_bd(tree, max(branching.times(tree)), f.lamb=lambda.var, f.mu=mu.var, lamb_par=par[[4]][c(1,2)],mu_par=par[[4]][c(3,4)],expo.lamb=TRUE,expo.mu=TRUE,cond="crown",f=87/89,dt=1e-3)
+        return(list("bcstdcst"=bcstdcst,"bvardcst"=bvardcst,"bcstdvar"=bcstdvar,"bvardvar"=bvardvar))
+    }
+whales.par <- list(c(0.4,0),c(0.4,-0.05,0),c(0.4,0.1,0.05),c(0.4,-0.05,0.1,0.05))
+```
+
+## Estimation of model parameters
+
+In the posession of all models and clades, we can finally estimate the
+parameters of all the four models to each of the five clades and
+create an AICc table in order to select which one is the best model
+that describes the changes in both diversification rates (speciation
+and extinction) rates. (This part of the code take a while to complete)
+
+```{r}
+results <- list("balaenopteridae.res"=fit.multi.rpanda(balaenopteridae.tree,whales.par),
+                "delphinidae.res" = fit.multi.rpanda(delphinidae.tree,whales.par),
+                "phocoenidae.res" = fit.multi.rpanda(phocoenidae.tree,whales.par),
+                "ziphidae.res" = fit.multi.rpanda(ziphidae.tree,whales.par),
+                "othercetaceans.res"= fit.multi.rpanda(othercetaceans.tree,whales.par))
+```
+
+```{r}
+aic.table <- matrix(nrow=4,ncol=5,NA)
+for(i in 1:5)
+    {
+        for(j in 1:4)
+            {
+                aic.table[j,i] <- results[[i]][[j]]$aicc
+            }
+    }
+colnames(aic.table) <- c("Balaenopteridae","Delphinidae","Phocoenidae","Ziphidae","Other Cetaceans")
+rownames(aic.table) <- c("bcstdcst","bvardcst","bcstdvar","bvardvar")
+aic.table
+par.table <- data.frame("Balaenopteridae"=c(results[[1]]$bcstdcst$lamb_par[1:2],results[[1]]$bcstdcst$mu_par[1:2]),"Delphinidae"=c(results[[2]]$bvardcst$lamb_par[1:2],results[[2]]$bvardcst$mu_par[1:2]),"Phocoenidae"=c(results[[3]]$bcstdcst$lamb_par[1:2],results[[3]]$bcstdcst$mu_par[1:2]),"Ziphidae"=c(results[[4]]$bcstdcst$lamb_par[1:2],results[[4]]$bcstdcst$mu_par[1:2]),"Other Cetaceans"=c(results[[5]]$bcstdvar$lamb_par[1:2],results[[5]]$bcstdvar$mu_par[1:2]))
+par.table
+```
+
+## Plotting diversity through time
+
+After selecting which model best fits the trees, we can estimate the
+diversity trajectory through time for each of the five clades.
+
+```{r}
+# Function to calculate species richness in a given point in time
+div.times <- c(max(branching.times(balaenopteridae.tree)),max(branching.times(delphinidae.tree)),max(branching.times(phocoenidae.tree)),max(branching.times(ziphidae.tree)),max(branching.times(othercetaceans.tree)))
+
+# Function modified from plot_dtt from RPANDA package
+plotdtt <- function (fit.bd, tot_time, N0, col=1, add=FALSE, div.time, xlim, ylim)
+{
+    if (!inherits(fit.bd, "fit.bd"))
+        stop("object \"fit.bd\" is not of class \"fit.bd\"")
+    t <- seq(tot_time-div.time, tot_time, 0.01)
+    if ("f.mu" %in% attributes(fit.bd)$names) {
+        r <- function(t) {
+            -fit.bd$f.lamb(t) + fit.bd$f.mu(t)
+        }
+        R <- function(s) {
+            RPANDA:::.Integrate(Vectorize(r), 0, s)
+        }
+        N <- N0 * exp(Vectorize(R)(t))
+                                        #dev.new()
+        if(add==FALSE)
+            {
+        plot(-t, N, type = "l", xlab = "time", ylab = "Number of species",
+             main = "Diversity Through Time", col=col, xlim=xlim, ylim=ylim)
+    }
+        else
+            {
+                lines(-t, N, type = "l", xlab = "time", ylab = "Number of species",
+                     main = "Diversity Through Time", col=col, xlim=xlim, ylim=ylim)
+            }
+    }
+    else {
+        r <- function(t) {
+            -fit.bd$f.lamb(t)
+        }
+        R <- function(s) {
+            RPANDA:::.Integrate(Vectorize(r), 0, s)
+        }
+        N <- N0 * exp(Vectorize(R)(t))
+                                        #dev.new()
+        if(add==FALSE)
+            {
+        plot(-t, N, type = "l", xlab = "time", ylab = "Number of species",
+             main = "Diversity Through Time",col=col, xlim=xlim, ylim=ylim)
+    }
+        else
+            {
+                lines(-t, N, type = "l", xlab = "time", ylab = "Number of species",
+                     main = "Diversity Through Time",col=col, xlim=xlim, ylim=ylim)
+            }
+    }
+}
+
+plotdtt(results$balaenopteridae$bcstdcst,div.times[1],N0=Ntip(balaenopteridae.tree),xlim=c(-max(div.times),0),ylim=c(0,150),div.time=div.times[1])
+plotdtt(results$delphinidae$bvardcst,div.times[2],N0=Ntip(delphinidae.tree),col=6,add=TRUE,xlim=c(-max(div.times),0),ylim=c(0,150),div.time=div.times[2])
+plotdtt(results$phocoenidae$bcstdcst,div.times[3],N0=Ntip(phocoenidae.tree),col="goldenrod",add=TRUE,xlim=c(-max(div.times),0),ylim=c(0,150),div.time=div.times[3])
+plotdtt(results$ziphidae$bcstdcst,div.times[4],N0=Ntip(ziphidae.tree),col=4,add=TRUE,xlim=c(-max(div.times),0),ylim=c(0,150),div.time=div.times[4])
+plotdtt(results$othercetaceans$bcstdvar,div.times[5],N0=Ntip(othercetaceans.tree),col="darkred",add=TRUE,xlim=c(-max(div.times),0),ylim=c(0,150),div.time=div.times[5])
+legend("topleft",legend=c("Balaenopteridae","Delphinidae","Phocoenidae","Ziphidae","Other Cetaceans"),text.col=c(1,6,"goldenrod",4,"darkred"))
+```
+
+# Challenge
+
+1. Fit models using RPANDA for the **entire** whale phylogeny, and
+   plot its diversity through time using parts of the previous codes
+   chunks.
+
+2. Run BAMM in the Anoles tree (provided in the example file) and plot
+   the tree with the rates for each branch.
+
+3. **BONUS** Perform a phenotipic evolution analysis using BAMM and
+   the Whales dataset present in the examples.

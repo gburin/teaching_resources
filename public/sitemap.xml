@@ -3,17 +3,17 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/post/2018-01-25-pratica_macroevo_bie5795/</loc>
+    <loc>/aula-pr%C3%A1tica---macroevolu%C3%A7%C3%A3o-bie5795/</loc>
     <lastmod>2018-01-25T21:13:14-05:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2015-07-28-ggplot2-tutorial/</loc>
+    <loc>/tutorial-de-ggplot2/</loc>
     <lastmod>2015-07-28T21:13:14-05:00</lastmod>
   </url>
   
   <url>
-    <loc>/post/2015-07-28-ssh-tutorial/</loc>
+    <loc>/tutorial-de-ssh/</loc>
     <lastmod>2015-07-28T14:05:19+00:00</lastmod>
   </url>
   
@@ -83,13 +83,13 @@
   </url>
   
   <url>
-    <loc>/tags/r/</loc>
+    <loc>/categories/r/</loc>
     <lastmod>2018-01-25T21:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/r/</loc>
+    <loc>/tags/r/</loc>
     <lastmod>2018-01-25T21:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
@@ -125,14 +125,14 @@
   </url>
   
   <url>
-    <loc>/tags/tutorial/</loc>
-    <lastmod>2018-01-25T21:13:14-05:00</lastmod>
+    <loc>/categories/tutorial/</loc>
+    <lastmod>2015-07-28T21:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/categories/tutorial/</loc>
-    <lastmod>2015-07-28T21:13:14-05:00</lastmod>
+    <loc>/tags/tutorial/</loc>
+    <lastmod>2018-01-25T21:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   

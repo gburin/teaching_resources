@@ -13,10 +13,10 @@
     
     <item>
       <title>Tutorial de ggplot2</title>
-      <link>/post/2015-07-28-ggplot2-tutorial/</link>
+      <link>/tutorial-de-ggplot2/</link>
       <pubDate>Tue, 28 Jul 2015 21:13:14 -0500</pubDate>
       
-      <guid>/post/2015-07-28-ggplot2-tutorial/</guid>
+      <guid>/tutorial-de-ggplot2/</guid>
       <description>O pacote ggplot2 foi desenvolvido pelo Dr. Hadley Wickham (que desenvolveu diversos outros pacotes importantes para R como o (d)plyr por exemplo. Este pacote implementa uma nova maneira de criar gráficos a partir dos dados, trazendo o conceito de camadas (layers) para a sintaxe do R. Com esse novo conceito, surge também a necessidade de se organizar os dados de uma maneira que facilite a utilização da nova sintaxe. Para isso, os outros pacotes (como os já mencionados (d)plyr) foram desenvolvidos pelo Dr.</description>
     </item>
     
