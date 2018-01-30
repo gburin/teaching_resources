@@ -116,7 +116,7 @@ ggplot(data = gamma.decline, mapping = aes(x = &quot;decline&quot;, y = gamma.de
     labs(y = &quot;Gamma Corrigido&quot;, x = element_blank())</code></pre>
 </div>
 <div id="bamm" class="section level2">
-<h2>BAMM <img src="/home/docs/Documents/teaching_resources/static/img/bamm_logo.png" width="500" /></h2>
+<h2>BAMM <img src="/img/bamm_logo.png" width="500" /></h2>
 <p>A área de métodos em macroevolução tem se desenvolvido muito rapidamente nos últimos anos. O método <a href="http://bamm-project.org/" target="_blank">BAMM</a> é um dos mais recentes resultados dessa profusão de novos métodos, e vem sendo amplamente utilizado <del>e criticado</del> na literatura. O BAMM é um software escrito primariamente em C++, então sua utilização se dá através do terminal. Todos as opções do programa são controladas por um arquivo de configuração chamado <strong>control file</strong>. O arquivo completo é bastante extenso, com muitas opções que podem ser alteradas, mas só para termos uma ideia do que pode ser mudado, listamos abaixo as principais mudanças que devem ser feitas para uma primeira análise com o BAMM.</p>
 <p>O BAMM é um método bayesiano que utiliza um algoritmo de MCMC (ou ainda MCMCMC caso desejado) para explorar as distribuições posteriores dos parâmetros. Os principais parâmetros relacionados ao MCMC são:</p>
 <blockquote>
@@ -169,7 +169,7 @@ plot.credibleshiftset(css, lwd = 2.5, shiftColor = &quot;red&quot;, legend = TRU
 <p>Para mais formas de examinar os resultados do BAMM, consulte a <a href="http://bamm-project.org/documentation.html" target="_blank">documentação no site do projeto</a>, e o <a href="https://cran.r-project.org/web/packages/BAMMtools/BAMMtools.pdf" target="_blank">help do pacote <strong>BAMMtools</strong></a>.</p>
 </div>
 <div id="musse" class="section level2">
-<h2>MuSSE <img src="/home/docs/Documents/teaching_resources/static/img/diversitree_logo.png" /></h2>
+<h2>MuSSE <img src="/img/diversitree_logo.png" /></h2>
 <p>O <strong>MuSSE</strong> (<strong>Mu</strong>ltiple <strong>S</strong>tate <strong>S</strong>peciation and <strong>E</strong>xtinction) é um modelo que estima taxas de especiação e extinção associadas a diferentes estados de um caráter discreto com mais de 2 estados, e está implementado no pacote <a href="http://www.zoology.ubc.ca/prog/diversitree/" target="_blank"><em>diversitree</em></a>. O projeto tem sofrido poucas atualizações, mas possui <a href="http://www.zoology.ubc.ca/prog/diversitree/doc/diversitree-tutorial.pdf" target="_blank">um tutorial bastante interessante</a>.</p>
 <p>Esses modelos tem sofrido diversas críticas nos últimos anos, que não entraremos em detalhes aqui. Porém, uma das formas para minimizar eventuais problemas desses métodos é realizar as análises em múltiplas árvores em uma abordagem bayesiana. Para isso, usamos um conjunto de árvores amostradas das distribuições posteriores de topologias resultantes de métodos filogenéticos como o <a href="https://www.beast2.org/" target="_blank">BEAST</a> por exemplo. Ao utilizar várias topologias, estamos incorporando na análise a incerteza que temos sobre a verdadeira topologia da árvore, sem precisar fazer nenhuma suposição sobre essa real topologia.</p>
 <p>A implementação dos modelos xxSSE no pacote diversitree já permite o uso de MCMC para estimar os parâmetros. No entanto, o código nativo é pensado de maneira a ser de amplo uso, e por isso não é otimizado. Sendo assim, para os dados que analisaremos em seguida, usamos um script específico que constrói um MCMC para modelos xxSSE. O script que utilizamos é uma versão simplificada do script original que foi gentilmente cedido pelo Dr. Daniele Silvestro, e pode ser baixado em seu <a href="https://github.com/dsilvestro/mcmc-diversitree" target="_blank">github</a>. A título de curiosidade, para rodarmos o script devemos executar o seguinte comando no terminal:</p>
@@ -361,7 +361,7 @@ sigma.table &lt;- data.frame(
 <p>Esse tutorial contém exemplos muito específicos e diretos relacionados ao artigo de <a href="http://rspb.royalsocietypublishing.org/content/284/1869/20171775" target="_blank">Alencar <em>et al.</em> 2017</a>. Porém muitos outros métodos e modelos estão disponíveis e novos desenvolvimentos vem sendo publicados a cada dia, e isso foge do propósito dessa aula. Nós (Gustavo e Laura) ofereceremos uma disciplina exclusivamente sobre macroevolução no segundo semestre de 2018, onde trataremos em mais detalhes tanto dos métodos quanto de aplicações. Caso tenha interesse, fique atento ao catálogo de disciplina do programa!</p>
 <hr />
 <p style="text-align:center;">
-<img src="/home/docs/Documents/teaching_resources/static/img/solong.jpg" alt="see ya'" width="300px">
+<img src="/img/solong.jpg" alt="see ya'" width="300px">
 </p>
 <p>Para qualquer dúvida/reclamação/sugestão sobre esse tutorial, favor criar um issue ou enviar um e-mail para arietebio (@) gmail (.) com.</p>
 </div>

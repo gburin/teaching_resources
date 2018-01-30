@@ -155,7 +155,7 @@ ggplot(data = gamma.decline, mapping = aes(x = "decline", y = gamma.dec)) +
     labs(y = "Gamma Corrigido", x = element_blank())
 ```
 
-## BAMM ![](../../static/img/bamm_logo.png){width="500px"}
+## BAMM ![](/img/bamm_logo.png){width="500px"}
 
 A área de métodos em macroevolução tem se desenvolvido muito rapidamente nos últimos anos. O método <a href="http://bamm-project.org/" target="_blank">BAMM</a> é um dos mais recentes resultados dessa profusão de novos métodos, e vem sendo amplamente utilizado ~~e criticado~~ na literatura. O BAMM é um software escrito primariamente em C++, então sua utilização se dá através do terminal. Todos as opções do programa são controladas por um arquivo de configuração chamado **control file**. O arquivo completo é bastante extenso, com muitas opções que podem ser alteradas, mas só para termos uma ideia do que pode ser mudado, listamos abaixo as principais mudanças que devem ser feitas para uma primeira análise com o BAMM.
 
@@ -228,7 +228,7 @@ plotRateThroughTime(edata51) # o plot demora cerca de 30 segundos para ficar pro
 
 Para mais formas de examinar os resultados do BAMM, consulte a <a href="http://bamm-project.org/documentation.html" target="_blank">documentação no site do projeto</a>, e o <a href="https://cran.r-project.org/web/packages/BAMMtools/BAMMtools.pdf" target="_blank">help do pacote **BAMMtools**</a>.
 
-## MuSSE ![](../../static/img/diversitree_logo.png)
+## MuSSE ![](/img/diversitree_logo.png)
 
 O **MuSSE** (**Mu**ltiple **S**tate **S**peciation and **E**xtinction) é um modelo que estima taxas de especiação e extinção associadas a diferentes estados de um caráter discreto com mais de 2 estados, e está implementado no pacote <a href="http://www.zoology.ubc.ca/prog/diversitree/" target="_blank">*diversitree*</a>. O projeto tem sofrido poucas atualizações, mas possui <a href="http://www.zoology.ubc.ca/prog/diversitree/doc/diversitree-tutorial.pdf" target="_blank">um tutorial bastante interessante</a>.
 
@@ -475,6 +475,6 @@ Esse tutorial contém exemplos muito específicos e diretos relacionados ao arti
 
 ---
 	
-<p style="text-align:center;"><img src="../../static/img/solong.jpg" alt="see ya'" width="300px"></p>
+<p style="text-align:center;"><img src="/img/solong.jpg" alt="see ya'" width="300px"></p>
 
 Para qualquer dúvida/reclamação/sugestão sobre esse tutorial, favor criar um issue ou enviar um e-mail para arietebio (@) gmail (.) com.
