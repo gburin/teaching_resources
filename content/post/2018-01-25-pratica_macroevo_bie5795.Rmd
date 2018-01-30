@@ -1,13 +1,14 @@
 ---
-title: "Aula Pratica - Macroevolucao (BIE5795)"
+title: "Aula Prática - Macroevolução (BIE5795)"
 author: "Gustavo Burin & Laura Alencar"
-date: 2018-01-25T21:13:14-05:00
+date: 2018-01-25
 categories: ["R"]
 tags: ["R", "Tutorial", "Macroevolução", "BAMM", "OUwie", "Simmap", "LTT", "DTT", "Diversitree"]
 output:
   html_document:
     toc: true
     toc_depth: 2
+    highlight: zenburn
 ---
 
 ```{r setup, include=FALSE}
