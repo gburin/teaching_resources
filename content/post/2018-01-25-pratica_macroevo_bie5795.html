@@ -17,6 +17,7 @@ output:
 <p>O tutorial não contém <del>nenhum</del> muitos comentários sobre os códigos utilizados, pois a intenção aqui não é ser um tutorial de R, mas sim sobre os métodos em macroevolução. Qualquer dúvida sobre o código, pode perguntar para qualquer professor(a)/monitor(a).</p>
 <p>Por fim, quase todos os gráficos criados nesse tutorial foram feitos usando o pacote <em>ggplot2</em>. Caso tenha interesse em entender um pouco melhor como ele funciona, a <a href="http://ggplot2.tidyverse.org/reference/" target="_blank">documentação</a> é ótima, e também preparei um <a href="https://www.gburin.com/tutorial-de-ggplot2/" target="_blank">tutorial em português com as principais funções.</a></p>
 <p>Sem mais <del>enrolação</del> delongas, vamos à prática!</p>
+<hr />
 <div id="download-dos-dados" class="section level1">
 <h1>Download dos dados</h1>
 <p>Todos os dados externos utilizados nesse tutorial estão <a href="https://github.com/gburin/teaching_resources/raw/master/data/macroevo_herps_data.zip" target="_blank">neste arquivo</a>. Após baixá-lo, descompacte o arquivo em uma pasta de sua escolha e altere seu workspace para esta pasta que contém todos os arquivos e pastas usando o menu do RStudio ou o comando <strong>setwd</strong> no console do R.</p>
@@ -114,6 +115,9 @@ ggplot(data = gamma.decline, mapping = aes(x = &quot;decline&quot;, y = gamma.de
     geom_boxplot(fill = &quot;darkgrey&quot;, alpha = 0.5) +
     theme(axis.text.x = element_blank()) +
     labs(y = &quot;Gamma Corrigido&quot;, x = element_blank())</code></pre>
+<blockquote>
+<p><strong>Compare a distribuição de valores de Gamma entre os cenários de expansão e de declínio. É possível diferenciar esses dois cenários baseando-se somente no Gamma?</strong></p>
+</blockquote>
 </div>
 <div id="bamm" class="section level2">
 <h2>BAMM <img src="/img/bamm_logo.png" width="500" /></h2>
@@ -166,6 +170,9 @@ plot.credibleshiftset(css, lwd = 2.5, shiftColor = &quot;red&quot;, legend = TRU
 <pre class="r"><code>plot.credibleshiftset(css, plotmax = 1, lwd = 2.5, shiftColor = &quot;red&quot;)</code></pre>
 <p>Por fim, é possível também analisar graficamente como as taxas de especiação variam ao longo do tempo:</p>
 <pre class="r"><code>plotRateThroughTime(edata51) # o plot demora cerca de 30 segundos para ficar pronto, pois a distribuição posterior de taxas é grande</code></pre>
+<blockquote>
+<p><strong>A partir dos gráficos acima, qual(is) seria(m) uma hipótese(s) para explicar a existência dessa mudança no ritmo de diversificação?</strong></p>
+</blockquote>
 <p>Para mais formas de examinar os resultados do BAMM, consulte a <a href="http://bamm-project.org/documentation.html" target="_blank">documentação no site do projeto</a>, e o <a href="https://cran.r-project.org/web/packages/BAMMtools/BAMMtools.pdf" target="_blank">help do pacote <strong>BAMMtools</strong></a>.</p>
 </div>
 <div id="musse" class="section level2">
@@ -196,6 +203,7 @@ plot.credibleshiftset(css, lwd = 2.5, shiftColor = &quot;red&quot;, legend = TRU
 <p>Vamos então carregar os resultados de uma análise de <strong>MuSSE</strong> feita com 20 topologias diferentes.</p>
 <pre class="r"><code>load(&quot;logfiles_musse.RData&quot;)</code></pre>
 <p>A seguir, vamos organizar os dados e gerar os gráficos das distribuições posteriores das taxas de especiação para cada um dos 4 habitats avaliados no artigo de <a href="http://rspb.royalsocietypublishing.org/content/284/1869/20171775" target="_blank">Alencar <em>et al.</em> 2017</a>. Note que apesar de os valores com maior probabilidade posterior serem bastante similares entre as duas árvores, as distribuições posteriores completas de cada taxa são ligeiramente diferentes, devido tanto a diferenças na topologia quanto a incertezas advindas do MCMC.</p>
+<p>Árvore 1:</p>
 <pre class="r"><code>musse.plot.1 &lt;- data.frame(
     lambda = c(logfiles.musse[[1]]$lambda1, logfiles.musse[[1]]$lambda2, logfiles.musse[[1]]$lambda3, logfiles.musse[[1]]$lambda4),
     habitat = factor(rep(c(&quot;Mixed Open&quot;, &quot;Open&quot;, &quot;Closed&quot;, &quot;Arboreal&quot;), each = dim(logfiles.musse[[1]])[1]), levels = c(&quot;Mixed Open&quot;, &quot;Open&quot;, &quot;Closed&quot;, &quot;Arboreal&quot;))
@@ -205,9 +213,9 @@ ggplot(data = musse.plot.1, mapping = aes(x = lambda)) +
     geom_density(aes(fill = habitat), alpha = 0.5) +
     scale_fill_manual(values = c(&quot;#ffa500&quot;, &quot;#a52a2a&quot;, &quot;#0000ff&quot;, &quot;#008b00&quot;)) +
     labs(x = &quot;Speciation Rate&quot;, y = &quot;Probability Density&quot;, fill = &quot;Habitat&quot;) +
-    theme(legend.position = &quot;bottom&quot;)
-
-musse.plot.2 &lt;- data.frame(
+    theme(legend.position = &quot;bottom&quot;)</code></pre>
+<p>Árvore 2:</p>
+<pre class="r"><code>musse.plot.2 &lt;- data.frame(
     lambda = c(logfiles.musse[[2]]$lambda1, logfiles.musse[[2]]$lambda2, logfiles.musse[[2]]$lambda3, logfiles.musse[[2]]$lambda4),
     habitat = factor(rep(c(&quot;Mixed Open&quot;, &quot;Open&quot;, &quot;Closed&quot;, &quot;Arboreal&quot;), each = dim(logfiles.musse[[2]])[1]), levels = c(&quot;Mixed Open&quot;, &quot;Open&quot;, &quot;Closed&quot;, &quot;Arboreal&quot;))
 )
@@ -217,6 +225,9 @@ ggplot(data = musse.plot.2, mapping = aes(x = lambda)) +
     scale_fill_manual(values = c(&quot;#ffa500&quot;, &quot;#a52a2a&quot;, &quot;#0000ff&quot;, &quot;#008b00&quot;)) +
     labs(x = &quot;Speciation Rate&quot;, y = &quot;Probability Density&quot;, fill = &quot;Habitat&quot;) +
     theme(legend.position = &quot;bottom&quot;)</code></pre>
+<blockquote>
+<p><strong>Tente notar as diferenças e semelhanças entre as distribuições posteriores, e pense se seriam suficientes para afirmar que a topologia da árvore importa ou não para as estimativas de taxas.</strong></p>
+</blockquote>
 <div id="incorporando-a-incerteza-filogenetica" class="section level3">
 <h3>Incorporando a incerteza filogenética</h3>
 <p>Uma das (muitas) razões que nos levaram a usar essa abordagem bayesiana é que ela permite uma incorporação da incerteza filogenética de maneira bastante natural. Como acabamos de ver, as distribuições posteriores das taxas possuem incertezas associadas à topologia da árvore, e essas incertezas podem ser combinadas ao juntarmos as distribuições posteriores de taxas de cada uma das árvores em uma única distribuição posterior:</p>
@@ -230,6 +241,9 @@ ggplot(data = musse.full.plot, mapping = aes(x = lambda)) +
     scale_fill_manual(values = c(&quot;#ffa500&quot;, &quot;#a52a2a&quot;, &quot;#0000ff&quot;, &quot;#008b00&quot;)) +
     labs(x = &quot;Speciation Rate&quot;, y = &quot;Probability Density&quot;, fill = &quot;Habitat&quot;) +
     theme(legend.position = &quot;bottom&quot;)</code></pre>
+<blockquote>
+<p><strong>Comparando o último gráfico (incerteza filogenética) com os gráficos das árvores individuais, a incorporação da incerteza filogenética alterou as possíveis conclusões sobre diferenças nas taxas entre os microhabitats?</strong></p>
+</blockquote>
 </div>
 <div id="matriz-de-transicoes" class="section level3">
 <h3>Matriz de transições</h3>
@@ -286,7 +300,9 @@ par(mfrow = c(1, 1))
 plotSimmap(simmap.vipers[[1]], colors = setNames(colors, 1:4), type = &quot;fan&quot;, fsize = 0.01, lwd = 3, hold = FALSE)
 nodelabels(node = 1:simmap.vipers[[1]]$Nnode + Ntip(simmap.vipers[[1]]), pie = simmap.summ$ace, cex = 0.6, piecol = colors)
 legend(&quot;bottomright&quot;, legend = c(&quot;Open + Closed&quot;, &quot;Open&quot;, &quot;Closed&quot;, &quot;Arboreal&quot;), pch = 19, col = colors, text.col = &quot;black&quot;)</code></pre>
-<p>A partir do último gráfico, qual é o estado mais provável para o ancestral comum entre todas os viperídeos? É o único estado possível?</p>
+<blockquote>
+<p><strong>A partir do último gráfico, qual é o estado mais provável para o ancestral comum entre todas os viperídeos? É o único estado possível? Além disso, esses resultados fazem sentido à luz das transições entre microhabitats estimadas usando o MuSSE?</strong></p>
+</blockquote>
 </div>
 <div id="ouwie" class="section level2">
 <h2>OUwie</h2>
@@ -302,16 +318,16 @@ legend(&quot;bottomright&quot;, legend = c(&quot;Open + Closed&quot;, &quot;Open
 <p>“OU1” ### Ornstein-Uhlenbeck com um único ótimo para todas as espécies</p>
 </blockquote>
 <blockquote>
-<p>“OUM” ### Ornstein-Uhlenbeck com diferentes ótimos para cada estado, mas com mesmos <span class="math inline">\(\alpha\)</span> e <span class="math inline">\(\sigma^2\)</span></p>
+<p>“OUM” ### Ornstein-Uhlenbeck com diferentes ótimos para cada estado, mas com mesmos <em>alpha</em> e <em>sigma</em></p>
 </blockquote>
 <blockquote>
-<p>“OUMV” ### Ornstein-Uhlenbeck com diferentes ótimos e <span class="math inline">\(\sigma^2\)</span> para cada estado, mas com mesmo <span class="math inline">\(\alpha\)</span></p>
+<p>“OUMV” ### Ornstein-Uhlenbeck com diferentes ótimos e <em>sigma</em> para cada estado, mas com mesmo <em>alpha</em></p>
 </blockquote>
 <blockquote>
-<p>“OUMA” ### Ornstein-Uhlenbeck com diferentes ótimos e <span class="math inline">\(\alpha\)</span> para cada estado, mas com mesmo <span class="math inline">\(\sigma^2\)</span></p>
+<p>“OUMA” ### Ornstein-Uhlenbeck com diferentes ótimos e <em>alpha para cada estado, mas com mesmo </em>sigma*</p>
 </blockquote>
 <blockquote>
-<p>“OUMVA” ### Ornstein-Uhlenbeck com diferentes ótimos, <span class="math inline">\(\sigma^2\)</span> e <span class="math inline">\(\alpha\)</span> para cada estado</p>
+<p>“OUMVA” ### Ornstein-Uhlenbeck com diferentes ótimos, <em>sigma</em> e <em>alpha</em> para cada estado</p>
 </blockquote>
 <p>Os modelos mais complexos (OU) demandam muito tempo para serem ajustados, então focaremos a seguir apenas nos resultados para os modelos “BM1” e “BMS”. Para isso, vamos importar valores de tamanho corporal (representado pelo comprimento rostro-cloacal). Para que a função seja executada, precisamos excluir da análise as espécies que estão na filogenia mas que não possuem dados de morfologia também.</p>
 <pre class="r"><code>bs.hab.data &lt;- read.table(&quot;habitat_vipers_bodysize.csv&quot;, dec = &quot;,&quot;, sep = &quot;;&quot;, row.names = 1, stringsAsFactors = FALSE)
@@ -321,13 +337,15 @@ bs.hab.data.ouwie &lt;- read.table(&quot;habitat_vipers_bodysize.csv&quot;, dec 
 <p>Agora vamos ajustar os dois modelos (“BM1” e “BMS”). Para dúvidas sobre os argumentos usados, consulte o <a href="https://cran.r-project.org/web/packages/OUwie/OUwie.pdf" target="_blank">help do pacote</a>.</p>
 <pre class="r"><code>ouwie.res.bm1 &lt;- OUwie(tree.hab.bs$phy, bs.hab.data.ouwie, model = &quot;BM1&quot;, simmap.tree = TRUE, root.station = TRUE, diagn = TRUE)
 ouwie.res.bms &lt;- OUwie(tree.hab.bs$phy, bs.hab.data.ouwie, model = &quot;BMS&quot;, simmap.tree = TRUE, root.station = TRUE, diagn = TRUE)</code></pre>
-<p>Analisando os valores de AICc (Akaike Information Criterion corrigido para pequenas amostras), concluímos que ao menos para essa árvore e esse mapeamento, o modelo “BMS” se ajusta melhor aos dados.</p>
+<blockquote>
+<p><strong>Analisando os valores de AICc (Akaike Information Criterion corrigido para pequenas amostras), o que podemos concluir (ao menos para essa árvore e esse mapeamento), sobre qual o modelo que melhor se ajusta aos dados?.</strong></p>
+</blockquote>
 <pre class="r"><code>ouwie.res.bm1$AICc
 ouwie.res.bms$AICc
 
 ouwie.res.bm1
 ouwie.res.bms</code></pre>
-<p>Como esperado, o modelo “BM1” possui o mesmo valor de <span class="math inline">\(\sigma^2\)</span> para todos os habitats, enquanto que no modelo “BMS” espécies de habitats arborícolas possuem valores mais baixos de <span class="math inline">\(\sigma^2\)</span>, o que corrobora a hipótese de que o tamanho corporal de viperídeos em habitat arborícola seria mais restrito. Porém, não podemos basear nossas conclusões em uma topologia e mapeamento apenas. Devemos então replicar a análise para um grande número de topologias e com um grande número de mapeamentos para cada uma delas. Por economia de tempo, não faremos isso no tutorial, mas abaixo disponibilizamos um modelo de código para 1000 mapeamentos em uma topologia.</p>
+<p>Como esperado, o modelo “BM1” possui o mesmo valor de <em>sigma</em> para todos os habitats, enquanto que no modelo “BMS” espécies de habitats arborícolas possuem valores mais baixos de <em>sigma</em>, o que corrobora a hipótese de que o tamanho corporal de viperídeos em habitat arborícola seria mais restrito. Porém, não podemos basear nossas conclusões em uma topologia e mapeamento apenas. Devemos então replicar a análise para um grande número de topologias e com um grande número de mapeamentos para cada uma delas. Por economia de tempo, não faremos isso no tutorial, mas abaixo disponibilizamos um modelo de código para 1000 mapeamentos em uma topologia.</p>
 <pre class="r"><code>## simmap.vipers.ouwie &lt;- make.simmap(tree.hab.bs$phy, hab, model = &quot;ARD&quot;, Q = &quot;empirical&quot;, nsim = 1000)
 
 ## ouwie.res.bm1 &lt;- list()
@@ -338,7 +356,7 @@ ouwie.res.bms</code></pre>
 ##     ouwie.res.bms[[i]] &lt;- OUwie(simmap.vipers.ouwie[[i]], bs.hab.data.ouwie, model = &quot;BMS&quot;, simmap.tree = TRUE, root.station = TRUE, diagn = TRUE)
 ## }
 ## )</code></pre>
-<p>Vamos agora utilizar os resultados de <a href="http://rspb.royalsocietypublishing.org/content/284/1869/20171775" target="_blank">Alencar <em>et al.</em> 2017</a>, onde nós usamos 1000 que foram obtidos ao construirmos 10 mapeamentos para cada uma de 100 árvores selecionadas aleatoriamente. Vamos extrair dos resultados completos brutos apenas os valores de AICc e as estimativas de <span class="math inline">\(\sigma^2\)</span> para examinarmos.</p>
+<p>Vamos agora utilizar os resultados de <a href="http://rspb.royalsocietypublishing.org/content/284/1869/20171775" target="_blank">Alencar <em>et al.</em> 2017</a>, onde nós usamos 1000 que foram obtidos ao construirmos 10 mapeamentos para cada uma de 100 árvores selecionadas aleatoriamente. Vamos extrair dos resultados completos brutos apenas os valores de AICc e as estimativas de <em>sigma</em> para examinarmos.</p>
 <pre class="r"><code>load(&quot;ouwie_vipers.Rdata&quot;)
 
 sigma.table &lt;- data.frame(
@@ -347,7 +365,7 @@ sigma.table &lt;- data.frame(
 )</code></pre>
 <p>Agora que possuímos um número grande de réplicas, podemos calcular quão frequentemente o modelo “BMS” é “melhor” que o modelo “BM1” (ou seja, possui um AICc menor).</p>
 <pre class="r"><code>sum(aicc.ouwie.vipers[,2] &lt; aicc.ouwie.vipers[,1])</code></pre>
-<p>Além disso, podemos olhar para a distribuição das estimativas de <span class="math inline">\(\sigma^2\)</span> para cada habitat. No entanto, é preciso ter cuidado ao avaliar a distribuição das estimativas, por algumas razôes:</p>
+<p>Além disso, podemos olhar para a distribuição das estimativas de <em>sigma</em> para cada habitat. No entanto, é preciso ter cuidado ao avaliar a distribuição das estimativas, por algumas razôes:</p>
 <ul>
 <li><p>os valores não são correspondentes (os maiores valores de um habitat não necessariamente estão associados aos maiores valores em outro habitat)</p></li>
 <li><p>os dois modelos são os mais simples, enquanto que os resultados mais robustos do artigo estão relacionados aos modelos OU</p></li>
@@ -358,6 +376,10 @@ sigma.table &lt;- data.frame(
     scale_colour_manual(values = colors) +
     theme(legend.position = &quot;none&quot;) +
     labs(x = &quot;Habitat&quot;, y = &quot;Sigma - BMS&quot;)</code></pre>
+<blockquote>
+<p><strong>Caso você se sinta <del>corajoso</del> confiante, você pode tentar usar os dados completos (presentes no objeto <em>vipersresults</em>) para analisar o ajuste dos outros modelos mais complexos através dos valores de AICc.</strong></p>
+</blockquote>
+<hr />
 <p>Esse tutorial contém exemplos muito específicos e diretos relacionados ao artigo de <a href="http://rspb.royalsocietypublishing.org/content/284/1869/20171775" target="_blank">Alencar <em>et al.</em> 2017</a>. Porém muitos outros métodos e modelos estão disponíveis e novos desenvolvimentos vem sendo publicados a cada dia, e isso foge do propósito dessa aula. Nós (Gustavo e Laura) ofereceremos uma disciplina exclusivamente sobre macroevolução no segundo semestre de 2018, onde trataremos em mais detalhes tanto dos métodos quanto de aplicações. Caso tenha interesse, fique atento ao catálogo de disciplina do programa!</p>
 <hr />
 <p style="text-align:center;">

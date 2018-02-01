@@ -23,6 +23,8 @@ Por fim, quase todos os gráficos criados nesse tutorial foram feitos usando o p
 
 Sem mais ~~enrolação~~ delongas, vamos à prática!
 
+---
+
 # Download dos dados
 
 Todos os dados externos utilizados nesse tutorial estão <a href="https://github.com/gburin/teaching_resources/raw/master/data/macroevo_herps_data.zip" target="_blank">neste arquivo</a>. Após baixá-lo, descompacte o arquivo em uma pasta de sua escolha e altere seu workspace para esta pasta que contém todos os arquivos e pastas usando o menu do RStudio ou o comando **setwd** no console do R.
@@ -155,6 +157,8 @@ ggplot(data = gamma.decline, mapping = aes(x = "decline", y = gamma.dec)) +
     labs(y = "Gamma Corrigido", x = element_blank())
 ```
 
+> **Compare a distribuição de valores de Gamma entre os cenários de expansão e de declínio. É possível diferenciar esses dois cenários baseando-se somente no Gamma?**
+
 ## BAMM ![](/img/bamm_logo.png){width="500px"}
 
 A área de métodos em macroevolução tem se desenvolvido muito rapidamente nos últimos anos. O método <a href="http://bamm-project.org/" target="_blank">BAMM</a> é um dos mais recentes resultados dessa profusão de novos métodos, e vem sendo amplamente utilizado ~~e criticado~~ na literatura. O BAMM é um software escrito primariamente em C++, então sua utilização se dá através do terminal. Todos as opções do programa são controladas por um arquivo de configuração chamado **control file**. O arquivo completo é bastante extenso, com muitas opções que podem ser alteradas, mas só para termos uma ideia do que pode ser mudado, listamos abaixo as principais mudanças que devem ser feitas para uma primeira análise com o BAMM.
@@ -226,6 +230,8 @@ Por fim, é possível também analisar graficamente como as taxas de especiaçã
 plotRateThroughTime(edata51) # o plot demora cerca de 30 segundos para ficar pronto, pois a distribuição posterior de taxas é grande
 ```
 
+> **A partir dos gráficos acima, qual(is) seria(m) uma hipótese(s) para explicar a existência dessa mudança no ritmo de diversificação?**
+
 Para mais formas de examinar os resultados do BAMM, consulte a <a href="http://bamm-project.org/documentation.html" target="_blank">documentação no site do projeto</a>, e o <a href="https://cran.r-project.org/web/packages/BAMMtools/BAMMtools.pdf" target="_blank">help do pacote **BAMMtools**</a>.
 
 ## MuSSE ![](/img/diversitree_logo.png)
@@ -260,7 +266,9 @@ load("logfiles_musse.RData")
 
 A seguir, vamos organizar os dados e gerar os gráficos das distribuições posteriores das taxas de especiação para cada um dos 4 habitats avaliados no artigo de <a href="http://rspb.royalsocietypublishing.org/content/284/1869/20171775" target="_blank">Alencar *et al.* 2017</a>. Note que apesar de os valores com maior probabilidade posterior serem bastante similares entre as duas árvores, as distribuições posteriores completas de cada taxa são ligeiramente diferentes, devido tanto a diferenças na topologia quanto a incertezas advindas do MCMC.
 
-```{r musse_indiv, eval = FALSE}
+Árvore 1:
+
+```{r musse_indiv1, eval = FALSE}
 musse.plot.1 <- data.frame(
     lambda = c(logfiles.musse[[1]]$lambda1, logfiles.musse[[1]]$lambda2, logfiles.musse[[1]]$lambda3, logfiles.musse[[1]]$lambda4),
     habitat = factor(rep(c("Mixed Open", "Open", "Closed", "Arboreal"), each = dim(logfiles.musse[[1]])[1]), levels = c("Mixed Open", "Open", "Closed", "Arboreal"))
@@ -271,7 +279,11 @@ ggplot(data = musse.plot.1, mapping = aes(x = lambda)) +
     scale_fill_manual(values = c("#ffa500", "#a52a2a", "#0000ff", "#008b00")) +
     labs(x = "Speciation Rate", y = "Probability Density", fill = "Habitat") +
     theme(legend.position = "bottom")
+```
 
+Árvore 2:
+
+```{r musse_indiv2, eval = FALSE}
 musse.plot.2 <- data.frame(
     lambda = c(logfiles.musse[[2]]$lambda1, logfiles.musse[[2]]$lambda2, logfiles.musse[[2]]$lambda3, logfiles.musse[[2]]$lambda4),
     habitat = factor(rep(c("Mixed Open", "Open", "Closed", "Arboreal"), each = dim(logfiles.musse[[2]])[1]), levels = c("Mixed Open", "Open", "Closed", "Arboreal"))
@@ -283,6 +295,8 @@ ggplot(data = musse.plot.2, mapping = aes(x = lambda)) +
     labs(x = "Speciation Rate", y = "Probability Density", fill = "Habitat") +
     theme(legend.position = "bottom")
 ```
+
+> **Tente notar as diferenças e semelhanças entre as distribuições posteriores, e pense se seriam suficientes para afirmar que a topologia da árvore importa ou não para as estimativas de taxas.**
 
 ### Incorporando a incerteza filogenética
 
@@ -301,6 +315,8 @@ ggplot(data = musse.full.plot, mapping = aes(x = lambda)) +
     theme(legend.position = "bottom")
 ```
 
+> **Comparando o último gráfico (incerteza filogenética) com os gráficos das árvores individuais, a incorporação da incerteza filogenética alterou as possíveis conclusões sobre diferenças nas taxas entre os microhabitats?**
+	
 ### Matriz de transições
 
 Por fim, além de estimar as taxas de especiação e extinção associadas a cada estado do caráter, os modelos xxSSE também estimam as taxas de transição anagenética (sem cladogênese) entre os estados. Analisar essas taxas de transição usando diagramas de redes (grafos) nos fornece importantes informações sobre transições preferenciais, que podem ser úteis para corroborar ou refutar nossas hipóteses biológicas.
@@ -375,7 +391,7 @@ nodelabels(node = 1:simmap.vipers[[1]]$Nnode + Ntip(simmap.vipers[[1]]), pie = s
 legend("bottomright", legend = c("Open + Closed", "Open", "Closed", "Arboreal"), pch = 19, col = colors, text.col = "black")
 ```
 
-A partir do último gráfico, qual é o estado mais provável para o ancestral comum entre todas os viperídeos? É o único estado possível?
+> **A partir do último gráfico, qual é o estado mais provável para o ancestral comum entre todas os viperídeos? É o único estado possível? Além disso, esses resultados fazem sentido à luz das transições entre microhabitats estimadas usando o MuSSE?**
 
 ## OUwie
 
@@ -389,13 +405,13 @@ O pacote *OUwie* nos permite ajustar múltiplos modelos de evolução de caracte
 
 > "OU1" ### Ornstein-Uhlenbeck com um único ótimo para todas as espécies
 
-> "OUM" ### Ornstein-Uhlenbeck com diferentes ótimos para cada estado, mas com mesmos $\alpha$ e $\sigma^2$
+> "OUM" ### Ornstein-Uhlenbeck com diferentes ótimos para cada estado, mas com mesmos *alpha* e *sigma*
 
-> "OUMV" ### Ornstein-Uhlenbeck com diferentes ótimos e $\sigma^2$ para cada estado, mas com mesmo $\alpha$
+> "OUMV" ### Ornstein-Uhlenbeck com diferentes ótimos e *sigma* para cada estado, mas com mesmo *alpha*
 
-> "OUMA" ### Ornstein-Uhlenbeck com diferentes ótimos e $\alpha$ para cada estado, mas com mesmo $\sigma^2$
+> "OUMA" ### Ornstein-Uhlenbeck com diferentes ótimos e *alpha para cada estado, mas com mesmo *sigma*
 
-> "OUMVA" ### Ornstein-Uhlenbeck com diferentes ótimos,  $\sigma^2$ e $\alpha$ para cada estado
+> "OUMVA" ### Ornstein-Uhlenbeck com diferentes ótimos, *sigma* e *alpha* para cada estado
 
 Os modelos mais complexos (OU) demandam muito tempo para serem ajustados, então focaremos a seguir apenas nos resultados para os modelos "BM1" e "BMS". Para isso, vamos importar valores de tamanho corporal (representado pelo comprimento rostro-cloacal). Para que a função seja executada, precisamos excluir da análise as espécies que estão na filogenia mas que não possuem dados de morfologia também.
    
@@ -413,7 +429,7 @@ ouwie.res.bm1 <- OUwie(tree.hab.bs$phy, bs.hab.data.ouwie, model = "BM1", simmap
 ouwie.res.bms <- OUwie(tree.hab.bs$phy, bs.hab.data.ouwie, model = "BMS", simmap.tree = TRUE, root.station = TRUE, diagn = TRUE)
 ```
 
-Analisando os valores de AICc (Akaike Information Criterion corrigido para pequenas amostras), concluímos que ao menos para essa árvore e esse mapeamento, o modelo "BMS" se ajusta melhor aos dados.
+> **Analisando os valores de AICc (Akaike Information Criterion corrigido para pequenas amostras), o que podemos concluir (ao menos para essa árvore e esse mapeamento), sobre qual o modelo que melhor se ajusta aos dados?.**
 
 ```{r ouwie_aicc, eval = FALSE}
 ouwie.res.bm1$AICc
@@ -423,7 +439,7 @@ ouwie.res.bm1
 ouwie.res.bms
 ```
 
-Como esperado, o modelo "BM1" possui o mesmo valor de $\sigma^2$ para todos os habitats, enquanto que no modelo "BMS" espécies de habitats arborícolas possuem valores mais baixos de $\sigma^2$, o que corrobora a hipótese de que o tamanho corporal de viperídeos em habitat arborícola seria mais restrito. Porém, não podemos basear nossas conclusões em uma topologia e mapeamento apenas. Devemos então replicar a análise para um grande número de topologias e com um grande número de mapeamentos para cada uma delas. Por economia de tempo, não faremos isso no tutorial, mas abaixo disponibilizamos um modelo de código para 1000 mapeamentos em uma topologia.
+Como esperado, o modelo "BM1" possui o mesmo valor de *sigma* para todos os habitats, enquanto que no modelo "BMS" espécies de habitats arborícolas possuem valores mais baixos de *sigma*, o que corrobora a hipótese de que o tamanho corporal de viperídeos em habitat arborícola seria mais restrito. Porém, não podemos basear nossas conclusões em uma topologia e mapeamento apenas. Devemos então replicar a análise para um grande número de topologias e com um grande número de mapeamentos para cada uma delas. Por economia de tempo, não faremos isso no tutorial, mas abaixo disponibilizamos um modelo de código para 1000 mapeamentos em uma topologia.
 
 ```{r ouwie_multi, eval = FALSE}
 ## simmap.vipers.ouwie <- make.simmap(tree.hab.bs$phy, hab, model = "ARD", Q = "empirical", nsim = 1000)
@@ -438,7 +454,7 @@ Como esperado, o modelo "BM1" possui o mesmo valor de $\sigma^2$ para todos os h
 ## )
 ```
 
-Vamos agora utilizar os resultados de <a href="http://rspb.royalsocietypublishing.org/content/284/1869/20171775" target="_blank">Alencar *et al.* 2017</a>, onde nós usamos 1000 que foram obtidos ao construirmos 10 mapeamentos para cada uma de 100 árvores selecionadas aleatoriamente. Vamos extrair dos resultados completos brutos apenas os valores de AICc e as estimativas de $\sigma^2$ para examinarmos.
+Vamos agora utilizar os resultados de <a href="http://rspb.royalsocietypublishing.org/content/284/1869/20171775" target="_blank">Alencar *et al.* 2017</a>, onde nós usamos 1000 que foram obtidos ao construirmos 10 mapeamentos para cada uma de 100 árvores selecionadas aleatoriamente. Vamos extrair dos resultados completos brutos apenas os valores de AICc e as estimativas de *sigma* para examinarmos.
 
 ```{r ouwie_vipers, eval = FALSE}
 load("ouwie_vipers.Rdata")
@@ -455,7 +471,7 @@ Agora que possuímos um número grande de réplicas, podemos calcular quão freq
 sum(aicc.ouwie.vipers[,2] < aicc.ouwie.vipers[,1])
 ```
 
-Além disso, podemos olhar para a distribuição das estimativas de $\sigma^2$ para cada habitat. No entanto, é preciso ter cuidado ao avaliar a distribuição das estimativas, por algumas razôes:
+Além disso, podemos olhar para a distribuição das estimativas de *sigma* para cada habitat. No entanto, é preciso ter cuidado ao avaliar a distribuição das estimativas, por algumas razôes:
 
 * os valores não são correspondentes (os maiores valores de um habitat não necessariamente estão associados aos maiores valores em outro habitat)
 
@@ -470,6 +486,10 @@ ggplot(data = sigma.table, mapping = aes(x = habitat, y = sigma)) +
     theme(legend.position = "none") +
     labs(x = "Habitat", y = "Sigma - BMS")
 ```
+
+> **Caso você se sinta ~~corajoso~~ confiante, você pode tentar usar os dados completos (presentes no objeto *vipersresults*) para analisar o ajuste dos outros modelos mais complexos através dos valores de AICc.**
+       
+---
 
 Esse tutorial contém exemplos muito específicos e diretos relacionados ao artigo de <a href="http://rspb.royalsocietypublishing.org/content/284/1869/20171775" target="_blank">Alencar *et al.* 2017</a>. Porém muitos outros métodos e modelos estão disponíveis e novos desenvolvimentos vem sendo publicados a cada dia, e isso foge do propósito dessa aula. Nós (Gustavo e Laura) ofereceremos uma disciplina exclusivamente sobre macroevolução no segundo semestre de 2018, onde trataremos em mais detalhes tanto dos métodos quanto de aplicações. Caso tenha interesse, fique atento ao catálogo de disciplina do programa!
 
