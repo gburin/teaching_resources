@@ -8,7 +8,8 @@
     <language>en-us</language>
     <lastBuildDate>Thu, 13 Sep 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+        <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    
     
     
     <item>
@@ -21,6 +22,8 @@
 Usaremos uma ferramenta interativa que permite a visualização instantânea e simplificada de comandos do R, usando o pacote shiny.</description>
     </item>
     
+    
+    
     <item>
       <title>Aula Prática - Macroevolução (BIE5795)</title>
       <link>/aula-pr%C3%A1tica---macroevolu%C3%A7%C3%A3o-bie5795/</link>
@@ -31,6 +34,8 @@ Usaremos uma ferramenta interativa que permite a visualização instantânea e s
 O tutorial não contém nenhum muitos comentários sobre os códigos utilizados, pois a intenção aqui não é ser um tutorial de R, mas sim sobre os métodos em macroevolução. Qualquer dúvida sobre o código, pode perguntar para qualquer professor(a)/monitor(a).</description>
     </item>
     
+    
+    
     <item>
       <title>Tutorial de ggplot2</title>
       <link>/tutorial-de-ggplot2/</link>
@@ -40,6 +45,8 @@ O tutorial não contém nenhum muitos comentários sobre os códigos utilizados,
       <description>O pacote ggplot2 foi desenvolvido pelo Dr. Hadley Wickham (que desenvolveu diversos outros pacotes importantes para R como o (d)plyr por exemplo. Este pacote implementa uma nova maneira de criar gráficos a partir dos dados, trazendo o conceito de camadas (layers) para a sintaxe do R. Com esse novo conceito, surge também a necessidade de se organizar os dados de uma maneira que facilite a utilização da nova sintaxe. Para isso, os outros pacotes (como os já mencionados (d)plyr) foram desenvolvidos pelo Dr.</description>
     </item>
     
+    
+    
     <item>
       <title>Tutorial de SSH</title>
       <link>/tutorial-de-ssh/</link>
@@ -48,6 +55,7 @@ O tutorial não contém nenhum muitos comentários sobre os códigos utilizados,
       <guid>/tutorial-de-ssh/</guid>
       <description>SSH é a sigla para &amp;lsquo;Secure SHell&amp;rsquo;, e é basicamente um protocolo de rede que permite computadores se conectarem via rede de forma a permitir que um computador execute comandos em unidades remotas de maneira segura (criptografada). Essa segurança é garantida por uma chave de segurança que é armazenada tanto em no computador local quanto na máquina remota. Além disso, na maioria das vezes esse acesso é somente autorizado através de senhas de acesso.</description>
     </item>
+    
     
   </channel>
 </rss>
