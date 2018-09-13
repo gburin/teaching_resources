@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>R on Teaching Resources</title>
-    <link>/categories/r/</link>
-    <description>Recent content in R on Teaching Resources</description>
+    <title>Visualização on Teaching Resources</title>
+    <link>/tags/visualiza%C3%A7%C3%A3o/</link>
+    <description>Recent content in Visualização on Teaching Resources</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 13 Sep 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/visualiza%C3%A7%C3%A3o/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -19,16 +19,6 @@
       <guid>/visualiza%C3%A7%C3%A3o-de-dados-filogen%C3%A9ticos-e-f%C3%B3sseis---bie5751/</guid>
       <description>A ideia por trás desse tutorial é ter um primeiro contato com os tipos principais de dados usados em Macroevolução. Os exercícios propostos aqui serão retomados com maior detalhe no próximo tutorial, que será feito diretamente no R, então no momento não se preocupe em saber como as coisas são feitas, e busque só se familiarizar com os diferentes tipos de dados.
 Usaremos uma ferramenta interativa que permite a visualização instantânea e simplificada de comandos do R, usando o pacote shiny.</description>
-    </item>
-    
-    <item>
-      <title>Aula Prática - Macroevolução (BIE5795)</title>
-      <link>/aula-pr%C3%A1tica---macroevolu%C3%A7%C3%A3o-bie5795/</link>
-      <pubDate>Thu, 25 Jan 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/aula-pr%C3%A1tica---macroevolu%C3%A7%C3%A3o-bie5795/</guid>
-      <description>Nesse tutorial, vamos relembrar os principais tópicos da aula teórica, bem como observar os métodos “em ação”. Por questões de tempo, algumas partes foram rodadas previamente e somente os resultados estarão disponíveis.
-O tutorial não contém nenhum muitos comentários sobre os códigos utilizados, pois a intenção aqui não é ser um tutorial de R, mas sim sobre os métodos em macroevolução. Qualquer dúvida sobre o código, pode perguntar para qualquer professor(a)/monitor(a).</description>
     </item>
     
   </channel>

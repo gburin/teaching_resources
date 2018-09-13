@@ -6,10 +6,20 @@
     <description>Recent content in Tutorial on Teaching Resources</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 25 Jan 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 13 Sep 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/tutorial/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Visualização de dados filogenéticos e fósseis - BIE5751</title>
+      <link>/visualiza%C3%A7%C3%A3o-de-dados-filogen%C3%A9ticos-e-f%C3%B3sseis---bie5751/</link>
+      <pubDate>Thu, 13 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/visualiza%C3%A7%C3%A3o-de-dados-filogen%C3%A9ticos-e-f%C3%B3sseis---bie5751/</guid>
+      <description>A ideia por trás desse tutorial é ter um primeiro contato com os tipos principais de dados usados em Macroevolução. Os exercícios propostos aqui serão retomados com maior detalhe no próximo tutorial, que será feito diretamente no R, então no momento não se preocupe em saber como as coisas são feitas, e busque só se familiarizar com os diferentes tipos de dados.
+Usaremos uma ferramenta interativa que permite a visualização instantânea e simplificada de comandos do R, usando o pacote shiny.</description>
+    </item>
     
     <item>
       <title>Aula Prática - Macroevolução (BIE5795)</title>
