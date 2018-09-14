@@ -8,11 +8,6 @@
   </url>
   
   <url>
-    <loc>/aula-pr%C3%A1tica---macroevolu%C3%A7%C3%A3o-bie5795/</loc>
-    <lastmod>2018-01-25T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/tutorial-de-ggplot2/</loc>
     <lastmod>2015-07-28T21:13:14-05:00</lastmod>
   </url>
@@ -23,25 +18,7 @@
   </url>
   
   <url>
-    <loc>/tags/bamm/</loc>
-    <lastmod>2018-01-25T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/categories/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/diversitree/</loc>
-    <lastmod>2018-01-25T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/dtt/</loc>
-    <lastmod>2018-01-25T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -58,20 +35,8 @@
   </url>
   
   <url>
-    <loc>/tags/ltt/</loc>
-    <lastmod>2018-01-25T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/tags/macroevolu%C3%A7%C3%A3o/</loc>
     <lastmod>2018-09-13T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/ouwie/</loc>
-    <lastmod>2018-01-25T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -88,13 +53,13 @@
   </url>
   
   <url>
-    <loc>/categories/r/</loc>
+    <loc>/tags/r/</loc>
     <lastmod>2018-09-13T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/r/</loc>
+    <loc>/categories/r/</loc>
     <lastmod>2018-09-13T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -106,12 +71,6 @@
   </url>
   
   <url>
-    <loc>/tags/simmap/</loc>
-    <lastmod>2018-01-25T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/tags/ssh/</loc>
     <lastmod>2015-07-28T14:05:19+00:00</lastmod>
     <priority>0</priority>
@@ -119,7 +78,7 @@
   
   <url>
     <loc>/tags/</loc>
-    <lastmod>2018-01-25T00:00:00+00:00</lastmod>
+    <lastmod>2015-07-28T21:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -130,14 +89,14 @@
   </url>
   
   <url>
-    <loc>/categories/tutorial/</loc>
-    <lastmod>2015-07-28T21:13:14-05:00</lastmod>
+    <loc>/tags/tutorial/</loc>
+    <lastmod>2018-09-13T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/tutorial/</loc>
-    <lastmod>2018-09-13T00:00:00+00:00</lastmod>
+    <loc>/categories/tutorial/</loc>
+    <lastmod>2015-07-28T21:13:14-05:00</lastmod>
     <priority>0</priority>
   </url>
   

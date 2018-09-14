@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Ltt on Teaching Resources</title>
-    <link>/tags/ltt/</link>
-    <description>Recent content in Ltt on Teaching Resources</description>
+    <title>Drafts on Teaching Resources</title>
+    <link>/drafts/</link>
+    <description>Recent content in Drafts on Teaching Resources</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 25 Jan 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/ltt/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/drafts/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
