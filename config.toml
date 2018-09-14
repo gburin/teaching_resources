@@ -1,7 +1,7 @@
 baseURL = "http://resources.gburin.com/"
 languageCode = "en-us"
 title = "Teaching Resources"
-theme = "hugo-natrium-theme"
+theme = "tale"
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 author = "Gustavo Burin"
 
