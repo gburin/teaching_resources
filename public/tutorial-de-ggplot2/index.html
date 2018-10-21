@@ -1,54 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="//gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.48" />
 
-  <head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	
-		<title>
-				Tutorial de ggplot2 &middot; Teaching Resources
-		</title>
-	
-		
-  		<link rel="stylesheet" href="/css/style.css">
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i,700">
-	
-		
-		<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
-		<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
-		<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-	
-		
-		<link href="" rel="alternate" type="application/rss+xml" title="Teaching Resources" />
-	</head>
-	
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <body>
-		<nav class="nav">
-			<div class="nav-container">
-			<a href="//">
-				<h2 class="nav-title">Teaching Resources</h2>
-			</a>
-			<ul>
-				<li><a href="/about">About</a></li>
-				<li><a href="/">Posts</a></li>
-			</ul>
-			</div>
-		</nav>
+  <title>Tutorial de ggplot2 &middot; Materiais de aulas</title>
 
-<main>
-	<div class="post">
-		<div class="post-info">
-		<span>Written by</span>
-			
-			<br>
-			<span>on&nbsp;</span><time datetime="2015-07-28 21:13:14 -0500 -0500">July 28, 2015</time>
-		</div>
+  
+  <link type="text/css" rel="stylesheet" href="/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
 
-		<h1 class="post-title">Tutorial de ggplot2</h1>
-		<div class="post-line"></div>
 
-		<p>O pacote <em>ggplot2</em> foi desenvolvido pelo Dr. Hadley Wickham (que desenvolveu diversos outros pacotes importantes para <strong>R</strong> como o <em>(d)plyr</em> por exemplo. Este pacote implementa uma nova maneira de criar gráficos a partir dos dados, trazendo o conceito de camadas (<em>layers</em>) para a sintaxe do <strong>R</strong>. Com esse novo conceito, surge também a necessidade de se organizar os dados de uma maneira que facilite a utilização da nova sintaxe. Para isso, os outros pacotes (como os já mencionados <em>(d)plyr</em>) foram desenvolvidos pelo Dr. Wickham de maneira a tornar a manipulação de dados mais ágil, intuitiva e já adequada para o uso conjunto com <em>ggplot2</em>.</p>
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Materiais de aulas" />
+
+  
+</head>
+
+  <body class="theme-base-0c layout-reverse">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="/"><h1>Materiais de aulas</h1></a>
+      <p class="lead">
+       Tutoriais e Exercícios 
+      </p>
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li><a href="/">Home</a> </li>
+        
+      </ul>
+    </nav>
+
+    <p>&copy; 2018. All rights reserved. </p>
+  </div>
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    });
+    </script>
+    <script type="text/javascript"
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+</aside>
+
+    <main class="content container">
+    <div class="post">
+  <h1>Tutorial de ggplot2</h1>
+  <time datetime=2015-07-28T21:13:14-0500 class="post-date">Tue, Jul 28, 2015</time>
+  <p>O pacote <em>ggplot2</em> foi desenvolvido pelo Dr. Hadley Wickham (que desenvolveu diversos outros pacotes importantes para <strong>R</strong> como o <em>(d)plyr</em> por exemplo. Este pacote implementa uma nova maneira de criar gráficos a partir dos dados, trazendo o conceito de camadas (<em>layers</em>) para a sintaxe do <strong>R</strong>. Com esse novo conceito, surge também a necessidade de se organizar os dados de uma maneira que facilite a utilização da nova sintaxe. Para isso, os outros pacotes (como os já mencionados <em>(d)plyr</em>) foram desenvolvidos pelo Dr. Wickham de maneira a tornar a manipulação de dados mais ágil, intuitiva e já adequada para o uso conjunto com <em>ggplot2</em>.</p>
 <div id="instalacao" class="section level2">
 <h2>Instalação</h2>
 <p>O pacote deve ser instalado como qualquer outro pacote no <strong>R</strong>:</p>
@@ -285,19 +300,11 @@ g3</code></pre>
 <p><a href="http://stackoverflow.com/questions/tagged/ggplot2">stack<strong>overflow</strong> - <em>ggplot2</em></a></p>
 </div>
 
+</div>
 
-	</div>
 
-	<div class="pagination">
-		<a href="/tutorial-de-ssh/" class="left arrow">&#8592;</a>
-		<a href="/visualiza%C3%A7%C3%A3o-de-dados-filogen%C3%A9ticos-e-f%C3%B3sseis---bie5751/" class="right arrow">&#8594;</a>
+    </main>
 
-		<a href="#" class="top">Top</a>
-	</div>
-</main>		<footer>
-			<span>
-			&copy; <time datetime="2018-09-14 08:14:52.946850755 -0300 -03 m=&#43;0.119368755">2018</time> . Made with Hugo using the <a href="https://github.com/EmielH/tale-hugo/">Tale</a> theme.
-			</span>
-		</footer>
+    
   </body>
 </html>

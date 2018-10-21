@@ -1,20 +1,69 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Macroevolução on Teaching Resources</title>
+    <title>Macroevolução on Materiais de aulas</title>
     <link>/tags/macroevolu%C3%A7%C3%A3o/</link>
-    <description>Recent content in Macroevolução on Teaching Resources</description>
+    <description>Recent content in Macroevolução on Materiais de aulas</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 13 Sep 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 03 Oct 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/macroevolu%C3%A7%C3%A3o/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>Modelos de Evolução Fenotípica</title>
+      <link>/modelos-de-evolu%C3%A7%C3%A3o-fenot%C3%ADpica/</link>
+      <pubDate>Wed, 03 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/modelos-de-evolu%C3%A7%C3%A3o-fenot%C3%ADpica/</guid>
+      <description>library(&amp;quot;ape&amp;quot;) library(&amp;quot;phytools&amp;quot;) library(&amp;quot;OUwie&amp;quot;) library(&amp;quot;OUwie&amp;quot;) library(&amp;quot;ggplot2&amp;quot;) library(&amp;quot;cowplot&amp;quot;) library(&amp;quot;picante&amp;quot;) Métodos de Evolução Fenotípica Como mencionamos na aula teórica, apesar de os modelos xxSSE estimarem taxas de transição entre os estados de um caráter, esses modelos integram sobre todas as possibilidades de configurações de eventos de transição. Sendo assim, eles não podem ser usados como modelos de reconstrução de estado ancestral por exemplo. Para isso, existem diversos modelos que foram desenvolvidos especificamente para esse fim.</description>
+    </item>
+    
+    <item>
+      <title>Análises de diversificação utilizando BAMM e RPANDA</title>
+      <link>/an%C3%A1lises-de-diversifica%C3%A7%C3%A3o-utilizando-bamm-e-rpanda/</link>
+      <pubDate>Mon, 24 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/an%C3%A1lises-de-diversifica%C3%A7%C3%A3o-utilizando-bamm-e-rpanda/</guid>
+      <description>library(&amp;quot;BAMMtools&amp;quot;) library(&amp;quot;RPANDA&amp;quot;) BAMM Baixando e instalando o BAMM BAMM (Bayesian Analysis of Macroevolutionary Mixtures) é um software que utiliza rjMCMC para modelar dinâmicas complexas de especiação, extinção e evolução fenotípica em filogenias. No entanto, o tutorial a seguir irá focar somente nas estimativas de taxas de especiação e extinção.
+O primeiro passo para usar o BAMM é baixar o arquivo executável disponível em website do programa. Para instalar o programa você deve seguir as instruções específicas ao seu sistema operacional no site.</description>
+    </item>
+    
+    <item>
+      <title>Modelos de Diversificação Trait Dependent</title>
+      <link>/modelos-de-diversifica%C3%A7%C3%A3o-trait-dependent/</link>
+      <pubDate>Mon, 24 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/modelos-de-diversifica%C3%A7%C3%A3o-trait-dependent/</guid>
+      <description>Carregando os pacotes necessários library(&amp;quot;phytools&amp;quot;) library(&amp;quot;diversitree&amp;quot;) library(&amp;quot;picante&amp;quot;) library(&amp;quot;RColorBrewer&amp;quot;) library(&amp;quot;ggplot2&amp;quot;) library(&amp;quot;cowplot&amp;quot;) library(&amp;quot;qgraph&amp;quot;)  MuSSE + Vipers Nesse tutorial vamos usar alguns dos modelos de trait-dependent speciation anad extinction, implementados no pacote diversitree. Para o exemplo do MuSSE (Multiple-State Speciation and Extinction) usaremos os dados de microhabitat e a filogenia de viperídeos usados em Alencar et al., 2017.
+Já para o exemplo que usa o QuaSSE (Quantitative State Speciation and Extinction) utilizaremos dados de massa corporal e a filogenia de primatas usadas no artigo que descreve o método.</description>
+    </item>
+    
+    <item>
+      <title>Estimativa de Taxas de Diversificação</title>
+      <link>/estimativa-de-taxas-de-diversifica%C3%A7%C3%A3o/</link>
+      <pubDate>Fri, 21 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/estimativa-de-taxas-de-diversifica%C3%A7%C3%A3o/</guid>
+      <description>Carregando os pacotes necessários
+library(&amp;quot;rmarkdown&amp;quot;) library(&amp;quot;phytools&amp;quot;) ## Loading required package: ape ## Loading required package: maps library(&amp;quot;RColorBrewer&amp;quot;) library(&amp;quot;ggplot2&amp;quot;) library(&amp;quot;cowplot&amp;quot;) ## ## Attaching package: &amp;#39;cowplot&amp;#39; ## The following object is masked from &amp;#39;package:ggplot2&amp;#39;: ## ## ggsave library(&amp;quot;bbmle&amp;quot;) ## Loading required package: stats4 library(&amp;quot;diversitree&amp;quot;) library(&amp;quot;TreeSim&amp;quot;) ## Loading required package: geiger makeTransparent&amp;lt;-function(someColor,alpha=10){ newColor&amp;lt;-col2rgb(someColor) apply(newColor,2,function(curcoldata){ rgb(red=curcoldata[1],green=curcoldata[2],blue=curcoldata[3], alpha=alpha,maxColorValue=255) }) } pal &amp;lt;- brewer.pal(n = 5, &amp;quot;Set1&amp;quot;) Estimando taxas “na unha” Pure Birth Vamos iniciar simulando uma árvore sob um modelo simples de Pure Birth.</description>
+    </item>
+    
+    <item>
+      <title>Visualização de dados filogenéticos e fósseis no R - BIE5751</title>
+      <link>/visualiza%C3%A7%C3%A3o-de-dados-filogen%C3%A9ticos-e-f%C3%B3sseis-no-r---bie5751/</link>
+      <pubDate>Wed, 19 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/visualiza%C3%A7%C3%A3o-de-dados-filogen%C3%A9ticos-e-f%C3%B3sseis-no-r---bie5751/</guid>
+      <description>Nesse tutorial, vamos relembrar os principais pontos da primeira aula, porém agora observando o que acontece “por trás dos panos” da ferramenta.
+O tutorial não contém nenhum muitos comentários sobre os códigos utilizados, pois a intenção aqui não é ser um tutorial de R, mas sim sobre macroevolução. Sendo assim, o tutorial foi escrito de maneira a simplesmente ser necessário copiar e colar os códigos e rodá-los no seu próprio computador.</description>
+    </item>
+    
+    <item>
       <title>Visualização de dados filogenéticos e fósseis - BIE5751</title>
       <link>/visualiza%C3%A7%C3%A3o-de-dados-filogen%C3%A9ticos-e-f%C3%B3sseis---bie5751/</link>
-      <pubDate>Thu, 13 Sep 2018 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 17 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>/visualiza%C3%A7%C3%A3o-de-dados-filogen%C3%A9ticos-e-f%C3%B3sseis---bie5751/</guid>
       <description>A ideia por trás desse tutorial é ter um primeiro contato com os tipos principais de dados usados em Macroevolução. Os exercícios propostos aqui serão retomados com maior detalhe no próximo tutorial, que será feito diretamente no R, então no momento não se preocupe em saber como as coisas são feitas, e busque só se familiarizar com os diferentes tipos de dados.

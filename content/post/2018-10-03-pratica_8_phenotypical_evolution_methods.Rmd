@@ -1,0 +1,181 @@
+---
+title: "Modelos de Evolução Fenotípica"
+date: 2018-10-03
+categories: ["R"]
+tags: ["R", "Tutorial", "Macroevolução", "Visualização"]
+fontsize: 14pt
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    highlight: textmate
+    self_contained: true
+---
+
+```{r library_load, eval = FALSE}
+library("ape")
+library("phytools")
+library("OUwie")
+library("OUwie")
+library("ggplot2")
+library("cowplot")
+library("picante")
+```
+
+
+# Métodos de Evolução Fenotípica
+
+Como mencionamos na aula teórica, apesar de os modelos xxSSE estimarem taxas de transição entre os estados de um caráter, esses modelos integram sobre todas as possibilidades de configurações de eventos de transição. Sendo assim, eles não podem ser usados como modelos de reconstrução de estado ancestral por exemplo. Para isso, existem diversos modelos que foram desenvolvidos especificamente para esse fim. Apesar de compartilharem um "esqueleto" matemático com as transições dos modelos xxSSE (<a href="https://en.wikipedia.org/wiki/Markov_chain" target="_blank">os famosos modelos Mk</a>), os modelos de evolução fenotípica desconsideram as taxas de especiação e extinção.
+
+## Stochastic Mapping (SIMMAP)
+
+Da mesma forma que não sabemos a verdadeira história de diversificação de um grupo (tampouco a topologia da filogenia), é impossível reconstruir a verdadeira história de evolução de um caráter ao longo da existência de um clado <a href="https://media.giphy.com/media/Xpa9TmISjaaju/giphy.gif" target="_blank">~~a não ser que você tenha uma máquina do tempo~~</a>. Sendo assim, nos resta reconstruir diversas histórias plausíveis segundo algum modelo que assumirmos ser possível, e avaliar as probabilidades associadas a todas elas.
+
+Vamos então usar um método chamado *Stochastic Mapping* (<a href="https://academic.oup.com/sysbio/article/52/2/131/1634311" target="_blank">Huelsenbeck *et al.* 2003</a>), implementado no famoso pacote <a href="http://blog.phytools.org/" target="_blank">*phytools*</a>. Para ajustarmos esse modelo, usaremos uma filogenia somente (por questões didáticas) e os habitats de cada uma das espécies da filogenia. Primeiro vamos importar os dados de habitat, bem como uma das filogenias usadas no artigo.
+
+```{r simmap_import, eval = FALSE}
+habitat <- read.csv("habitat_vipers_all.csv", sep = ";", header = FALSE)
+hab <- habitat[,2]
+names(hab) <- habitat[,1]
+
+tree.simmap <- read.tree("tree1.txt")
+
+## Vetor com as cores usadas nas figuras de Alencar et al. 2017
+colors <- c("#ffa500", "#a52a2a", "#0000ff", "#008b00")
+```
+
+Vamos agora reconstruir 9 histórias de evolução do habitat em viperídeos. Mas por que 9 e não 10? Resposta legal: porque sou contra a ditadura decimal. Resposta real: porque é mais fácil organizar 9 gráficos em um grid 3x3 do que 10 gráficos em qualquer configuração :-p
+
+Para cada mapeamento, utilizaremos dois argumentos que são importantes para os resultados:
+
+- **model = "ARD"**: ARD significa All Rates Different, ou seja, estamos deixando todas as transições serem estimadas independentemente, não impondo nenhuma restrição (exceto aquelas inerentes aos modelos Mk). Isso torna o modelo mais complexo, mas no nosso caso também mais realista já que não temos nenhuma hipótese a priori sobre eventuais restrições.
+
+- **Q = "empirical"**: A matriz de probabilidades de transição é estimada usando a configuração de habitats das espécies existentes (ajustando um modelo Mk simples).
+
+
+```{r simmap, eval = FALSE}
+set.seed(20181003)
+
+simmap.vipers <- make.simmap(tree.simmap, hab, model = "ARD", Q = "empirical", nsim = 9) ## esse comando leva aproximadamente 3,5 minutos para rodar
+```
+
+De posse das 9 réplicas, podemos plotá-las lado a lado (agora vem a razão de 9 réplicas e não 10 :-p) para visualizar as diferenças. Note que os nomes das espécies não foram incluídos para facilitar a visualização dos mapas em si.
+
+```{r simmap_plot, eval = FALSE}
+par(mfrow = c(3, 3))
+for(i in 1:9){
+    plotSimmap(simmap.vipers[[i]], colors = setNames(colors, 1:4), type = "fan", fsize = 0.01, lwd = 3, hold = FALSE)
+}
+```
+
+Analisar cada mapa separadamente pode ser útil para enxergarmos as diferenças par a par, mas é difícil conseguirmos combinar mentalmente os 9 (ou mais) mapas. Vamos então criar um objeto com resumos das informações contidas em cada um dos mapas, que vai nos possibilitar visualizar as probabilidades de cada estado em cada nó da filogenia.
+
+```{r simmap_summ, eval = FALSE}
+simmap.summ <- summary(simmap.vipers)
+
+par(mfrow = c(1, 1))
+plotSimmap(simmap.vipers[[1]], colors = setNames(colors, 1:4), type = "fan", fsize = 0.01, lwd = 3, hold = FALSE)
+nodelabels(node = 1:simmap.vipers[[1]]$Nnode + Ntip(simmap.vipers[[1]]), pie = simmap.summ$ace, cex = 0.6, piecol = colors)
+legend("bottomright", legend = c("Open + Closed", "Open", "Closed", "Arboreal"), pch = 19, col = colors, text.col = "black")
+```
+
+> A partir do último gráfico, qual é o estado mais provável para o ancestral comum entre todas os viperídeos? É o único estado possível? Além disso, esses resultados fazem sentido à luz das transições entre microhabitats estimadas usando o MuSSE?
+
+## OUwie
+
+Além de avaliarmos as possíveis histórias evolutivas do habitat de viperídeos, podemos lançar mão de outro modelo de evolução morfológica para avaliar se a evolução do tamanho corporal se deu da mesma forma nos diferentes habitats, ou se algum deles impõe condições de seleção diferente (o que se refletiria em modelos/parâmetros distintos).
+
+O pacote *OUwie* nos permite ajustar múltiplos modelos de evolução de caracteres contínuos (como tamanho corporal por exemplo) em cada um dos habitats. Esses modelos podem ser de duas classes diferentes: Brownian Motion (BM) ou Ornstein-Uhlenbeck (OU). O método foi desenvolvido num contexto de seleção de modelos, então para descobrirmos qual o modelo que melhor se ajusta aos dados, precisamos testar as diferentes possibilidades e depois examinar os valores de AIC. Os modelos implementados atualmente são:
+
+- *BM1* ### Brownian Motion com um regime
+
+- *BMS* ### Brownian Motion com taxas de evolução fenotípica ($\sigma^2$) diferentes para cada estado
+
+- *OU1* ### Ornstein-Uhlenbeck com um único ótimo ($\theta$) para todas as espécies
+
+- *OUM* ### Ornstein-Uhlenbeck com diferentes ótimos ($\theta$) para cada estado, mas com mesmos $\alpha$ e $\sigma^2$
+
+- *OUMV* ### Ornstein-Uhlenbeck com diferentes ótimos ($\theta$) e $\sigma^2$ para cada estado, mas com mesmo $\alpha$
+
+- *OUMA* ### Ornstein-Uhlenbeck com diferentes ótimos ($\theta$) e $\alpha$ para cada estado, mas com mesmo $\sigma^2$
+
+- *OUMVA* ### Ornstein-Uhlenbeck com diferentes ótimos ($\theta$), $\sigma^2$ e $\alpha$ para cada estado
+
+Os modelos mais complexos (OU) demandam muito tempo para serem ajustados, então focaremos a seguir apenas nos resultados para os modelos "BM1" e "BMS". Para isso, vamos importar valores de tamanho corporal (representado pelo comprimento rostro-cloacal). Para que a função seja executada, precisamos excluir da análise as espécies que estão na filogenia mas que não possuem dados de morfologia também.
+   
+```{r ouwie_import, eval = FALSE}
+bs.hab.data <- read.table("habitat_vipers_bodysize.csv", dec = ",", sep = ";", row.names = 1, stringsAsFactors = FALSE)
+tree.hab.bs <- match.phylo.data(simmap.vipers[[1]], bs.hab.data)
+
+bs.hab.data.ouwie <- read.table("habitat_vipers_bodysize.csv", dec = ",", sep = ";", stringsAsFactors = FALSE)
+```
+
+Agora vamos ajustar os dois modelos ("BM1" e "BMS"). Para dúvidas sobre os argumentos usados, consulte o <a href="https://cran.r-project.org/web/packages/OUwie/OUwie.pdf" target="_blank">help do pacote</a>.
+
+```{r ouwie, eval = FALSE}
+ouwie.res.bm1 <- OUwie(tree.hab.bs$phy, bs.hab.data.ouwie, model = "BM1", simmap.tree = TRUE, root.station = TRUE, diagn = TRUE)
+ouwie.res.bms <- OUwie(tree.hab.bs$phy, bs.hab.data.ouwie, model = "BMS", simmap.tree = TRUE, root.station = TRUE, diagn = TRUE)
+```
+
+```{r ouwie_aicc, eval = FALSE}
+ouwie.res.bm1$AICc
+ouwie.res.bms$AICc
+
+ouwie.res.bm1
+ouwie.res.bms
+```
+
+> Analisando os valores de AICc (Akaike Information Criterion corrigido para pequenas amostras), o que podemos concluir (ao menos para essa árvore e esse mapeamento), sobre qual o modelo que melhor se ajusta aos dados?.
+
+
+Como esperado, o modelo "BM1" possui o mesmo valor de *sigma* para todos os habitats, enquanto que no modelo "BMS" espécies de habitats arborícolas possuem valores mais baixos de *sigma*, o que corrobora a hipótese de que o tamanho corporal de viperídeos em habitat arborícola seria mais restrito. Porém, não podemos basear nossas conclusões em uma topologia e mapeamento apenas. Devemos então replicar a análise para um grande número de topologias e com um grande número de mapeamentos para cada uma delas. Por economia de tempo, não faremos isso no tutorial, mas abaixo disponibilizamos um modelo de código para 1000 mapeamentos em uma topologia.
+
+```{r ouwie_multi, eval = FALSE}
+## simmap.vipers.ouwie <- make.simmap(tree.hab.bs$phy, hab, model = "ARD", Q = "empirical", nsim = 1000)
+
+## ouwie.res.bm1 <- list()
+## ouwie.res.bms <- list()
+## ouwie.1000 <- system.time(foreach(i in 1:1000){
+##     print(i)
+##     ouwie.res.bm1[[i]] <- OUwie(simmap.vipers.ouwie[[i]], bs.hab.data.ouwie, model = "BM1", simmap.tree = TRUE, root.station = TRUE, diagn = TRUE)
+##     ouwie.res.bms[[i]] <- OUwie(simmap.vipers.ouwie[[i]], bs.hab.data.ouwie, model = "BMS", simmap.tree = TRUE, root.station = TRUE, diagn = TRUE)
+## }
+## )
+```
+
+Vamos agora utilizar os resultados de <a href="http://rspb.royalsocietypublishing.org/content/284/1869/20171775" target="_blank">Alencar *et al.* 2017</a>, onde nós usamos um total de 1000 reconstruções da história de transições de microhabitat que foram obtidas ao construirmos 10 mapeamentos para cada uma de 100 árvores selecionadas aleatoriamente. Vamos extrair dos resultados completos brutos apenas os valores de AICc e as estimativas de *sigma* para examinarmos.
+
+```{r ouwie_vipers, eval = FALSE}
+load("ouwie_vipers.Rdata")
+
+sigma.table <- data.frame(
+    sigma = as.numeric(unlist(lapply(vipersresults, function(x) x[c("FO_sigma", "O_sigma", "F_sigma", "A_sigma"), 2]))),
+    habitat = factor(rep(c("Mixed", "Open", "Forest", "Arboreal"), 1000), levels = c("Mixed", "Open", "Forest", "Arboreal"))
+)
+```
+
+Agora que possuímos um número grande de réplicas, podemos calcular quão frequentemente o modelo "BMS" é "melhor" que o modelo "BM1" (ou seja, possui um AICc menor).
+
+```{r ouwie_count, eval = FALSE}
+sum(aicc.ouwie.vipers[,2] < aicc.ouwie.vipers[,1])
+```
+
+Além disso, podemos olhar para a distribuição das estimativas de *sigma* para cada habitat. No entanto, é preciso ter cuidado ao avaliar a distribuição das estimativas, por algumas razôes:
+
+- os valores não são correspondentes (os maiores valores de um habitat não necessariamente estão associados aos maiores valores em outro habitat)
+
+- os dois modelos são os mais simples, enquanto que os resultados mais robustos do artigo estão relacionados aos modelos OU
+
+- por fim, é sempre bom lembrar que o melhor modelo não é necessariamente um bom modelo :D
+
+```{r ouwie_parplot, eval = FALSE}
+ggplot(data = sigma.table, mapping = aes(x = habitat, y = sigma)) +
+    geom_jitter(aes(colour = habitat)) +
+    scale_colour_manual(values = colors) +
+    theme(legend.position = "none") +
+    labs(x = "Habitat", y = "Sigma - BMS")
+```
+
+> Caso você se sinta ~~corajoso~~ confiante, você pode tentar usar os dados completos (presentes no objeto *vipersresults*) para analisar o ajuste dos outros modelos mais complexos através dos valores de AICc.
+       
+---

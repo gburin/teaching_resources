@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on Teaching Resources</title>
+    <title>Tags on Materiais de aulas</title>
     <link>/tags/</link>
-    <description>Recent content in Tags on Teaching Resources</description>
+    <description>Recent content in Tags on Materiais de aulas</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 28 Jul 2015 21:13:14 -0500</lastBuildDate>
@@ -32,7 +32,7 @@
     <item>
       <title>Macroevolução</title>
       <link>/tags/macroevolu%C3%A7%C3%A3o/</link>
-      <pubDate>Thu, 13 Sep 2018 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 03 Oct 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/macroevolu%C3%A7%C3%A3o/</guid>
       <description></description>
@@ -50,7 +50,7 @@
     <item>
       <title>R</title>
       <link>/tags/r/</link>
-      <pubDate>Thu, 13 Sep 2018 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 03 Oct 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/r/</guid>
       <description></description>
@@ -77,7 +77,7 @@
     <item>
       <title>Tutorial</title>
       <link>/tags/tutorial/</link>
-      <pubDate>Thu, 13 Sep 2018 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 03 Oct 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/tutorial/</guid>
       <description></description>
@@ -95,7 +95,7 @@
     <item>
       <title>Visualização</title>
       <link>/tags/visualiza%C3%A7%C3%A3o/</link>
-      <pubDate>Thu, 13 Sep 2018 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 03 Oct 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/visualiza%C3%A7%C3%A3o/</guid>
       <description></description>

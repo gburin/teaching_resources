@@ -1,0 +1,441 @@
+---
+title: "Estimativa de Taxas de Diversificação"
+date: 2018-09-21
+categories: ["R"]
+tags: ["R", "Tutorial", "Macroevolução", "Visualização"]
+fontsize: 14pt
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    highlight: textmate
+    self_contained: true
+---
+
+Carregando os pacotes necessários
+
+```{r}
+library("rmarkdown")
+library("phytools")
+library("RColorBrewer")
+library("ggplot2")
+library("cowplot")
+library("bbmle")
+library("diversitree")
+library("TreeSim")
+makeTransparent<-function(someColor,alpha=10){
+    newColor<-col2rgb(someColor)
+    apply(newColor,2,function(curcoldata){
+    rgb(red=curcoldata[1],green=curcoldata[2],blue=curcoldata[3],
+        alpha=alpha,maxColorValue=255)
+    })
+}
+pal <- brewer.pal(n = 5, "Set1")
+
+```
+
+# Estimando taxas "na unha"
+
+## Pure Birth
+
+Vamos iniciar simulando uma árvore sob um modelo simples de Pure Birth. Usaremos um valor alto para o número de espécies para que a estimativa das taxas seja precisa, mas posteriormente veremos como o tamanho da árvore impacta nessas estimativas.
+
+```{r eval = FALSE}
+set.seed(42)
+sim.time <- 30
+tree.pb <- sim.bd.age(age = sim.time, numbsim = 1, lambda = 0.2, mu = 0, complete = FALSE)[[1]]
+obj <- ltt(tree.pb)
+plotTree(tree.pb, color = makeTransparent("blue", alpha = 50), ftype = "off", add = TRUE, mar = par()$mar)
+
+```
+
+Se assumimos que o processo de diversificação pode ser descrito como um Processo de Poisson, então temos que a distribuição dos tempos de espera entre sucessivos eventos de especiação deve obedecer a uma distribuição exponencial. Vamos dar uma olhada nesses tempos de espera de nossa filogenia. Além disso, vamos plotar também as curvas esperadas por uma distribuição exponencial com diferentes valores de parâmetros.
+
+```{r eval = FALSE}
+wt.pb <- diff(sort(branching.times(tree.pb)))
+
+hist(wt.pb, freq = FALSE, breaks = 100, main = "Histograma de Branching Times", xlab = "Branching Times", ylab = "Densidade")
+curve(dexp(x, rate = (0.2 * sum(tree.pb$edge.length))/max(wt.pb)), col = pal[1], lwd = 2, lty = 2, add = TRUE)
+curve(dexp(x, rate = (0.4 * sum(tree.pb$edge.length))/max(wt.pb)), col = pal[2], lwd = 2, lty = 2, add = TRUE)
+curve(dexp(x, rate = (1 * sum(tree.pb$edge.length))/max(wt.pb)), col = pal[3], lwd = 2, lty = 2, add = TRUE)
+curve(dexp(x, rate = (0.05 * sum(tree.pb$edge.length))/max(wt.pb)), col = pal[4], lwd = 2, lty = 2, add = TRUE)
+curve(dexp(x, rate = (0.01 * sum(tree.pb$edge.length))/max(wt.pb)), col = pal[5], lwd = 2, lty = 2, add = TRUE)
+
+```
+
+Dando um zoom no gráfico, para identificarmos melhor as expectativas das distribuições teóricas com diferentes valores de parâmetro:
+
+
+```{r eval = FALSE}
+hist(wt.pb, freq = FALSE, breaks = 100, xlim = c(0, 2), ylim = c(0, 2), main = "Histograma de Branching Times", xlab = "Branching Times", ylab = "Densidade")
+curve(dexp(x, rate = (0.2 * sum(tree.pb$edge.length))/max(wt.pb)), col = pal[1], lwd = 3, lty = 2, add = TRUE)
+curve(dexp(x, rate = (0.4 * sum(tree.pb$edge.length))/max(wt.pb)), col = pal[2], lwd = 3, lty = 2, add = TRUE)
+curve(dexp(x, rate = (1 * sum(tree.pb$edge.length))/max(wt.pb)), col = pal[3], lwd = 3, lty = 2, add = TRUE)
+curve(dexp(x, rate = (0.05 * sum(tree.pb$edge.length))/max(wt.pb)), col = pal[4], lwd = 3, lty = 2, add = TRUE)
+curve(dexp(x, rate = (0.01 * sum(tree.pb$edge.length))/max(wt.pb)), col = pal[5], lwd = 3, lty = 2, add = TRUE)
+```
+
+Notamos no exemplo acima que é difícil (pra não dizer impossível) estimar qual o valor de parâmetro que melhor se ajustaria à distribuição empírica. Sendo assim, precisamos de uma maneira de quantificar esse ajuste. Para isso, utilizaremos a função de verossimilhança e a usaremos para buscar qual valor de parâmetro provê o melhor ajuste (ou seja, minimiza/maximiza essa função).
+
+
+```{r eval = FALSE}
+## Criando a função de verossimilhança
+llik.lambda <- function(lambda){
+    -sum(dexp(wt.pb, rate = lambda, log = TRUE))
+    }
+```
+
+É importante notar algumas características da função acima. Como mencionado na aula teórica, o produto das probabilidades associadas a cada um dos valores se torna um número **muito** pequeno **muito** rapidamente. Esses números costumam ser tão pequenos que fogem à precisão que a maioria dos computadores possui (que geralmente reside na casa de $10^{-16}$). Por isso, calculamos o logaritmo natural dessas probabilidades (mas poderia ser em qualquer outra base), e como algebricamente o logaritmo do produto de uma série de números é igual à soma dos logaritmos desses números, calculamos o somatório das log verossimilhanças ao invés do produtório. Por fim, como por definição probabilidades são números entre 0 e 1, os logaritmos dessas probabilidades serão obrigatoriamente negativos, e portanto utilizamos o oposto da soma (isso não é necessário, é só um costume).
+
+Podemos usar a função que criamos acima para calcular a log Verossimilhança negativa de diferentes valores do parâmetro:
+
+```{r eval = FALSE}
+## Calculando a verossimilhança de alguns valores de lambda
+llik.lambda(0.01)
+llik.lambda(0.1)
+llik.lambda(0.2)
+llik.lambda(0.4)
+llik.lambda(1)
+
+```
+
+Esse procedimento (de testar diferentes valores) é o correto, mas não é nem um pouco prático, especialmente quando usamos distribuições mais complexas (com um maior número de parâmetros). Precisamos então usar funções de otimização, que nada mais são que "robôs" que vão fazer o trabalho por nós de maneira muito mais precisa e eficiente. Um dos pacotes mais utilizados (ao menos em Ecologia) é o pacote `bbmle`, criado por Ben Bolker. Ele é autor de um [ótimo livro](http://ecologia.ib.usp.br/bie5782/lib/exe/fetch.php?media=bie5782:pdfs:bolker2008.pdf) sobre o uso de modelos em ecologia.
+
+No nosso caso em específico, usaremos a função `mle2` (de **M**aximum **L**ikelihood **E**stimation). Essa função necessita de dois elementos: uma função a ser maximizada/minimizada e uma lista com os valores iniciais dos parâmetros a serem estimados. A escolha desses valores iniciais pode ser problemática (especialmente as que possuem muitos parâmetros ou superfícies de verossimilhança muito planas), porém felizmente esse não é nosso caso no momento. O otimizador aceita outros argumentos como o método de otimização, além de outros parâmetros para checagem de convergência por exemplo, mas caso queiram saber mais detalhes consultem o (bom) help da função.
+
+Vamos então colocar o otimizador para funcionar. Passaremos para a função um valor inicial do parâmetro de 0.1, que é um valor de taxa na ordem de grandeza das taxas estimadas para árvores empíricas. Isso já é suficiente para que o nosso otimizador não fique preso em mínimos locais.
+
+```{r eval = FALSE}
+## Usando um otimizador para buscar o estimador de máxima verossimilhança de lambda
+fit.pb <- mle2(llik.lambda, start = list(lambda = 0.1))
+
+fit.pb
+```
+
+> O valor estimado do parâmetro é bem diferente do que usamos para simular a árvore. O que o valor estimado no passo anterior representa? Se multiplicarmos esse valor pela idade da árvore simulada, o que obtemos? Sugira um modo de confirmar sua resposta à essa última pergunta.
+
+Como vimos na aula teórica, ao tentarmos estimar as taxas de diversificação a partir de uma filogenia molecular ajustando os tempos de espera a uma distribuição exponencial, é necessário fazer ~~um truque matemágico~~ uma conversão para que a taxa estimada represente eventos por linhagem por milhão de anos.
+
+
+```{r eval = FALSE}
+fit.pb@coef * (30/sum(tree.pb$edge.length))
+```
+
+## Efeito do tamanho da árvore na precisão das estimativas
+
+Vamos agora avaliar brevemente como o tamanho da árvore (= número de espécies) afeta nossas estimativas. Para isso, vamos simular uma árvore com os mesmos parâmetros da árvore anterior, mas com uma menor duração.
+
+```{r eval = FALSE}
+set.seed(42)
+sim.time.short <- 15
+tree.pb.short <- sim.bd.age(age = sim.time.short, numbsim = 1, lambda = 0.2, mu = 0, complete = FALSE)[[1]]
+obj <- ltt(tree.pb.short)
+plotTree(tree.pb.short, color = makeTransparent("blue", alpha = 50), ftype = "off", add = TRUE, mar = par()$mar)
+
+```
+
+Vamos repetir os passos anteriores com a nova árvore:
+
+```{r eval = FALSE}
+wt.pb.short <- diff(sort(branching.times(tree.pb.short)))
+
+llik.lambda.short <- function(lambda){
+    -sum(dexp(wt.pb.short, rate = lambda, log = TRUE))
+    }
+
+fit.pb.short <- mle2(llik.lambda.short, start = list(lambda = 0.1))
+
+fit.pb.short@coef * (15/sum(tree.pb.short$edge.length))
+```
+
+> Cite duas possíveis justificativas para as estimativas em árvores pequenas serem piores que para árvores maiores.
+
+# Birth Death
+
+## Registro Fóssil
+
+Em um cenário de taxas constantes e assumindo um registro fóssil perfeito, estimar tanto as taxas de especiação quanto as de extinção segue o mesmo raciocínio mostrado acima, calculando os tempos de espera entre eventos sucessivos do mesmo tipo (entre especiações sucessivas ou entre extinções sucessivas). É  possível repetir o procedimento acima usando os dados da filogenia completa (com as espécies extintas), tratando as espécies que se extinguiram como o registro fóssil do grupo (afinal, elas representam exatamente o registro fóssil perfeito do grupo). Caso você se sinta confortável, tente adaptar o código acima para estimar as taxas de extinção!
+
+## Filogenias moleculares
+
+O primeiro passo é obviamente simular uma filogenia em um cenário de birth death. Vamos usar taxas relativamente altas de especiação e extinção afim de facilitar a visualização e explicação do raciocínio.
+
+```{r eval = FALSE}
+set.seed(42)
+sim.time <- 20
+tree.bd <- sim.bd.age(age = sim.time, numbsim = 1, lambda = 0.4, mu = 0.1, complete = FALSE, mrca = TRUE)[[1]]
+obj <- ltt(tree.bd)
+plotTree(tree.bd, color = makeTransparent("blue", alpha = 50), ftype = "off", add = TRUE, mar=par()$mar)
+
+```
+
+Como mencionado na aula teórica, os LTT plots de árvores resultantes de um processo birth death costumam apresentar o *pull of the present*, que é um aumento na inclinação da reta próximo ao presente. Esse *pull of the present* é mais acentuado quando a taxa de extinção é alta, como na simulação abaixo:
+
+```{r eval = FALSE}
+set.seed(42)
+#sim.time <- 30
+tree.bd.examp <- tree.bd
+obj <- ltt(tree.bd.examp, col = 2, lwd = 4)
+plotTree(tree.bd.examp, color = makeTransparent("blue", alpha = 50), ftype = "off", add = TRUE, mar=par()$mar)
+
+```
+
+Essa diferença de inclinação é causada pelas espécies que se originaram próximas ao presente e que ainda não tiveram tempo suficiente para se extinguirem. Desta forma os waiting times próximos ao presente são dominados primordialmente somente pela especiação. Sendo assim, podemos arbitrariamente (porém com palpites embasados) “quebrar” o LTT plot em duas partes: a primeira com uma inclinação menor que é proporcional à diversificação líquida (especiação - extinção), e a segunda com uma inclinação maior que é proporcional somente à especiação.
+
+```{r eval = FALSE, echo = FALSE}
+obj <- ltt(tree.bd.examp, log = "y", log.lineages = FALSE)
+lines(x = seq(0, 19, length.out = 100), y = 2 *  exp(0.3 * seq(0, 19, length.out = 100)), col = 2, lwd = 3)
+lines(x = seq(19, 20, length.out = 100), y = 2 * exp(0.3 * 19) * exp(0.3 * seq(0, 2, length.out = 100)), col = 3, lwd = 3)
+legend("bottom", legend = c("Net Diversification", "Especiação"), col = 2:3, lwd = 2)
+
+```
+
+Vamos então quebrar a árvore nessas duas fases do processo. Visualmente é bastante difícil precisar onde exatamente o *pull of the present* começa. No entanto, sabemos que a longevidade média de uma espécie é o inverso da taxa de extinção ($1/\mu$). Para sermos bem conservadores e eliminar o período de transição entre os dois momentos, vamos pegar apenas os últimos 10% do *pull of the present*
+
+No nosso caso, com a taxa de 0.1 que usamos na simulação, a longevidade média das linhagens é de 10 milhões de anos. Vamos então obter e ordenar os tempos de espera da filogenia, e depois separá-los em dois grupos: o grupo de eventos que acontece durante o *pull of the present* (último 1 milhão de anos)e os que acontecem anteriormente a ele.
+
+```{r eval = FALSE}
+## Obtendo os branching times
+bt.bd <- sort(branching.times(tree.bd))
+
+## Separando nos dois grupos
+bt.potp <- bt.bd[which(bt.bd <= 1)]
+bt.backg <- bt.bd[which(bt.bd > 1)]
+```
+
+O procedimento agora é similar ao que fizemos na seção anterior: calcularemos os tempos de espera, criaremos as funções de verossimilhança e usaremos um otimizador para estimar os parâmetros que maximizam essa função.
+
+```{r eval = FALSE}
+wt.potp <- diff(bt.potp)
+wt.backg <- diff(bt.backg)
+
+llik.potp <- function(lambda){
+    -sum(dexp(wt.potp, rate = lambda, log = TRUE))
+}
+
+llik.backg <- function(netdiv){
+    -sum(dexp(wt.backg, rate = netdiv, log = TRUE))
+}
+
+fit.potp <- mle2(llik.potp, start = list(lambda = 0.5))
+fit.backg <- mle2(llik.backg, start = list(netdiv = 0.5))
+
+```
+
+Assim como no caso anterior, o valor de parâmetro estimado não representa exatamente a taxa que usamos para simular. A mesma transformação deve ser feita, porém respeitando os intervalos de tempo.
+
+```{r eval = FALSE}
+## Obtendo a soma das durações das espécies antes do pull of the present
+tree.backg <- treeSlice(tree.bd, slice = sim.time - 1, orientation = "rootwards")
+
+## Obtendo o tempo total das linhagens para a árvore completa
+tot.time.full <- sum(tree.bd$edge.length)
+
+## Obtendo o tempo total das linhagens antes do pull of the present
+tot.time.backg <- sum(tree.backg$edge.length)
+
+## Obtendo o tempo total das linhagens durante o pull of the present
+tot.time.potp <- tot.time.full - tot.time.backg
+
+## Convertendo os parâmetros estimados para as taxas
+### Pull of the Present
+fit.potp@coef * 1/tot.time.potp
+
+### Background
+fit.backg@coef * (sim.time - 1)/tot.time.backg
+
+```
+
+> Compare os resultados acima com as estimativas de lambda obtidas na primeira seção. O que é possível dizer sobre o papel da extinção na estimativa das taxas em filogenias moleculares? Além disso, como que você espera que seja a precisão das estimativas das taxas para o registro fóssil?
+
+	
+# Passo a passo da likelihood de um birth-death
+
+Usando o *pruning algorithm* de Felsenstein, é possível obter uma expressão de verossimilhança que considera as taxas de especiação e extinção separadamente para uma filogenia (ver abaixo e slides da aula teórica). De maneira similar às seções anteriores, essa expressão também pode ser otimizada, gerando valores de parâmetros que maximizam a probabilidade de observarmos nossos dados (nesse caso, a filogenia com sua topologia, comprimentos de ramo e, consequentemente, os tempos de espera entre eventos).
+
+## Originação
+
+\begin{equation}
+\frac{dD_N (t)}{dt} = \color{orange}{ -( \lambda + \mu ) D_N (t)} + \color{teal}{2 \lambda E(t) D_N (t)}
+\end{equation}
+
+Onde:
+
+* Probabilidade de nada acontecer em $\delta t$ (parte laranja)
+
+* Probabilidade de uma linhagem especiar em $\delta t$ condicionada a uma das espécies descendentes se extinguir (parte azul)
+
+
+## Extinção
+
+\begin{equation}
+\frac{dE (t)}{dt} = \color{red}{\mu} \color{orange}{ - (\mu + \lambda) E (t)} \color{teal}{ + 2 \lambda E(t)^2}
+\end{equation}
+
+* Probabilidade de a linhagem se extinguir no $\delta t$ (parte vermelha)
+
+* Probabilidade de a linhagem sobreviver à esse $\delta t$ mas se extinguir posteriormente (parte laranja)
+
+* Probabilidade de a linhagem especiar no $\delta t$ e ambas as linhagens descendentes se extinguirem (parte azul)
+
+
+## Expressão de Verossimilhança para a filogenia
+
+\begin{equation}
+L (\tau) = (n - 1)! \frac{\lambda^{n-2} \bigg[ \displaystyle\prod_{k = 1}^{2n - 2} e^{(\lambda - \mu) (t_{k,b} - t_{k,t})} . \frac{(\lambda - (\lambda - \mu) e^{(\lambda - \mu)t_{k,t}})^2}{(\lambda - (\lambda - \mu) e^{(\lambda - \mu)t_{k,b}})^2} \bigg] }{[1 - E (t_{root})]^2}
+
+onde:
+
+E(t_{root}) = 1 - \frac{\lambda - \mu}{\lambda - (\lambda - \mu) e^{(\lambda - \mu) t_{root}}}
+\end{equation}
+
+# Estimando $\lambda$ e $\mu$
+
+Usaremos a mesma árvore simulada no passo anterior para as próximas etapas. Diversos pacotes de R possuem funções prontas tanto para calcular a verossimilhança de filogenias sob modelos birth death quanto para estimar os parâmetros dessas funções de verossimilhança. Nos passos a seguir, emularemos o que acontece dentro de uma função que estima os melhores valores das taxas. Por simplicidade, vamos inicialmente fixar os valores de extinção em 0 e posteriormente relaxaremos essa limitação.
+
+O primeiro passo é calcular a verossimilhança associada a cada um dos valores possíveis de $\lambda$. Para os passos a seguir, usaremos uma função chamada `lik.bd` que pertence ao ótimo pacote [*phytools*](http://www.phytools.org/). Posteriormente, usaremos também o otimizador desse pacote (função `find.mle`).
+
+```{r eval = FALSE}
+lambda.est <- c()
+for(i in 1:200){
+    lambda.est <- c(lambda.est,
+                    lik.bd(theta = c(seq(0, 2, length.out = 200)[i], 0),
+                           branching.times(tree.bd),
+                           rho = 1, ## porcentagem de espécies totais do grupo presentes na filogenia
+                           N = Ntip(tree.bd) ## número de espécies da filogenia
+                           ))
+    }    
+```
+
+```{r eval = FALSE}
+plot(x = seq(0, 2, length.out = 200), y = lambda.est, xlab = "Lambda", ylab = "Log-Likelihood", type = "l", lwd = 2)
+```
+
+Vamos acrescentar uma linha que nos auxilie a visualizar o melhor valor de $\lambda$ nesse caso.
+
+```{r eval = FALSE}
+plot(x = seq(0, 2, length.out = 200), y = lambda.est, xlab = "Lambda", ylab = "Log-Likelihood", type = "l", lwd = 2)
+abline(v = 0.4, col = 2, lty = 2, lwd = 2)
+legend("bottomright", legend = "Lambda Simulado", col = 2, lwd = 2, lty = 2)
+```
+
+É possível notar no gráfico que a linha do valor simulado não está exatamente no ponto mais baixo da curva, que representa o valor de $\lambda$ que maximiza a verossimilhança da árvore simulada (lembrando que a extinção ainda está fixada em 0).
+
+
+```{r eval = FALSE}
+plot(x = seq(0, 2, length.out = 200), y = lambda.est, xlab = "Lambda", ylab = "Log-Likelihood", type = "l", lwd = 2)
+abline(v = 0.4, col = 2, lty = 2, lwd = 2)
+abline(v = seq(0, 2, length.out = 200)[which.min(lambda.est)], col = 3, lty = 2, lwd = 2)
+legend("bottomright", legend = c("Lambda Simulado", "Lambda Estimado - Mu = 0"), col = 2:3, lwd = 2, lty =  2)
+```
+
+> Nota-se no gráfico acima que o valor de $\lambda$ estimado é menor que o valor simulado. Como você explicaria essa diferença?
+
+Para que possamos estimar corretamente os valores de $\lambda$ e $\mu$, devemos testar todas as possíveis combinações de valores para esses dois parâmetros. Fazer isso "na mão" é difícil e leva tempo, portanto faremos agora para apenas 3 diferentes valores de $\mu$ para termos uma ideia de como as estimativas se comportam.
+
+```{r eval = FALSE}
+lambda.est.mu1 <- c()
+lambda.est.mu2 <- c()
+lambda.est.mu3 <- c()
+for(i in 1:200){
+    lambda.est.mu1 <- c(lambda.est.mu1,
+                        lik.bd(theta = c(seq(0, 2, length.out = 200)[i], 0.05),
+                               branching.times(tree.bd),
+                               rho = 1,
+                               N = Ntip(tree.bd)))
+}
+for(i in 1:200){
+    lambda.est.mu2 <- c(lambda.est.mu2,
+                        lik.bd(theta = c(seq(0, 2, length.out = 200)[i], 0.1),
+                               branching.times(tree.bd),
+                               rho = 1,
+                               N = Ntip(tree.bd)))
+}
+for(i in 1:200){
+    lambda.est.mu3 <- c(lambda.est.mu3,
+                        lik.bd(theta = c(seq(0, 2, length.out = 200)[i], 0.15),
+                               branching.times(tree.bd),
+                               rho = 1,
+                               N = Ntip(tree.bd)))
+}
+
+plot(x = seq(0, 2, length.out = 200), y = lambda.est, xlab = "Lambda", ylab = "Log-Likelihood", type = "l", lwd = 2, ylim = c(-3500, -2500), xlim = c(0, 1))
+lines(x = seq(0, 2, length.out = 200), y = lambda.est.mu1, lwd = 2, col = "darkgrey")
+lines(x = seq(0, 2, length.out = 200), y = lambda.est.mu2, lwd = 2, col = "grey")
+lines(x = seq(0, 2, length.out = 200), y = lambda.est.mu3, lwd = 2, col = "lightgrey")
+abline(h = min(lambda.est, na.rm = TRUE), col = 2, lty = 2, lwd = 2)
+abline(h = min(lambda.est.mu1), col = "darkgrey", lty = 2, lwd = 2)
+abline(h = min(lambda.est.mu2), col = "grey", lty = 2, lwd = 2)
+abline(h = min(lambda.est.mu3), col = "lightgrey", lty = 2, lwd = 2)
+abline(v = seq(0, 2, length.out = 200)[which.min(lambda.est)], col = 2, lty = 2, lwd = 2)
+abline(v = seq(0, 2, length.out = 200)[which.min(lambda.est.mu1)], col = "darkgrey", lty = 2, lwd = 2)
+abline(v = seq(0, 2, length.out = 200)[which.min(lambda.est.mu2)], col = "grey", lty = 2, lwd = 2)
+abline(v = seq(0, 2, length.out = 200)[which.min(lambda.est.mu3)], col = "lightgrey", lty = 2, lwd = 2)
+legend("bottomright", legend = c("Extinção = 0", "Extinção = 0.05", "Extinção = 0.1", "Extinção = 0.15"), col = 2:5, lwd = 2, lty = 2)
+
+```
+
+O mesmo procedimento pode ser feito para as taxas de extinção. Testaremos 4 diferentes valores de $\lambda$ frente a vários de $\mu$.
+
+```{r eval = FALSE}
+mu.est <- c()
+for(i in 1:200){
+    mu.est <- c(mu.est,
+                    lik.bd(theta = c(0.4, seq(0, 1, length.out = 200)[i]),
+                           branching.times(tree.bd),
+                           rho = 1,
+                           N = Ntip(tree.bd)))
+    }    
+
+mu.est.mu1 <- c()
+mu.est.mu2 <- c()
+mu.est.mu3 <- c()
+for(i in 1:200){
+    mu.est.mu1 <- c(mu.est.mu1,
+                        lik.bd(theta = c(0.3, seq(0, 1, length.out = 200)[i]),
+                               branching.times(tree.bd),
+                               rho = 1,
+                               N = Ntip(tree.bd)))
+}
+for(i in 1:200){
+    mu.est.mu2 <- c(mu.est.mu2,
+                        lik.bd(theta = c(0.2, seq(0, 1, length.out = 200)[i]),
+                               branching.times(tree.bd),
+                               rho = 1,
+                               N = Ntip(tree.bd)))
+}
+for(i in 1:200){
+    mu.est.mu3 <- c(mu.est.mu3,
+                        lik.bd(theta = c(0.1, seq(0, 1, length.out = 200)[i]),
+                               branching.times(tree.bd),
+                               rho = 1,
+                               N = Ntip(tree.bd)))
+}
+
+plot(x = seq(0, 1, length.out = 200), y = mu.est, xlab = "Mu", ylab = "Log-Likelihood", type = "l", lwd = 2)#, ylim = c(-350, -290), xlim = c(0.1, 0.4))
+lines(x = seq(0, 1, length.out = 200), y = mu.est.mu1, lwd = 2, col = "darkgrey")
+lines(x = seq(0, 1, length.out = 200), y = mu.est.mu2, lwd = 2, col = "grey")
+lines(x = seq(0, 1, length.out = 200), y = mu.est.mu3, lwd = 2, col = "lightgrey")
+abline(h = min(mu.est, na.rm = TRUE), col = 1, lty = 2, lwd = 2)
+abline(h = min(mu.est.mu1), col = "darkgrey", lty = 2, lwd = 2)
+abline(h = min(mu.est.mu2), col = "grey", lty = 2, lwd = 2)
+abline(h = min(mu.est.mu3), col = "lightgrey", lty = 2, lwd = 2)
+abline(v = seq(0, 1, length.out = 200)[which.min(mu.est)], col = 1, lty = 2, lwd = 2)
+abline(v = seq(0, 1, length.out = 200)[which.min(mu.est.mu1)], col = "darkgrey", lty = 2, lwd = 2)
+abline(v = seq(0, 1, length.out = 200)[which.min(mu.est.mu2)], col = "grey", lty = 2, lwd = 2)
+abline(v = seq(0, 1, length.out = 200)[which.min(mu.est.mu3)], col = "lightgrey", lty = 2, lwd = 2)
+legend("top", legend = c("Especiação = 0.4", "Especiação = 0.3", "Especiação = 0.2", "Especiação = 0.1"), col = c("black", "darkgrey", "grey", "lightgrey"), lwd = 2, lty = 2)
+
+```
+
+Como mencionado no início da seção, nos últimos passos simulamos (de maneira até certo ponto grosseira)  o processo de estimativa de $\lambda$ e $\mu$ para uma filogenia molecular. Vamos agora criar uma função de verossimilhança completa para a árvore, e também utilizaremos um otimizador para varrer todo o espaço de parâmetros das duas taxas simultaneamente para estimar a melhor combinação (ou seja, a combinação de $\lambda$ e $\mu$ que maximiza a probabilidade de observarmos a árvore).
+
+```{r eval = FALSE}
+lik.bd.foo <- make.bd(tree.bd, sampling.f = 1)
+mle.bd <- find.mle(lik.bd.foo, x.init = c(0.1, 0.1), method = "optim", lower = 0)
+
+mle.bd$par
+
+```
+
+> Compare os valores estimados acima com os obtidos na estimativa "na unha" que fizemos anteriormente. Os valores estimados obtidos "na unha" parecem ser ligeiramente mais próximos aos valores simulados. Você consegue explicar por que? (Uma dica: leve em consideração como fizemos para separar os dados em dois conjuntos, um para estimar a diversificação líquida e um para estimar a especiação).
