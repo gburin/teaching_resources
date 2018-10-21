@@ -1,4 +1,4 @@
-baseURL = "http://resources.gburin.com/"
+baseURL = "https://resources.gburin.com/"
 languageCode = "en-us"
 title = "Materiais de aulas"
 theme = "hyde"
