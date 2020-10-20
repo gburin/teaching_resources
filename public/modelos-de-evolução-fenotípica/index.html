@@ -3,7 +3,7 @@
 <head>
   <link href="//gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.48" />
+  <meta name="generator" content="Hugo 0.59.1" />
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,10 +11,10 @@
   <title>Modelos de Evolução Fenotípica &middot; Materiais de aulas</title>
 
   
-  <link type="text/css" rel="stylesheet" href="/css/print.css" media="print">
-  <link type="text/css" rel="stylesheet" href="/css/poole.css">
-  <link type="text/css" rel="stylesheet" href="/css/syntax.css">
-  <link type="text/css" rel="stylesheet" href="/css/hyde.css">
+  <link type="text/css" rel="stylesheet" href="https://resources.gburin.com/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="https://resources.gburin.com/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="https://resources.gburin.com/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="https://resources.gburin.com/css/hyde.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
 
 
@@ -32,7 +32,7 @@
   <aside class="sidebar">
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
-      <a href="/"><h1>Materiais de aulas</h1></a>
+      <a href="https://resources.gburin.com/"><h1>Materiais de aulas</h1></a>
       <p class="lead">
        Tutoriais e Exercícios 
       </p>
@@ -40,12 +40,12 @@
 
     <nav>
       <ul class="sidebar-nav">
-        <li><a href="/">Home</a> </li>
+        <li><a href="https://resources.gburin.com/">Home</a> </li>
         
       </ul>
     </nav>
 
-    <p>&copy; 2018. All rights reserved. </p>
+    <p>&copy; 2020. All rights reserved. </p>
   </div>
   <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
@@ -63,14 +63,18 @@
     <div class="post">
   <h1>Modelos de Evolução Fenotípica</h1>
   <time datetime=2018-10-03T00:00:00Z class="post-date">Wed, Oct 3, 2018</time>
-  <pre class="r"><code>library(&quot;ape&quot;)
+  
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<pre class="r"><code>library(&quot;ape&quot;)
 library(&quot;phytools&quot;)
 library(&quot;OUwie&quot;)
 library(&quot;OUwie&quot;)
 library(&quot;ggplot2&quot;)
 library(&quot;cowplot&quot;)
 library(&quot;picante&quot;)</code></pre>
-<div id="metodos-de-evolucao-fenotipica" class="section level1">
+<div id="métodos-de-evolução-fenotípica" class="section level1">
 <h1>Métodos de Evolução Fenotípica</h1>
 <p>Como mencionamos na aula teórica, apesar de os modelos xxSSE estimarem taxas de transição entre os estados de um caráter, esses modelos integram sobre todas as possibilidades de configurações de eventos de transição. Sendo assim, eles não podem ser usados como modelos de reconstrução de estado ancestral por exemplo. Para isso, existem diversos modelos que foram desenvolvidos especificamente para esse fim. Apesar de compartilharem um “esqueleto” matemático com as transições dos modelos xxSSE (<a href="https://en.wikipedia.org/wiki/Markov_chain" target="_blank">os famosos modelos Mk</a>), os modelos de evolução fenotípica desconsideram as taxas de especiação e extinção.</p>
 <div id="stochastic-mapping-simmap" class="section level2">

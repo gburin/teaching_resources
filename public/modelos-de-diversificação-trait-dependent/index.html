@@ -3,7 +3,7 @@
 <head>
   <link href="//gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.48" />
+  <meta name="generator" content="Hugo 0.59.1" />
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,10 +11,10 @@
   <title>Modelos de Diversificação Trait Dependent &middot; Materiais de aulas</title>
 
   
-  <link type="text/css" rel="stylesheet" href="/css/print.css" media="print">
-  <link type="text/css" rel="stylesheet" href="/css/poole.css">
-  <link type="text/css" rel="stylesheet" href="/css/syntax.css">
-  <link type="text/css" rel="stylesheet" href="/css/hyde.css">
+  <link type="text/css" rel="stylesheet" href="https://resources.gburin.com/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="https://resources.gburin.com/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="https://resources.gburin.com/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="https://resources.gburin.com/css/hyde.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
 
 
@@ -32,7 +32,7 @@
   <aside class="sidebar">
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
-      <a href="/"><h1>Materiais de aulas</h1></a>
+      <a href="https://resources.gburin.com/"><h1>Materiais de aulas</h1></a>
       <p class="lead">
        Tutoriais e Exercícios 
       </p>
@@ -40,12 +40,12 @@
 
     <nav>
       <ul class="sidebar-nav">
-        <li><a href="/">Home</a> </li>
+        <li><a href="https://resources.gburin.com/">Home</a> </li>
         
       </ul>
     </nav>
 
-    <p>&copy; 2018. All rights reserved. </p>
+    <p>&copy; 2020. All rights reserved. </p>
   </div>
   <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
@@ -63,7 +63,11 @@
     <div class="post">
   <h1>Modelos de Diversificação Trait Dependent</h1>
   <time datetime=2018-09-24T00:00:00Z class="post-date">Mon, Sep 24, 2018</time>
-  <div id="carregando-os-pacotes-necessarios" class="section level1">
+  
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<div id="carregando-os-pacotes-necessários" class="section level1">
 <h1>Carregando os pacotes necessários</h1>
 <pre class="r"><code>library(&quot;phytools&quot;)
 library(&quot;diversitree&quot;)
@@ -161,7 +165,7 @@ plotTree.wBars(prim.tree, mass, type = &quot;fan&quot;, col = brewer.pal(4, &quo
 mass.sd &lt;- 1/50
 
 sp.quasse &lt;- starting.point.quasse(prim.tree, mass)</code></pre>
-<div id="definindo-funcoes-de-relacao-entre-trait-e-taxas" class="section level2">
+<div id="definindo-funções-de-relação-entre-trait-e-taxas" class="section level2">
 <h2>Definindo funções de relação entre trait e taxas</h2>
 <pre class="r"><code>## Funções de ajuda para poupar trabalho
 make.primates &lt;- function(lambda, mu){

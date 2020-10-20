@@ -12,6 +12,7 @@ output:
     self_contained: true
 ---
 
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
 <p>Carregando os pacotes necessários</p>
@@ -23,10 +24,12 @@ library(&quot;phytools&quot;)</code></pre>
 library(&quot;ggplot2&quot;)
 library(&quot;cowplot&quot;)</code></pre>
 <pre><code>## 
-## Attaching package: &#39;cowplot&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
-## 
-##     ggsave</code></pre>
+## ********************************************************</code></pre>
+<pre><code>## Note: As of version 1.0.0, cowplot does not change the</code></pre>
+<pre><code>##   default ggplot2 theme anymore. To recover the previous</code></pre>
+<pre><code>##   behavior, execute:
+##   theme_set(theme_cowplot())</code></pre>
+<pre><code>## ********************************************************</code></pre>
 <pre class="r"><code>library(&quot;bbmle&quot;)</code></pre>
 <pre><code>## Loading required package: stats4</code></pre>
 <pre class="r"><code>library(&quot;diversitree&quot;)
@@ -92,7 +95,7 @@ fit.pb</code></pre>
 <p>Como vimos na aula teórica, ao tentarmos estimar as taxas de diversificação a partir de uma filogenia molecular ajustando os tempos de espera a uma distribuição exponencial, é necessário fazer <del>um truque matemágico</del> uma conversão para que a taxa estimada represente eventos por linhagem por milhão de anos.</p>
 <pre class="r"><code>fit.pb@coef * (30/sum(tree.pb$edge.length))</code></pre>
 </div>
-<div id="efeito-do-tamanho-da-arvore-na-precisao-das-estimativas" class="section level2">
+<div id="efeito-do-tamanho-da-árvore-na-precisão-das-estimativas" class="section level2">
 <h2>Efeito do tamanho da árvore na precisão das estimativas</h2>
 <p>Vamos agora avaliar brevemente como o tamanho da árvore (= número de espécies) afeta nossas estimativas. Para isso, vamos simular uma árvore com os mesmos parâmetros da árvore anterior, mas com uma menor duração.</p>
 <pre class="r"><code>set.seed(42)
@@ -117,7 +120,7 @@ fit.pb.short@coef * (15/sum(tree.pb.short$edge.length))</code></pre>
 </div>
 <div id="birth-death" class="section level1">
 <h1>Birth Death</h1>
-<div id="registro-fossil" class="section level2">
+<div id="registro-fóssil" class="section level2">
 <h2>Registro Fóssil</h2>
 <p>Em um cenário de taxas constantes e assumindo um registro fóssil perfeito, estimar tanto as taxas de especiação quanto as de extinção segue o mesmo raciocínio mostrado acima, calculando os tempos de espera entre eventos sucessivos do mesmo tipo (entre especiações sucessivas ou entre extinções sucessivas). É possível repetir o procedimento acima usando os dados da filogenia completa (com as espécies extintas), tratando as espécies que se extinguiram como o registro fóssil do grupo (afinal, elas representam exatamente o registro fóssil perfeito do grupo). Caso você se sinta confortável, tente adaptar o código acima para estimar as taxas de extinção!</p>
 </div>
@@ -185,7 +188,7 @@ fit.backg@coef * (sim.time - 1)/tot.time.backg</code></pre>
 <div id="passo-a-passo-da-likelihood-de-um-birth-death" class="section level1">
 <h1>Passo a passo da likelihood de um birth-death</h1>
 <p>Usando o <em>pruning algorithm</em> de Felsenstein, é possível obter uma expressão de verossimilhança que considera as taxas de especiação e extinção separadamente para uma filogenia (ver abaixo e slides da aula teórica). De maneira similar às seções anteriores, essa expressão também pode ser otimizada, gerando valores de parâmetros que maximizam a probabilidade de observarmos nossos dados (nesse caso, a filogenia com sua topologia, comprimentos de ramo e, consequentemente, os tempos de espera entre eventos).</p>
-<div id="originacao" class="section level2">
+<div id="originação" class="section level2">
 <h2>Originação</h2>
 <p><span class="math display">\[\begin{equation}
 \frac{dD_N (t)}{dt} = \color{orange}{ -( \lambda + \mu ) D_N (t)} + \color{teal}{2 \lambda E(t) D_N (t)}
@@ -196,7 +199,7 @@ fit.backg@coef * (sim.time - 1)/tot.time.backg</code></pre>
 <li><p>Probabilidade de uma linhagem especiar em <span class="math inline">\(\delta t\)</span> condicionada a uma das espécies descendentes se extinguir (parte azul)</p></li>
 </ul>
 </div>
-<div id="extincao" class="section level2">
+<div id="extinção" class="section level2">
 <h2>Extinção</h2>
 <p><span class="math display">\[\begin{equation}
 \frac{dE (t)}{dt} = \color{red}{\mu} \color{orange}{ - (\mu + \lambda) E (t)} \color{teal}{ + 2 \lambda E(t)^2}
@@ -207,7 +210,7 @@ fit.backg@coef * (sim.time - 1)/tot.time.backg</code></pre>
 <li><p>Probabilidade de a linhagem especiar no <span class="math inline">\(\delta t\)</span> e ambas as linhagens descendentes se extinguirem (parte azul)</p></li>
 </ul>
 </div>
-<div id="expressao-de-verossimilhanca-para-a-filogenia" class="section level2">
+<div id="expressão-de-verossimilhança-para-a-filogenia" class="section level2">
 <h2>Expressão de Verossimilhança para a filogenia</h2>
 <p><span class="math display">\[\begin{equation}
 L (\tau) = (n - 1)! \frac{\lambda^{n-2} \bigg[ \displaystyle\prod_{k = 1}^{2n - 2} e^{(\lambda - \mu) (t_{k,b} - t_{k,t})} . \frac{(\lambda - (\lambda - \mu) e^{(\lambda - \mu)t_{k,t}})^2}{(\lambda - (\lambda - \mu) e^{(\lambda - \mu)t_{k,b}})^2} \bigg] }{[1 - E (t_{root})]^2}

@@ -3,7 +3,7 @@
 <head>
   <link href="//gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.48" />
+  <meta name="generator" content="Hugo 0.59.1" />
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,10 +11,10 @@
   <title>Materiais de aulas</title>
 
   
-  <link type="text/css" rel="stylesheet" href="/css/print.css" media="print">
-  <link type="text/css" rel="stylesheet" href="/css/poole.css">
-  <link type="text/css" rel="stylesheet" href="/css/syntax.css">
-  <link type="text/css" rel="stylesheet" href="/css/hyde.css">
+  <link type="text/css" rel="stylesheet" href="https://resources.gburin.com/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="https://resources.gburin.com/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="https://resources.gburin.com/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="https://resources.gburin.com/css/hyde.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
 
 
@@ -23,7 +23,7 @@
   <link rel="shortcut icon" href="/favicon.png">
 
   
-  <link href="/index.xml" rel="alternate" type="application/rss+xml" title="Materiais de aulas" />
+  <link href="https://resources.gburin.com/index.xml" rel="alternate" type="application/rss+xml" title="Materiais de aulas" />
 
   
 </head>
@@ -32,7 +32,7 @@
   <aside class="sidebar">
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
-      <a href="/"><h1>Materiais de aulas</h1></a>
+      <a href="https://resources.gburin.com/"><h1>Materiais de aulas</h1></a>
       <p class="lead">
        Tutoriais e Exercícios 
       </p>
@@ -40,12 +40,12 @@
 
     <nav>
       <ul class="sidebar-nav">
-        <li><a href="/">Home</a> </li>
+        <li><a href="https://resources.gburin.com/">Home</a> </li>
         
       </ul>
     </nav>
 
-    <p>&copy; 2018. All rights reserved. </p>
+    <p>&copy; 2020. All rights reserved. </p>
   </div>
   <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
@@ -63,96 +63,10 @@
     <div class="posts">
 <article class="post">
   <h1 class="post-title">
-    <a href="/modelos-de-evolu%C3%A7%C3%A3o-fenot%C3%ADpica/">Modelos de Evolução Fenotípica</a>
+    <a href="https://resources.gburin.com/post/">Posts</a>
   </h1>
   <time datetime="2018-10-03T00:00:00Z" class="post-date">Wed, Oct 3, 2018</time>
-  library(&quot;ape&quot;) library(&quot;phytools&quot;) library(&quot;OUwie&quot;) library(&quot;OUwie&quot;) library(&quot;ggplot2&quot;) library(&quot;cowplot&quot;) library(&quot;picante&quot;) Métodos de Evolução Fenotípica Como mencionamos na aula teórica, apesar de os modelos xxSSE estimarem taxas de transição entre os estados de um caráter, esses modelos integram sobre todas as possibilidades de configurações de eventos de transição. Sendo assim, eles não podem ser usados como modelos de reconstrução de estado ancestral por exemplo. Para isso, existem diversos modelos que foram desenvolvidos especificamente para esse fim.
   
-  <div class="read-more-link">
-    <a href="/modelos-de-evolu%C3%A7%C3%A3o-fenot%C3%ADpica/">Read More…</a>
-  </div>
-  
-</article><article class="post">
-  <h1 class="post-title">
-    <a href="/an%C3%A1lises-de-diversifica%C3%A7%C3%A3o-utilizando-bamm-e-rpanda/">Análises de diversificação utilizando BAMM e RPANDA</a>
-  </h1>
-  <time datetime="2018-09-24T00:00:00Z" class="post-date">Mon, Sep 24, 2018</time>
-  library(&quot;BAMMtools&quot;) library(&quot;RPANDA&quot;) BAMM Baixando e instalando o BAMM BAMM (Bayesian Analysis of Macroevolutionary Mixtures) é um software que utiliza rjMCMC para modelar dinâmicas complexas de especiação, extinção e evolução fenotípica em filogenias. No entanto, o tutorial a seguir irá focar somente nas estimativas de taxas de especiação e extinção.
-O primeiro passo para usar o BAMM é baixar o arquivo executável disponível em website do programa. Para instalar o programa você deve seguir as instruções específicas ao seu sistema operacional no site.
-  
-  <div class="read-more-link">
-    <a href="/an%C3%A1lises-de-diversifica%C3%A7%C3%A3o-utilizando-bamm-e-rpanda/">Read More…</a>
-  </div>
-  
-</article><article class="post">
-  <h1 class="post-title">
-    <a href="/modelos-de-diversifica%C3%A7%C3%A3o-trait-dependent/">Modelos de Diversificação Trait Dependent</a>
-  </h1>
-  <time datetime="2018-09-24T00:00:00Z" class="post-date">Mon, Sep 24, 2018</time>
-  Carregando os pacotes necessários library(&quot;phytools&quot;) library(&quot;diversitree&quot;) library(&quot;picante&quot;) library(&quot;RColorBrewer&quot;) library(&quot;ggplot2&quot;) library(&quot;cowplot&quot;) library(&quot;qgraph&quot;)  MuSSE + Vipers Nesse tutorial vamos usar alguns dos modelos de trait-dependent speciation anad extinction, implementados no pacote diversitree. Para o exemplo do MuSSE (Multiple-State Speciation and Extinction) usaremos os dados de microhabitat e a filogenia de viperídeos usados em Alencar et al., 2017.
-Já para o exemplo que usa o QuaSSE (Quantitative State Speciation and Extinction) utilizaremos dados de massa corporal e a filogenia de primatas usadas no artigo que descreve o método.
-  
-  <div class="read-more-link">
-    <a href="/modelos-de-diversifica%C3%A7%C3%A3o-trait-dependent/">Read More…</a>
-  </div>
-  
-</article><article class="post">
-  <h1 class="post-title">
-    <a href="/estimativa-de-taxas-de-diversifica%C3%A7%C3%A3o/">Estimativa de Taxas de Diversificação</a>
-  </h1>
-  <time datetime="2018-09-21T00:00:00Z" class="post-date">Fri, Sep 21, 2018</time>
-  Carregando os pacotes necessários
-library(&quot;rmarkdown&quot;) library(&quot;phytools&quot;) ## Loading required package: ape ## Loading required package: maps library(&quot;RColorBrewer&quot;) library(&quot;ggplot2&quot;) library(&quot;cowplot&quot;) ## ## Attaching package: &#39;cowplot&#39; ## The following object is masked from &#39;package:ggplot2&#39;: ## ## ggsave library(&quot;bbmle&quot;) ## Loading required package: stats4 library(&quot;diversitree&quot;) library(&quot;TreeSim&quot;) ## Loading required package: geiger makeTransparent&lt;-function(someColor,alpha=10){ newColor&lt;-col2rgb(someColor) apply(newColor,2,function(curcoldata){ rgb(red=curcoldata[1],green=curcoldata[2],blue=curcoldata[3], alpha=alpha,maxColorValue=255) }) } pal &lt;- brewer.pal(n = 5, &quot;Set1&quot;) Estimando taxas “na unha” Pure Birth Vamos iniciar simulando uma árvore sob um modelo simples de Pure Birth.
-  
-  <div class="read-more-link">
-    <a href="/estimativa-de-taxas-de-diversifica%C3%A7%C3%A3o/">Read More…</a>
-  </div>
-  
-</article><article class="post">
-  <h1 class="post-title">
-    <a href="/visualiza%C3%A7%C3%A3o-de-dados-filogen%C3%A9ticos-e-f%C3%B3sseis-no-r---bie5751/">Visualização de dados filogenéticos e fósseis no R - BIE5751</a>
-  </h1>
-  <time datetime="2018-09-19T00:00:00Z" class="post-date">Wed, Sep 19, 2018</time>
-  Nesse tutorial, vamos relembrar os principais pontos da primeira aula, porém agora observando o que acontece “por trás dos panos” da ferramenta.
-O tutorial não contém nenhum muitos comentários sobre os códigos utilizados, pois a intenção aqui não é ser um tutorial de R, mas sim sobre macroevolução. Sendo assim, o tutorial foi escrito de maneira a simplesmente ser necessário copiar e colar os códigos e rodá-los no seu próprio computador.
-  
-  <div class="read-more-link">
-    <a href="/visualiza%C3%A7%C3%A3o-de-dados-filogen%C3%A9ticos-e-f%C3%B3sseis-no-r---bie5751/">Read More…</a>
-  </div>
-  
-</article><article class="post">
-  <h1 class="post-title">
-    <a href="/visualiza%C3%A7%C3%A3o-de-dados-filogen%C3%A9ticos-e-f%C3%B3sseis---bie5751/">Visualização de dados filogenéticos e fósseis - BIE5751</a>
-  </h1>
-  <time datetime="2018-09-17T00:00:00Z" class="post-date">Mon, Sep 17, 2018</time>
-  A ideia por trás desse tutorial é ter um primeiro contato com os tipos principais de dados usados em Macroevolução. Os exercícios propostos aqui serão retomados com maior detalhe no próximo tutorial, que será feito diretamente no R, então no momento não se preocupe em saber como as coisas são feitas, e busque só se familiarizar com os diferentes tipos de dados.
-Usaremos uma ferramenta interativa que permite a visualização instantânea e simplificada de comandos do R, usando o pacote shiny.
-  
-  <div class="read-more-link">
-    <a href="/visualiza%C3%A7%C3%A3o-de-dados-filogen%C3%A9ticos-e-f%C3%B3sseis---bie5751/">Read More…</a>
-  </div>
-  
-</article><article class="post">
-  <h1 class="post-title">
-    <a href="/tutorial-de-ggplot2/">Tutorial de ggplot2</a>
-  </h1>
-  <time datetime="2015-07-28T21:13:14-0500" class="post-date">Tue, Jul 28, 2015</time>
-  O pacote ggplot2 foi desenvolvido pelo Dr. Hadley Wickham (que desenvolveu diversos outros pacotes importantes para R como o (d)plyr por exemplo. Este pacote implementa uma nova maneira de criar gráficos a partir dos dados, trazendo o conceito de camadas (layers) para a sintaxe do R. Com esse novo conceito, surge também a necessidade de se organizar os dados de uma maneira que facilite a utilização da nova sintaxe. Para isso, os outros pacotes (como os já mencionados (d)plyr) foram desenvolvidos pelo Dr.
-  
-  <div class="read-more-link">
-    <a href="/tutorial-de-ggplot2/">Read More…</a>
-  </div>
-  
-</article><article class="post">
-  <h1 class="post-title">
-    <a href="/tutorial-de-ssh/">Tutorial de SSH</a>
-  </h1>
-  <time datetime="2015-07-28T14:05:19Z" class="post-date">Tue, Jul 28, 2015</time>
-  SSH é a sigla para &lsquo;Secure SHell&rsquo;, e é basicamente um protocolo de rede que permite computadores se conectarem via rede de forma a permitir que um computador execute comandos em unidades remotas de maneira segura (criptografada). Essa segurança é garantida por uma chave de segurança que é armazenada tanto em no computador local quanto na máquina remota. Além disso, na maioria das vezes esse acesso é somente autorizado através de senhas de acesso.
-  
-  <div class="read-more-link">
-    <a href="/tutorial-de-ssh/">Read More…</a>
-  </div>
   
 </article>
 </div>

@@ -1,32 +1,32 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tutorial on Materiais de aulas</title>
-    <link>/categories/tutorial/</link>
-    <description>Recent content in Tutorial on Materiais de aulas</description>
+    <title>tutorial on Materiais de aulas</title>
+    <link>https://resources.gburin.com/categories/tutorial/</link>
+    <description>Recent content in tutorial on Materiais de aulas</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 28 Jul 2015 21:13:14 -0500</lastBuildDate>
     
-	<atom:link href="/categories/tutorial/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://resources.gburin.com/categories/tutorial/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Tutorial de ggplot2</title>
-      <link>/tutorial-de-ggplot2/</link>
+      <link>https://resources.gburin.com/tutorial-de-ggplot2/</link>
       <pubDate>Tue, 28 Jul 2015 21:13:14 -0500</pubDate>
       
-      <guid>/tutorial-de-ggplot2/</guid>
-      <description>O pacote ggplot2 foi desenvolvido pelo Dr. Hadley Wickham (que desenvolveu diversos outros pacotes importantes para R como o (d)plyr por exemplo. Este pacote implementa uma nova maneira de criar gráficos a partir dos dados, trazendo o conceito de camadas (layers) para a sintaxe do R. Com esse novo conceito, surge também a necessidade de se organizar os dados de uma maneira que facilite a utilização da nova sintaxe. Para isso, os outros pacotes (como os já mencionados (d)plyr) foram desenvolvidos pelo Dr.</description>
+      <guid>https://resources.gburin.com/tutorial-de-ggplot2/</guid>
+      <description>Tutorial básico de uso do pacote ggplot2 (ainda em desenvolvimento)</description>
     </item>
     
     <item>
       <title>Tutorial de SSH</title>
-      <link>/tutorial-de-ssh/</link>
+      <link>https://resources.gburin.com/tutorial-de-ssh/</link>
       <pubDate>Tue, 28 Jul 2015 14:05:19 +0000</pubDate>
       
-      <guid>/tutorial-de-ssh/</guid>
-      <description>SSH é a sigla para &amp;lsquo;Secure SHell&amp;rsquo;, e é basicamente um protocolo de rede que permite computadores se conectarem via rede de forma a permitir que um computador execute comandos em unidades remotas de maneira segura (criptografada). Essa segurança é garantida por uma chave de segurança que é armazenada tanto em no computador local quanto na máquina remota. Além disso, na maioria das vezes esse acesso é somente autorizado através de senhas de acesso.</description>
+      <guid>https://resources.gburin.com/tutorial-de-ssh/</guid>
+      <description>Tutorial básico de SSH para acessar servidores remotos</description>
     </item>
     
   </channel>

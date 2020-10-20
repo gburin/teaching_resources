@@ -12,6 +12,7 @@ output:
     self_contained: true
 ---
 
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
 <pre class="r"><code>library(&quot;ape&quot;)
@@ -21,7 +22,7 @@ library(&quot;OUwie&quot;)
 library(&quot;ggplot2&quot;)
 library(&quot;cowplot&quot;)
 library(&quot;picante&quot;)</code></pre>
-<div id="metodos-de-evolucao-fenotipica" class="section level1">
+<div id="métodos-de-evolução-fenotípica" class="section level1">
 <h1>Métodos de Evolução Fenotípica</h1>
 <p>Como mencionamos na aula teórica, apesar de os modelos xxSSE estimarem taxas de transição entre os estados de um caráter, esses modelos integram sobre todas as possibilidades de configurações de eventos de transição. Sendo assim, eles não podem ser usados como modelos de reconstrução de estado ancestral por exemplo. Para isso, existem diversos modelos que foram desenvolvidos especificamente para esse fim. Apesar de compartilharem um “esqueleto” matemático com as transições dos modelos xxSSE (<a href="https://en.wikipedia.org/wiki/Markov_chain" target="_blank">os famosos modelos Mk</a>), os modelos de evolução fenotípica desconsideram as taxas de especiação e extinção.</p>
 <div id="stochastic-mapping-simmap" class="section level2">

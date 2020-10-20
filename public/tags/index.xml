@@ -1,103 +1,103 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Materiais de aulas</title>
-    <link>/tags/</link>
+    <link>https://resources.gburin.com/tags/</link>
     <description>Recent content in Tags on Materiais de aulas</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 28 Jul 2015 21:13:14 -0500</lastBuildDate>
+    <lastBuildDate>Wed, 03 Oct 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://resources.gburin.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Ggplot2</title>
-      <link>/tags/ggplot2/</link>
-      <pubDate>Tue, 28 Jul 2015 21:13:14 -0500</pubDate>
-      
-      <guid>/tags/ggplot2/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Graphs</title>
-      <link>/tags/graphs/</link>
-      <pubDate>Tue, 28 Jul 2015 21:13:14 -0500</pubDate>
-      
-      <guid>/tags/graphs/</guid>
-      <description></description>
-    </item>
     
     <item>
       <title>Macroevolução</title>
-      <link>/tags/macroevolu%C3%A7%C3%A3o/</link>
+      <link>https://resources.gburin.com/tags/macroevolu%C3%A7%C3%A3o/</link>
       <pubDate>Wed, 03 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/macroevolu%C3%A7%C3%A3o/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Portuguese</title>
-      <link>/tags/portuguese/</link>
-      <pubDate>Tue, 28 Jul 2015 21:13:14 -0500</pubDate>
-      
-      <guid>/tags/portuguese/</guid>
+      <guid>https://resources.gburin.com/tags/macroevolu%C3%A7%C3%A3o/</guid>
       <description></description>
     </item>
     
     <item>
       <title>R</title>
-      <link>/tags/r/</link>
+      <link>https://resources.gburin.com/tags/r/</link>
       <pubDate>Wed, 03 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/r/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Server</title>
-      <link>/tags/server/</link>
-      <pubDate>Tue, 28 Jul 2015 14:05:19 +0000</pubDate>
-      
-      <guid>/tags/server/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Ssh</title>
-      <link>/tags/ssh/</link>
-      <pubDate>Tue, 28 Jul 2015 14:05:19 +0000</pubDate>
-      
-      <guid>/tags/ssh/</guid>
+      <guid>https://resources.gburin.com/tags/r/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Tutorial</title>
-      <link>/tags/tutorial/</link>
+      <link>https://resources.gburin.com/tags/tutorial/</link>
       <pubDate>Wed, 03 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/tutorial/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Visualization</title>
-      <link>/tags/visualization/</link>
-      <pubDate>Tue, 28 Jul 2015 21:13:14 -0500</pubDate>
-      
-      <guid>/tags/visualization/</guid>
+      <guid>https://resources.gburin.com/tags/tutorial/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Visualização</title>
-      <link>/tags/visualiza%C3%A7%C3%A3o/</link>
+      <link>https://resources.gburin.com/tags/visualiza%C3%A7%C3%A3o/</link>
       <pubDate>Wed, 03 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>/tags/visualiza%C3%A7%C3%A3o/</guid>
+      <guid>https://resources.gburin.com/tags/visualiza%C3%A7%C3%A3o/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ggplot2</title>
+      <link>https://resources.gburin.com/tags/ggplot2/</link>
+      <pubDate>Tue, 28 Jul 2015 21:13:14 -0500</pubDate>
+      
+      <guid>https://resources.gburin.com/tags/ggplot2/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>graphs</title>
+      <link>https://resources.gburin.com/tags/graphs/</link>
+      <pubDate>Tue, 28 Jul 2015 21:13:14 -0500</pubDate>
+      
+      <guid>https://resources.gburin.com/tags/graphs/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>portuguese</title>
+      <link>https://resources.gburin.com/tags/portuguese/</link>
+      <pubDate>Tue, 28 Jul 2015 21:13:14 -0500</pubDate>
+      
+      <guid>https://resources.gburin.com/tags/portuguese/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>visualization</title>
+      <link>https://resources.gburin.com/tags/visualization/</link>
+      <pubDate>Tue, 28 Jul 2015 21:13:14 -0500</pubDate>
+      
+      <guid>https://resources.gburin.com/tags/visualization/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>server</title>
+      <link>https://resources.gburin.com/tags/server/</link>
+      <pubDate>Tue, 28 Jul 2015 14:05:19 +0000</pubDate>
+      
+      <guid>https://resources.gburin.com/tags/server/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ssh</title>
+      <link>https://resources.gburin.com/tags/ssh/</link>
+      <pubDate>Tue, 28 Jul 2015 14:05:19 +0000</pubDate>
+      
+      <guid>https://resources.gburin.com/tags/ssh/</guid>
       <description></description>
     </item>
     

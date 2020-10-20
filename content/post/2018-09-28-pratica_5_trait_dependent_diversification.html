@@ -12,9 +12,10 @@ output:
     self_contained: true
 ---
 
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
-<div id="carregando-os-pacotes-necessarios" class="section level1">
+<div id="carregando-os-pacotes-necessários" class="section level1">
 <h1>Carregando os pacotes necessários</h1>
 <pre class="r"><code>library(&quot;phytools&quot;)
 library(&quot;diversitree&quot;)
@@ -112,7 +113,7 @@ plotTree.wBars(prim.tree, mass, type = &quot;fan&quot;, col = brewer.pal(4, &quo
 mass.sd &lt;- 1/50
 
 sp.quasse &lt;- starting.point.quasse(prim.tree, mass)</code></pre>
-<div id="definindo-funcoes-de-relacao-entre-trait-e-taxas" class="section level2">
+<div id="definindo-funções-de-relação-entre-trait-e-taxas" class="section level2">
 <h2>Definindo funções de relação entre trait e taxas</h2>
 <pre class="r"><code>## Funções de ajuda para poupar trabalho
 make.primates &lt;- function(lambda, mu){

@@ -12,6 +12,7 @@ output:
     mathjax: default
 ---
 
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
 <p>Nesse tutorial, vamos relembrar os principais pontos da primeira aula, porém agora observando o que acontece “por trás dos panos” da ferramenta.</p>
@@ -22,7 +23,7 @@ output:
 <p>Por fim, quase todos os gráficos criados nesse tutorial foram feitos usando o pacote <em>ggplot2</em>. Caso tenha interesse em entender um pouco melhor como ele funciona, a <a href="http://ggplot2.tidyverse.org/reference/" target="_blank">documentação</a> é ótima, e também preparei um <a href="https://www.gburin.com/tutorial-de-ggplot2/" target="_blank">tutorial em português com as principais funções.</a></p>
 <p>Sem mais <del>enrolação</del> delongas, vamos à prática!</p>
 <hr />
-<div id="carregando-os-pacotes-necessarios" class="section level3">
+<div id="carregando-os-pacotes-necessários" class="section level3">
 <h3>Carregando os pacotes necessários</h3>
 <pre class="r"><code>library(&quot;ape&quot;)
 library(&quot;TreeSim&quot;)
@@ -36,7 +37,7 @@ library(&quot;viridis&quot;)</code></pre>
 <p>Como vimos nas aulas teóricas, o número de espécies em um cenário de nascimento puro cresce no tempo segundo um modelo exponencial. No entanto, ao simularmos diferentes filogenias com as mesmas taxas e valores de tempo, notamos que há uma variação no número final de espécies obtidos. Isso se deve à estocasticidade do processo, dado que os modelos usados são modelos probabilísticos e não determinísticos.</p>
 <p>O lado bom é que por serem modelos estocásticos bem definidos, é possível calcular as médias das características das filogenias resultantes e compará-las com os valores esperados segundo os modelos. É isso que faremos no primeiro item.</p>
 </div>
-<div id="numero-esperado-de-especies" class="section level1">
+<div id="número-esperado-de-espécies" class="section level1">
 <h1>Número esperado de espécies</h1>
 <p>O crescimento exponencial tem a seguinte forma:</p>
 <p><span class="math display">\[\begin{equation}
@@ -70,6 +71,7 @@ ntip.30 &lt;- unlist(lapply(phylo.list.30, function(x){ifelse(class(x) == &quot;
 <pre class="r"><code>expect.N.15
 mean(ntip.15)
 
+expect.N.30 &lt;- 1 * exp(0.2 * 30)
 expect.N.30
 mean(ntip.30)</code></pre>
 <p>Podemos analisar visualmente também:</p>
@@ -93,7 +95,7 @@ ggplot(data = data.plot) +
 </code></pre>
 <p>Notamos que a média dos valores é muito próxima do número esperado segundo nosso modelo.</p>
 <hr />
-<div id="numero-esperado-em-um-cenario-com-extincao" class="section level2">
+<div id="número-esperado-em-um-cenário-com-extinção" class="section level2">
 <h2>Número esperado em um cenário com extinção</h2>
 <p>Como dito acima, um dos parâmetros do modelo exponencial é a taxa de acúmulo de espécies ao longo do tempo. Esta taxa de acúmulo foi inicialmente representada apenas no argumento <code>lambda</code> (letra grega usada para representar taxas de especiação em filogenias moleculares) nas funções acima, dado que o argumento <code>mu</code> (letra grega usada para representar taxas de extinção em filogenias moleculares) foi ajustado para 0. Portanto, o “saldo” entre ganho e perda de espécies, chamado de <strong>taxa líquida de diversificação</strong> (<em>net diversification rate</em> em inglês), é determinado apenas pela especiação.</p>
 <p>Ajustando ligeiramente nossas simulações acima, vamos ver como o número esperado de espécies se comporta quando a taxa de extinção não é nula. Novamente, as simulações podem demorar alguns poucos minutos para terminar de rodar.</p>
@@ -148,7 +150,7 @@ ggplot(data = data.plot.bd) +
 </blockquote>
 <hr />
 </div>
-<div id="fracao-de-extincao-epsilon" class="section level2">
+<div id="fração-de-extinção-epsilon" class="section level2">
 <h2>Fração de extinção (<span class="math inline">\(\epsilon\)</span>)</h2>
 <p>Até agora temos olhado para a relação entre especiação e extinção através do <span class="math inline">\(r\)</span> (diversificação líquida). Porém outra forma de olhar para isso é através da taxa que chamamos de <strong>fração de extinção</strong> (<em>extinction fraction</em> em inglês). Essa taxa nos indica qual a importância relativa da extinção frente à especiação. Para entendermos melhor o que é a fração de extinção, vamos simular filogenias com o mesmo valor de <span class="math inline">\(r\)</span>, porém com diferentes valores de <span class="math inline">\(\epsilon\)</span>:</p>
 <pre class="r"><code>lambda.1 &lt;- 0.2
@@ -231,7 +233,7 @@ lapply(bd.trees[2:100], ltt.lines)
 </blockquote>
 <hr />
 </div>
-<div id="estatistica-gamma-gamma" class="section level2">
+<div id="estatística-gamma-gamma" class="section level2">
 <h2>Estatística Gamma (<span class="math inline">\(\gamma\)</span>)</h2>
 <p>Uma das formas que temos para resumir as características de uma filogenia é a estatística Gamma (Pybus &amp; Harvey, 2000). Essa métrica representa, de maneira grosseira, o “centro de massa” da filogenia, ou seja, é um teste para analisar se os nós de uma filogenia estão mais concentrados próximos à raiz ou aos terminais da filogenia quando comparados a um modelo nulo (nascimento puro), onde a expectativa é que os nós estejam espaçados regularmente desde a raiz até o presente.</p>
 <pre class="r"><code>phylo.gamma.null &lt;- sim.bd.taxa(n = 200, numbsim = 1000, lambda = 0.2, mu = 0)
@@ -300,7 +302,7 @@ setNames(c(gammaStat(viper.tree), gamma.viper.80, gamma.viper.60, gamma.viper.40
 </blockquote>
 <hr />
 </div>
-<div id="taxas-variaveis" class="section level2">
+<div id="taxas-variáveis" class="section level2">
 <h2>Taxas variáveis</h2>
 <p>Até agora, usamos modelos onde as taxas são constantes ao longo do tempo em todas as árvores que simulamos. Em alguns casos essas taxas constantes podem até representar bem a dinâmica do clado (por exemplo quando analisamos a diversificação de um gênero por exemplo, que se dá em “curtas” escalas temporais). No entanto, é possível relaxarmos essa restrição e simular cenários mais realísticos para níveis hierárquicos superiores, onde a premissa de taxas constantes passa a ser pouco plausível. (Para facilitar a análise do resultado, copie e cole o código abaixo inteiro).</p>
 <pre class="r"><code>set.seed(2018)
@@ -361,7 +363,7 @@ sum(gammaStat(sim.bd.decl) &lt;= unlist(lapply(gamma.null.cresc, gammaStat)))/10
 <hr />
 </div>
 </div>
-<div id="simulacoes-do-registro-fossil" class="section level1">
+<div id="simulações-do-registro-fóssil" class="section level1">
 <h1>Simulações do registro fóssil</h1>
 <p>Como vimos no tutorial da aula passada, os modelos usados para analisar dados do registro fóssil são bastante similares (muitas vezes idênticos) aos modelos usados com filogenias moleculares. Sendo assim, não vamos focar muito nas propriedades desses modelos (estocasticidade, valores esperados, etc.) que já vimos anteriormente, mas vamos avaliar algumas propriedades que são exclusivas dos dados fósseis.</p>
 <p>Usaremos as seguintes funções para converter os dados das simulações em dados mais amigáveis para os plots.</p>

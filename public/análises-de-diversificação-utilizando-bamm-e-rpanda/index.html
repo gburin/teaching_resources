@@ -3,7 +3,7 @@
 <head>
   <link href="//gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.48" />
+  <meta name="generator" content="Hugo 0.59.1" />
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,10 +11,10 @@
   <title>Análises de diversificação utilizando BAMM e RPANDA &middot; Materiais de aulas</title>
 
   
-  <link type="text/css" rel="stylesheet" href="/css/print.css" media="print">
-  <link type="text/css" rel="stylesheet" href="/css/poole.css">
-  <link type="text/css" rel="stylesheet" href="/css/syntax.css">
-  <link type="text/css" rel="stylesheet" href="/css/hyde.css">
+  <link type="text/css" rel="stylesheet" href="https://resources.gburin.com/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="https://resources.gburin.com/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="https://resources.gburin.com/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="https://resources.gburin.com/css/hyde.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
 
 
@@ -32,7 +32,7 @@
   <aside class="sidebar">
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
-      <a href="/"><h1>Materiais de aulas</h1></a>
+      <a href="https://resources.gburin.com/"><h1>Materiais de aulas</h1></a>
       <p class="lead">
        Tutoriais e Exercícios 
       </p>
@@ -40,12 +40,12 @@
 
     <nav>
       <ul class="sidebar-nav">
-        <li><a href="/">Home</a> </li>
+        <li><a href="https://resources.gburin.com/">Home</a> </li>
         
       </ul>
     </nav>
 
-    <p>&copy; 2018. All rights reserved. </p>
+    <p>&copy; 2020. All rights reserved. </p>
   </div>
   <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
@@ -63,7 +63,11 @@
     <div class="post">
   <h1>Análises de diversificação utilizando BAMM e RPANDA</h1>
   <time datetime=2018-09-24T00:00:00Z class="post-date">Mon, Sep 24, 2018</time>
-  <pre class="r"><code>library(&quot;BAMMtools&quot;)
+  
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<pre class="r"><code>library(&quot;BAMMtools&quot;)
 library(&quot;RPANDA&quot;)</code></pre>
 <div id="bamm" class="section level1">
 <h1>BAMM</h1>
@@ -147,7 +151,7 @@ hist(tip.rates$mu.avg, xlab = &quot;Mu Médio&quot;)</code></pre>
 <li><p>No RPANDA, o usuário deve saber <em>a priori</em> qual são os clados que devem ter regimes de diversificação específicos, ao passo que no BAMM, mudanças no regime de diversificação (“rate shifts”) são posicionados e os diferentes regimes estimados através de um algoritmo rjMCMC.</p></li>
 </ol>
 <p>O pacote também contém algumas funções de simulação bem como conjuntos de dados. Você pode encontrar mais detalhes em <a href="http://cran.r-project.org/web/packages/RPANDA/RPANDA.pdf">CRAN</a>.</p>
-<div id="selecao-de-modelos" class="section level2">
+<div id="seleção-de-modelos" class="section level2">
 <h2>Seleção de modelos</h2>
 <p>Para este exercício, iremos testar quatro diferentes cenários de diversificação, com todas as combinações de taxas de especiação e extinção constantes e/ou variáveis (baseado em
 <a href="http://www.pnas.org/content/108/39/16327.abstract?tab=ds">Morlon <em>et al.</em> 2011, PNAS</a>):</p>
@@ -191,7 +195,7 @@ fit.multi.rpanda &lt;- function(tree, par)
     }
 whales.par &lt;- list(c(0.4, 0), c(0.4, -0.05, 0), c(0.4, 0.1, 0.05), c(0.4, -0.05, 0.1, 0.05))</code></pre>
 </div>
-<div id="estimativa-dos-parametros-dos-modelos" class="section level2">
+<div id="estimativa-dos-parâmetros-dos-modelos" class="section level2">
 <h2>Estimativa dos parâmetros dos modelos</h2>
 <p>Tendo todos os modelos e clados, podemos finalmente estimar os parâmetros de todos os quatro modelos para cada um dos cinco clados e criar uma tabela de AICc para selecionarmos qual deles é o melhor modelo que descreve as mudanças nas taxas de diversificação (especiação e extinção). (esta parte do código leva um tempo para rodar).</p>
 <pre class="r"><code>results &lt;- list(&quot;balaenopteridae.res&quot; = fit.multi.rpanda(balaenopteridae.tree, whales.par), 

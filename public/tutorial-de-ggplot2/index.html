@@ -3,7 +3,7 @@
 <head>
   <link href="//gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.48" />
+  <meta name="generator" content="Hugo 0.59.1" />
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,10 +11,10 @@
   <title>Tutorial de ggplot2 &middot; Materiais de aulas</title>
 
   
-  <link type="text/css" rel="stylesheet" href="/css/print.css" media="print">
-  <link type="text/css" rel="stylesheet" href="/css/poole.css">
-  <link type="text/css" rel="stylesheet" href="/css/syntax.css">
-  <link type="text/css" rel="stylesheet" href="/css/hyde.css">
+  <link type="text/css" rel="stylesheet" href="https://resources.gburin.com/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="https://resources.gburin.com/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="https://resources.gburin.com/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="https://resources.gburin.com/css/hyde.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
 
 
@@ -32,7 +32,7 @@
   <aside class="sidebar">
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
-      <a href="/"><h1>Materiais de aulas</h1></a>
+      <a href="https://resources.gburin.com/"><h1>Materiais de aulas</h1></a>
       <p class="lead">
        Tutoriais e Exercícios 
       </p>
@@ -40,12 +40,12 @@
 
     <nav>
       <ul class="sidebar-nav">
-        <li><a href="/">Home</a> </li>
+        <li><a href="https://resources.gburin.com/">Home</a> </li>
         
       </ul>
     </nav>
 
-    <p>&copy; 2018. All rights reserved. </p>
+    <p>&copy; 2020. All rights reserved. </p>
   </div>
   <script type="text/x-mathjax-config">
     MathJax.Hub.Config({
@@ -63,8 +63,12 @@
     <div class="post">
   <h1>Tutorial de ggplot2</h1>
   <time datetime=2015-07-28T21:13:14-0500 class="post-date">Tue, Jul 28, 2015</time>
-  <p>O pacote <em>ggplot2</em> foi desenvolvido pelo Dr. Hadley Wickham (que desenvolveu diversos outros pacotes importantes para <strong>R</strong> como o <em>(d)plyr</em> por exemplo. Este pacote implementa uma nova maneira de criar gráficos a partir dos dados, trazendo o conceito de camadas (<em>layers</em>) para a sintaxe do <strong>R</strong>. Com esse novo conceito, surge também a necessidade de se organizar os dados de uma maneira que facilite a utilização da nova sintaxe. Para isso, os outros pacotes (como os já mencionados <em>(d)plyr</em>) foram desenvolvidos pelo Dr. Wickham de maneira a tornar a manipulação de dados mais ágil, intuitiva e já adequada para o uso conjunto com <em>ggplot2</em>.</p>
-<div id="instalacao" class="section level2">
+  
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>O pacote <em>ggplot2</em> foi desenvolvido pelo Dr. Hadley Wickham (que desenvolveu diversos outros pacotes importantes para <strong>R</strong> como o <em>(d)plyr</em> por exemplo. Este pacote implementa uma nova maneira de criar gráficos a partir dos dados, trazendo o conceito de camadas (<em>layers</em>) para a sintaxe do <strong>R</strong>. Com esse novo conceito, surge também a necessidade de se organizar os dados de uma maneira que facilite a utilização da nova sintaxe. Para isso, os outros pacotes (como os já mencionados <em>(d)plyr</em>) foram desenvolvidos pelo Dr. Wickham de maneira a tornar a manipulação de dados mais ágil, intuitiva e já adequada para o uso conjunto com <em>ggplot2</em>.</p>
+<div id="instalação" class="section level2">
 <h2>Instalação</h2>
 <p>O pacote deve ser instalado como qualquer outro pacote no <strong>R</strong>:</p>
 <pre class="r"><code>install.packages(&quot;ggplot2&quot;)</code></pre>
@@ -103,7 +107,7 @@ install_github(&quot;hadley/ggplot2&quot;)</code></pre>
 ## 10 10.787699    24 Tratamento B</code></pre>
 <p>Alguns pacotes foram desenvolvidos com o propósito de facilitar a organização dos dados de maneira limpa e otimizada. Dentre esses pacotes, encontram-se <em>(d)plyr</em>, <em>tidyr</em>, <em>magrittr</em> dentre outros. Para mais informações sobre como (e porquê) organizar seus dados dessa forma, leia <a href="http://www.jstatsoft.org/v59/i10/paper">este artigo do Dr. Wickham</a>.</p>
 </div>
-<div id="estrutura-basica-de-um-grafico" class="section level1">
+<div id="estrutura-básica-de-um-gráfico" class="section level1">
 <h1>Estrutura básica de um gráfico</h1>
 <p>Como dito na introdução, um gráfico feito no <em>ggplot2</em> consiste de diversas camadas que são adicionadas a uma estrutura básica. Essa estrutura básica é criada usando as funções <em>ggplot</em> ou <em>qplot</em>. Essas funções possuem dois componentes essenciais: <em>data</em>, que como o nome diz recebe o <em>data.frame</em> a ser utilizado para a construção do gráfico, e <em>mapping</em>, que é o argumento que controla a estética do gráfico, ou seja, que controla quais variáveis serão plotadas nos eixos <em>x</em> e <em>y</em>, dentre outros detalhes que serão abordados posteriormente. Para o mapeamento dos dados, usaremos a função <em>aes</em>, na qual indicaremos qual variável deve ser posicionada em cada eixo, além de outros argumentos relativos a cor, tamanho, etc.</p>
 <p>Diogo Melo, do Laboratório de Evolução de Mamíferos do IB-USP sintetizou uma regra geral para gráficos no <em>ggplot2</em>:</p>
@@ -117,15 +121,15 @@ install_github(&quot;hadley/ggplot2&quot;)</code></pre>
 <pre class="r"><code>data(diamonds)
 head(diamonds)</code></pre>
 <pre><code>## # A tibble: 6 x 10
-##   carat       cut color clarity depth table price     x     y     z
-##   &lt;dbl&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;ord&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-## 1  0.23     Ideal     E     SI2  61.5    55   326  3.95  3.98  2.43
-## 2  0.21   Premium     E     SI1  59.8    61   326  3.89  3.84  2.31
-## 3  0.23      Good     E     VS1  56.9    65   327  4.05  4.07  2.31
-## 4  0.29   Premium     I     VS2  62.4    58   334  4.20  4.23  2.63
-## 5  0.31      Good     J     SI2  63.3    58   335  4.34  4.35  2.75
-## 6  0.24 Very Good     J    VVS2  62.8    57   336  3.94  3.96  2.48</code></pre>
-<div id="graficos-unidimensionais-boxplots-e-histogramas" class="section level2">
+##   carat cut       color clarity depth table price     x     y     z
+##   &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 0.23  Ideal     E     SI2      61.5    55   326  3.95  3.98  2.43
+## 2 0.21  Premium   E     SI1      59.8    61   326  3.89  3.84  2.31
+## 3 0.23  Good      E     VS1      56.9    65   327  4.05  4.07  2.31
+## 4 0.290 Premium   I     VS2      62.4    58   334  4.2   4.23  2.63
+## 5 0.31  Good      J     SI2      63.3    58   335  4.34  4.35  2.75
+## 6 0.24  Very Good J     VVS2     62.8    57   336  3.94  3.96  2.48</code></pre>
+<div id="gráficos-unidimensionais-boxplots-e-histogramas" class="section level2">
 <h2>Gráficos unidimensionais (boxplots e histogramas)</h2>
 <p>Um bom modo de iniciar qualquer análise é fazendo uma análise exploratória dos dados. Para isso, alguns tipos específicos de gráficos como <em>boxplots</em> ou histogramas são maneiras simples de visualizar a estrutura básica dos dados. Estes tipos de gráfico são ditos unidimensionais, pois representam apenas uma variável. Neste tópico, veremos como criar esses dois gráficos de maneira simples (complementos serão adicionados mais para frente no tutorial).</p>
 <p>O primeiro passo para criarmos um gráfico é então gerar o objeto da classe <strong>ggplot</strong>. <strong>DICA: armazene as camadas básicas do seu gráfico em um objeto, pois isso facilita a adição de novas camadas sem a necessidade de repetir o código inteiro.</strong></p>
@@ -143,9 +147,9 @@ head(diamonds)</code></pre>
 <p>Observe no entanto que para o histograma a variável de interesse está no eixo <em>x</em>, já que o eixo <em>y</em> contém a contagem de valores em cada intervalo.</p>
 <p>Os gráficos básicos podem não parecer tão bonitos assim à primeira vista; vamos aprender em seções posteriores como modificar a estética dos gráficos (cores, tamanho, bordas, plano de fundo, etc.).</p>
 </div>
-<div id="graficos-bidimensionais-graficos-de-dispersao-modelos-lineares-etc." class="section level2">
+<div id="gráficos-bidimensionais-gráficos-de-dispersão-modelos-lineares-etc." class="section level2">
 <h2>Gráficos bidimensionais (gráficos de dispersão, modelos lineares, etc.)</h2>
-<div id="graficos-de-dispersao" class="section level3">
+<div id="gráficos-de-dispersão" class="section level3">
 <h3>Gráficos de dispersão</h3>
 <p>Em grande parte dos estudos em ecologia buscamos analisar como duas ou mais variáveis se comportam umas em relação às outras. Para isso, um bom ponto de partida é construir gráficos de dispersão (<em>scatterplots</em>). No exemplo a seguir construiremos um gráfico de dispersão entre as variáveis <em>carat</em> e <em>price</em>.</p>
 <pre class="r"><code>g2 &lt;- ggplot(diamonds,aes(x=carat,y=price))
@@ -166,49 +170,57 @@ g2 + geom_point()</code></pre>
            geom_boxplot(outlier.shape=NA)</code></pre>
 <p><img src="/post/2015-07-28-ggplot2-tutorial_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 </div>
-<div id="adicionando-linhas-de-tendencia" class="section level3">
+<div id="adicionando-linhas-de-tendência" class="section level3">
 <h3>Adicionando linhas de tendência</h3>
 <p>Os gráficos de dispersão que construímos até agora indicam que existe uma relação positiva entre quilates e preço. Nesse caso, podemos ajustar um modelo linear que indique como se dá essa correlação. Para isso, o pacote <em>ggplot2</em> possui funções específicas para algumas estatísticas comumente usadas. Aqui, usaremos a função <strong>stat_smooth</strong> para isso.</p>
 <pre class="r"><code>g2 + geom_point(aes(color=clarity)) + geom_smooth(method = &quot;lm&quot;, se=FALSE, aes(color=&quot;red&quot;))</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="/post/2015-07-28-ggplot2-tutorial_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <p>A linha de regressão adicionada no gráfico anterior corresponde à correlação entre <em>carat</em> e <em>price</em> indepentende da classe de <em>clarity</em>. Porém, dependendo do caso pode ser mais interessante criar uma reta de correlação para cada classe de <em>clarity</em>. Fazemos isso da seguinte forma (adicionando também intervalos de confiança da média):</p>
 <pre class="r"><code>g3 &lt;- g2 + geom_point(aes(color=clarity)) + geom_smooth(method = &quot;lm&quot;, se=TRUE, aes(color=clarity))
 g3</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="/post/2015-07-28-ggplot2-tutorial_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 </div>
 </div>
 </div>
-<div id="personalizando-os-graficos" class="section level1">
+<div id="personalizando-os-gráficos" class="section level1">
 <h1>Personalizando os gráficos</h1>
-<div id="alterar-rotulos-dos-eixos" class="section level2">
+<div id="alterar-rótulos-dos-eixos" class="section level2">
 <h2>Alterar rótulos dos eixos</h2>
 <pre class="r"><code>g3 + xlab(&quot;Quilates&quot;) + ylab(&quot;Preco&quot;)</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="/post/2015-07-28-ggplot2-tutorial_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
 </div>
 <div id="alterar-limites-dos-eixos" class="section level2">
 <h2>Alterar limites dos eixos</h2>
 <pre class="r"><code>g3 + xlim(0,10) + ylim(0,30000)</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <pre><code>## Warning: Removed 25 rows containing missing values (geom_smooth).</code></pre>
 <p><img src="/post/2015-07-28-ggplot2-tutorial_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 </div>
-<div id="alterar-tamanho-e-direcao-das-fontes-dos-eixos" class="section level2">
+<div id="alterar-tamanho-e-direção-das-fontes-dos-eixos" class="section level2">
 <h2>Alterar tamanho e direção das fontes dos eixos</h2>
 <pre class="r"><code>g3 + theme(axis.text.x = element_text(angle=45,vjust=1,size=30))</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="/post/2015-07-28-ggplot2-tutorial_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 </div>
-<div id="inserir-anotacoes" class="section level2">
+<div id="inserir-anotações" class="section level2">
 <h2>Inserir anotações</h2>
 <pre class="r"><code>g3 + xlim(0,10) + ylim(0,30000) + annotate(&quot;text&quot;,x=9.5,y=30000,label= &quot;Painel a&quot;,color=&quot;red&quot;)</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <pre><code>## Warning: Removed 25 rows containing missing values (geom_smooth).</code></pre>
 <p><img src="/post/2015-07-28-ggplot2-tutorial_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 <pre class="r"><code>g3 + xlim(0,10) + ylim(0,30000) +
     annotate(&quot;rect&quot;,xmin=3, xmax=4, ymin=10000,
              ymax=20000, alpha=.2, color=&quot;blue&quot;,fill=&quot;green&quot;)</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <pre><code>## Warning: Removed 25 rows containing missing values (geom_smooth).</code></pre>
 <p><img src="/post/2015-07-28-ggplot2-tutorial_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 <pre class="r"><code>g3 + xlim(0,10) + ylim(0,30000) +
     annotate(&quot;segment&quot;, x=3, xend=4, y=30000, yend=20000,
              color=&quot;orange&quot;, arrow=arrow(length=unit(1,&quot;cm&quot;)))</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <pre><code>## Warning: Removed 25 rows containing missing values (geom_smooth).</code></pre>
 <p><img src="/post/2015-07-28-ggplot2-tutorial_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 </div>
@@ -217,7 +229,7 @@ g3</code></pre>
 <pre class="r"><code>g2 + geom_point(aes(color=clarity)) + scale_color_brewer(type=&quot;seq&quot;,palette=&quot;Set3&quot;)</code></pre>
 <p><img src="/post/2015-07-28-ggplot2-tutorial_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
 </div>
-<div id="separar-graficos-em-paineis" class="section level2">
+<div id="separar-gráficos-em-painéis" class="section level2">
 <h2>Separar gráficos em painéis</h2>
 <pre class="r"><code>g2 + geom_point(aes(color=clarity)) + facet_grid(. ~ cut)</code></pre>
 <p><img src="/post/2015-07-28-ggplot2-tutorial_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
@@ -226,74 +238,81 @@ g3</code></pre>
 <pre class="r"><code>g2 + geom_point(aes(color=clarity)) + facet_grid(cut ~ clarity)</code></pre>
 <p><img src="/post/2015-07-28-ggplot2-tutorial_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
 </div>
-<div id="alterar-posicao-titulo-e-tamanho-da-legenda" class="section level2">
+<div id="alterar-posição-título-e-tamanho-da-legenda" class="section level2">
 <h2>Alterar posição, título e tamanho da legenda</h2>
 <pre class="r"><code>g3 + xlim(0,10) + ylim(0,30000) + theme(legend.position = &quot;none&quot;)</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <pre><code>## Warning: Removed 25 rows containing missing values (geom_smooth).</code></pre>
 <p><img src="/post/2015-07-28-ggplot2-tutorial_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
 <pre class="r"><code>g3 + xlim(0,10) + ylim(0,30000) + theme(legend.position = &quot;bottom&quot;)</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <pre><code>## Warning: Removed 25 rows containing missing values (geom_smooth).</code></pre>
 <p><img src="/post/2015-07-28-ggplot2-tutorial_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
 <pre class="r"><code>g3 + xlim(0,10) + ylim(0,30000) + theme(legend.position = &quot;bottom&quot;, legend.title = element_blank())</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <pre><code>## Warning: Removed 25 rows containing missing values (geom_smooth).</code></pre>
 <p><img src="/post/2015-07-28-ggplot2-tutorial_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
 <pre class="r"><code>g3 + xlim(0,10) + ylim(0,30000) + theme(legend.position = c(.8,.8))</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <pre><code>## Warning: Removed 25 rows containing missing values (geom_smooth).</code></pre>
 <p><img src="/post/2015-07-28-ggplot2-tutorial_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
 <pre class="r"><code>g3 + xlim(0,10) + ylim(0,30000) + theme(legend.position = c(.8,.2))</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <pre><code>## Warning: Removed 25 rows containing missing values (geom_smooth).</code></pre>
 <p><img src="/post/2015-07-28-ggplot2-tutorial_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
 </div>
 <div id="alterar-temas" class="section level2">
 <h2>Alterar temas</h2>
 <pre class="r"><code>g3 + theme_bw()</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="/post/2015-07-28-ggplot2-tutorial_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
 <pre class="r"><code>g3 + theme(panel.grid.major = element_line(colour = &quot;red&quot;, linetype = &quot;dotted&quot;), panel.background = element_rect(fill = &quot;green&quot;))</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="/post/2015-07-28-ggplot2-tutorial_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
 </div>
 </div>
-<div id="principais-tipos-de-grafico" class="section level1">
+<div id="principais-tipos-de-gráfico" class="section level1">
 <h1>Principais tipos de gráfico</h1>
 <table>
 <thead>
 <tr class="header">
-<th align="left">Tipo de gráfico</th>
-<th align="left">Função</th>
+<th>Tipo de gráfico</th>
+<th>Função</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">Histograma</td>
-<td align="left"><strong>geom_histogram</strong></td>
+<td>Histograma</td>
+<td><strong>geom_histogram</strong></td>
 </tr>
 <tr class="even">
-<td align="left">Densidade</td>
-<td align="left"><strong>geom_density</strong></td>
+<td>Densidade</td>
+<td><strong>geom_density</strong></td>
 </tr>
 <tr class="odd">
-<td align="left">Boxplot</td>
-<td align="left"><strong>geom_boxplot</strong></td>
+<td>Boxplot</td>
+<td><strong>geom_boxplot</strong></td>
 </tr>
 <tr class="even">
-<td align="left">Barras</td>
-<td align="left"><strong>geom_bar</strong></td>
+<td>Barras</td>
+<td><strong>geom_bar</strong></td>
 </tr>
 <tr class="odd">
-<td align="left">Polígonos</td>
-<td align="left"><strong>geom_polygon</strong></td>
+<td>Polígonos</td>
+<td><strong>geom_polygon</strong></td>
 </tr>
 <tr class="even">
-<td align="left">Abline</td>
-<td align="left"><strong>geom_abline</strong></td>
+<td>Abline</td>
+<td><strong>geom_abline</strong></td>
 </tr>
 <tr class="odd">
-<td align="left">Texto</td>
-<td align="left"><strong>geom_text</strong></td>
+<td>Texto</td>
+<td><strong>geom_text</strong></td>
 </tr>
 </tbody>
 </table>
 </div>
-<div id="documentacao-online" class="section level1">
+<div id="documentação-online" class="section level1">
 <h1>Documentação online</h1>
 <p><a href="http://docs.ggplot2.org/current/">Documentação oficial do <em>ggplot2</em></a></p>
 <p><a href="http://www.cookbook-r.com/Graphs/">R Cookbook - Graphs</a></p>
