@@ -6,11 +6,7 @@
     <description>Recent content in tutorial on Materiais de aulas</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 28 Jul 2015 21:13:14 -0500</lastBuildDate>
-    
-	<atom:link href="https://resources.gburin.com/categories/tutorial/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 28 Jul 2015 21:13:14 -0500</lastBuildDate><atom:link href="https://resources.gburin.com/categories/tutorial/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Tutorial de ggplot2</title>
       <link>https://resources.gburin.com/tutorial-de-ggplot2/</link>

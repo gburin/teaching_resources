@@ -31,3 +31,8 @@ author = "Gustavo Burin"
   author = "gustavoburin"
 [permalinks]
     post = "/:slug/"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true

@@ -1,125 +1,77 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
   <url>
     <loc>https://resources.gburin.com/categories/</loc>
     <lastmod>2018-10-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://resources.gburin.com/tags/macroevolu%C3%A7%C3%A3o/</loc>
     <lastmod>2018-10-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://resources.gburin.com/</loc>
     <lastmod>2018-10-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://resources.gburin.com/modelos-de-evolu%C3%A7%C3%A3o-fenot%C3%ADpica/</loc>
     <lastmod>2018-10-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://resources.gburin.com/post/</loc>
     <lastmod>2018-10-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://resources.gburin.com/categories/r/</loc>
-    <lastmod>2018-10-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://resources.gburin.com/tags/r/</loc>
     <lastmod>2018-10-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
+    <loc>https://resources.gburin.com/categories/r/</loc>
+    <lastmod>2018-10-03T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://resources.gburin.com/tags/</loc>
     <lastmod>2018-10-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://resources.gburin.com/tags/tutorial/</loc>
     <lastmod>2018-10-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://resources.gburin.com/tags/visualiza%C3%A7%C3%A3o/</loc>
     <lastmod>2018-10-03T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://resources.gburin.com/an%C3%A1lises-de-diversifica%C3%A7%C3%A3o-utilizando-bamm-e-rpanda/</loc>
     <lastmod>2018-09-24T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://resources.gburin.com/modelos-de-diversifica%C3%A7%C3%A3o-trait-dependent/</loc>
     <lastmod>2018-09-24T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://resources.gburin.com/estimativa-de-taxas-de-diversifica%C3%A7%C3%A3o/</loc>
     <lastmod>2018-09-21T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://resources.gburin.com/visualiza%C3%A7%C3%A3o-de-dados-filogen%C3%A9ticos-e-f%C3%B3sseis-no-r-bie5751/</loc>
     <lastmod>2018-09-19T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://resources.gburin.com/visualiza%C3%A7%C3%A3o-de-dados-filogen%C3%A9ticos-e-f%C3%B3sseis-bie5751/</loc>
     <lastmod>2018-09-13T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://resources.gburin.com/tags/ggplot2/</loc>
     <lastmod>2015-07-28T21:13:14-05:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://resources.gburin.com/tags/graphs/</loc>
     <lastmod>2015-07-28T21:13:14-05:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://resources.gburin.com/tags/portuguese/</loc>
     <lastmod>2015-07-28T21:13:14-05:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://resources.gburin.com/categories/tutorial/</loc>
     <lastmod>2015-07-28T21:13:14-05:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://resources.gburin.com/tutorial-de-ggplot2/</loc>
     <lastmod>2015-07-28T21:13:14-05:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://resources.gburin.com/tags/visualization/</loc>
     <lastmod>2015-07-28T21:13:14-05:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://resources.gburin.com/tags/server/</loc>
     <lastmod>2015-07-28T14:05:19+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://resources.gburin.com/tags/ssh/</loc>
     <lastmod>2015-07-28T14:05:19+00:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://resources.gburin.com/tutorial-de-ssh/</loc>
     <lastmod>2015-07-28T14:05:19+00:00</lastmod>
   </url>
-  
 </urlset>
