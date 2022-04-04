@@ -6,7 +6,17 @@
     <description>Recent content in R on Materiais de aulas</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 03 Oct 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://resources.gburin.com/categories/r/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 11 Mar 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://resources.gburin.com/categories/r/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Trait-Dependent Diversification</title>
+      <link>https://resources.gburin.com/trait-dependent-diversification/</link>
+      <pubDate>Fri, 11 Mar 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://resources.gburin.com/trait-dependent-diversification/</guid>
+      <description>Loading packages library(&amp;quot;phytools&amp;quot;) library(&amp;quot;diversitree&amp;quot;) library(&amp;quot;picante&amp;quot;) library(&amp;quot;RColorBrewer&amp;quot;) library(&amp;quot;ggplot2&amp;quot;) library(&amp;quot;cowplot&amp;quot;) library(&amp;quot;qgraph&amp;quot;)  MuSSE + Vipers In this tutorial we will use some of the trait-dependent speciation and extinction models that are implemented in the package ‘diversitree’. For the MuSSE (Multiple-State Speciation and Extinction) we will use microhabitat and phylogenetic data for vipers used in Alencar et al., 2017.
+As for the QuaSSE example (Quantitative State Speciation and Extinction) we will use body mass and phylogenetic data that was used in the paper that first described the method.</description>
+    </item>
+    
     <item>
       <title>Modelos de Evolução Fenotípica</title>
       <link>https://resources.gburin.com/modelos-de-evolu%C3%A7%C3%A3o-fenot%C3%ADpica/</link>

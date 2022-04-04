@@ -220,5 +220,3 @@ anova(mle.c, linear = mle.l, sigmoidal = mle.s, hump = mle.h)
 ```
 
 > Based on these results, which model is the best fit for the relationship between body mass and speciation rates in Primates? Can you think of a possible biological mechanism that could be behind your conclusion?
-
-Para mais informações, consulte o [tutorial](http://www.zoology.ubc.ca/prog/diversitree/doc/diversitree-tutorial.pdf) do pacote!
