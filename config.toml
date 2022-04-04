@@ -23,7 +23,7 @@ author = "Gustavo Burin"
   #   Examples: "3:04 pm" or "15:04"
   time_format = "15:04"
 # Setting permalink rules
-  themeColor = "theme-base-0c"
+  themeColor = "theme-base-08"
   layoutReverse = true
   description = "Tutoriais e Exercícios"
   homepage = "https://www.gburin.com"
