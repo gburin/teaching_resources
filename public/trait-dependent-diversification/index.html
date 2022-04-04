@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="https://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.82.0" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Trait-Dependent Diversification &middot; Materiais de aulas</title>
+  <meta name="description" content="" />
+
+  
+  <link type="text/css" rel="stylesheet" href="https://resources.gburin.com/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="https://resources.gburin.com/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="https://resources.gburin.com/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="https://resources.gburin.com/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  
+</head>
+
+  <body class="theme-base-0c layout-reverse">
+  <aside class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="https://resources.gburin.com/"><h1>Materiais de aulas</h1></a>
+      <p class="lead">
+       Tutoriais e Exercícios 
+      </p>
+    </div>
+
+    <nav>
+      <ul class="sidebar-nav">
+        <li><a href="https://resources.gburin.com/">Home</a> </li>
+        
+      </ul>
+    </nav>
+
+    <p>&copy; 2022. All rights reserved. </p>
+  </div>
+</aside>
+
+    <main class="content container">
+    <div class="post">
+  <h1>Trait-Dependent Diversification</h1>
+  <time datetime=2022-03-11T00:00:00Z class="post-date">Fri, Mar 11, 2022</time>
+  
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<div id="loading-packages" class="section level1">
+<h1>Loading packages</h1>
+<pre class="r"><code>library(&quot;phytools&quot;)
+library(&quot;diversitree&quot;)
+library(&quot;picante&quot;)
+library(&quot;RColorBrewer&quot;)
+library(&quot;ggplot2&quot;)
+library(&quot;cowplot&quot;)
+library(&quot;qgraph&quot;)</code></pre>
+</div>
+<div id="musse-vipers" class="section level1">
+<h1>MuSSE + Vipers</h1>
+<p>In this tutorial we will use some of the trait-dependent speciation and extinction models that are implemented in the package ‘diversitree’. For the MuSSE (<strong>Mu</strong>ltiple-<strong>S</strong>tate <strong>S</strong>peciation and <strong>E</strong>xtinction) we will use microhabitat and phylogenetic data for vipers used in <a href="http://rspb.royalsocietypublishing.org/content/284/1869/20171775">Alencar <em>et al.</em>, 2017</a>.</p>
+<p>As for the QuaSSE example (<strong>Qua</strong>ntitative <em>S</em>tate <em>S</em>peciation and <em>E</em>xtinction) we will use body mass and phylogenetic data that was used in the <a href="https://academic.oup.com/sysbio/article/59/6/619/1711291">paper that first described the method</a>.</p>
+<p>Todos os arquivos necessários estão disponíveis em um arquivo compactado <a href="https://www.dropbox.com/s/mc1omhts9g6od1q/arquivos_pratica_5.zip?dl=0">nesse link</a>.</p>
+<div id="importing-and-visualizing-the-data" class="section level2">
+<h2>Importing and visualizing the data</h2>
+<pre class="r"><code>viper.tree &lt;- read.tree(&quot;tree1.txt&quot;)
+viper.tree &lt;- force.ultrametric(viper.tree, method = &quot;nnls&quot;)
+
+trait.table &lt;- read.csv(&quot;habitat_vipers_all.csv&quot;, sep = &quot;;&quot;, header = FALSE)
+names(trait.table) &lt;- c(&quot;sp&quot;, &quot;hab&quot;)
+trait.data.musse &lt;- setNames(trait.table$hab, trait.table$sp)
+
+plot(viper.tree, type = &quot;fan&quot;, label.offset = 3, cex = 0.5, no.margin = TRUE)
+tiplabels(pch = 21, col = &quot;black&quot;, bg = brewer.pal(4, &quot;Set1&quot;)[trait.data.musse[match(viper.tree$tip.label, names(trait.data.musse))]], cex = 1.3, offset = 1.5)
+legend(&quot;bottomright&quot;, legend = c(&quot;Mixed&quot;, &quot;Terrestrial Open&quot;, &quot;Terrestrial Closed&quot;, &quot;Arboreal&quot;), col = brewer.pal(4, &quot;Set1&quot;), pch = 19)</code></pre>
+<p>The original implementations of the <code>diversitree</code> models are based in Maximum Likelihood approaches. This way, we can analyse different models and see which one best fits our data. We will test three models: the full one (with all parameters free to be estimated), one in which only speciation rates varies between microhabitats (and all other rates are identical between them), and lastly the simplest model where there is no difference in rates between different microhabitats.</p>
+</div>
+<div id="generating-the-full-model-all-rates-free-to-be-estimated" class="section level2">
+<h2>Generating the full model (all rates free to be estimated)</h2>
+<pre class="r"><code>viper.musse &lt;- make.musse(tree = trait.data.plot$phy, states = trait.data.musse, k = 4, sampling.f = 0.79)
+
+sp.musse &lt;- starting.point.musse(tree = viper.tree, k = 4)
+
+fit.musse &lt;- find.mle(func = viper.musse, x.init = sp.musse)</code></pre>
+<p>Based on the complete model, we can constrain it for only speciation rates to be different between microhabitats (all other rates being equal between states) and also to the simplest model.</p>
+<pre class="r"><code>viper.onlysp &lt;- constrain(viper.musse, mu2 ~ mu1, mu3 ~ mu1, mu4 ~ mu1, q12 ~ q21, q13 ~ q31, q14 ~ q41, q23 ~ q32, q24 ~ q42, q34 ~ q43)
+sp.musse.onlysp &lt;- sp.musse[argnames(viper.onlysp)]
+
+fit.musse.onlysp &lt;- find.mle(func = viper.onlysp, x.init = sp.musse.onlysp)
+
+viper.minimal &lt;- constrain(viper.musse, lambda2 ~ lambda1, lambda3 ~ lambda1, lambda4 ~ lambda1, mu2 ~ mu1, mu3 ~ mu1, mu4 ~ mu1, q12 ~ q21, q13 ~ q31, q14 ~ q41, q23 ~ q32, q24 ~ q42, q34 ~ q43)
+sp.musse.minimal &lt;- sp.musse[argnames(viper.minimal)]
+
+fit.minimal &lt;- find.mle(func = viper.minimal, x.init = sp.musse.minimal)
+
+anova(fit.musse, only.lambda = fit.musse.onlysp, minimal = fit.minimal)</code></pre>
+<blockquote>
+<p>Now repeat the protocol above for the other 4 trees available. What conclusions can you take from the global results?</p>
+</blockquote>
+<p>These analyses do not account for uncertainties coming from both parameter estimation and from external sources such as the phylogenetic uncertainty (phylogenies are hypotheses, after all). Thus, if we rerun the previous analyses under a bayesian framework (using multiple topologies) we can incorporate both sources of uncertainty cited above. However this comes with a cost: for the parameters to be reliably estimated (i.e. for the posterior distributions of parameter values to be well explored) the MCMC chains for this approach have to be quite long, and this would take longer than the time we have available for this activity. Therefore, we will use a compiled table containing the results from the analyses of 20 different topologies.</p>
+<pre class="r"><code>post.table &lt;- read.csv(&quot;posterior_table_vipers.csv&quot;)
+
+## Visualizing the posterior distribution of speciation rates for each microhabitat
+
+ggplot(data = post.table[grep(&quot;lambda&quot;, post.table$rate),]) +
+    geom_density(aes(x = value, group = rate, fill = rate), alpha = 0.5) +
+    scale_fill_brewer(palette = &quot;Accent&quot;, labels = c(&quot;Mixed&quot;, &quot;Terrestrial Open&quot;, &quot;Terrestrial Closed&quot;, &quot;Arboreal&quot;)) +
+    theme(legend.position = &quot;bottom&quot;) +
+    labs(x = &quot;Speciation&quot;, y = &quot;Posterior Density&quot;, fill = &quot;Microhabitat&quot;)
+
+## Visualizing the posterior distribution of extinction rates for each microhabitat
+
+ggplot(data = post.table[grep(&quot;mu&quot;, post.table$rate),]) +
+    geom_density(aes(x = value, group = rate, fill = rate), alpha = 0.5) +
+    scale_fill_brewer(palette = &quot;Accent&quot;, labels = c(&quot;Mixed&quot;, &quot;Terrestrial Open&quot;, &quot;Terrestrial Closed&quot;, &quot;Arboreal&quot;)) +
+    theme(legend.position = &quot;bottom&quot;) +
+    labs(x = &quot;Extinction&quot;, y = &quot;Posterior Density&quot;, fill = &quot;Microhabitat&quot;)</code></pre>
+<p>The models from the package <code>diversitree</code> estimate not only speciation and extinction rates associated to each state of the trait, but also the (anagenetic) transition rates between the different states. Let’s see how the transitions between microhabitats are for the vipers.</p>
+<pre class="r"><code>## Generating the transition matrix
+
+trans.vipers &lt;- aggregate(post.table$value[grep(&quot;q&quot;, post.table$rate)], by = list(post.table$rate[grep(&quot;q&quot;, post.table$rate)]), FUN = mean)
+trans.vipers.mat &lt;- matrix(c(0, trans.vipers$x[1:4], 0, trans.vipers$x[5:8], 0, trans.vipers$x[9:12], 0), ncol = 4, nrow = 4, byrow = TRUE)
+
+qgraph(trans.vipers.mat, labels = c(&quot;Mixed&quot;, &quot;Terrestrial\nOpen&quot;, &quot;Terrestrial\nClosed&quot;, &quot;Arboreal&quot;), cut = 0.1, theme = &quot;Borkulo&quot;)</code></pre>
+<blockquote>
+<p>After analysing both results above (from the bayesian approach), did the results and conclusions change when compared to the initial analysis? Why?</p>
+</blockquote>
+</div>
+</div>
+<div id="quasse" class="section level1">
+<h1>QuaSSE</h1>
+<p>Due to the complexity of the algorithms used to estimate rates for quantitative traits, it takes quite a long time to run these analyses. Therefore we will not run the analyses themselves but rather use the results from a previous run of the model. The file is available in the same compressed file as the others.</p>
+<p>The basic prodecure for QuaSSE is very similar to the ones for other <code>diversitree</code> models: we first name the data vector with the corresponding species’ names, then we generate the likelihood function to be optimized, and lastly we search for the best parameter combination. However, in QuaSSE we cannot obtain a single rate for each value of the trait (this is not mathematically defined for continuous traits), but we in fact get the parameters for the model that best describes the relationship between the continous trait and the rates. In other words, we will find the parameters that will tell us whether the speciation rate, for instance, increases or decreases when the trait value increases, and how much it responds to this variation. The same applies for extinction and transition rates. In the next section we will test linear, sigmoid and “hump-shaped” relationships between trait values and the rates.</p>
+<pre class="r"><code>prim.tree &lt;- read.nexus(&quot;Vos-2006.nex&quot;)
+prim.data &lt;- read.csv(&quot;Redding-2010.csv&quot;)
+
+mass &lt;- log(prim.data$mass)
+names(mass) &lt;- prim.data$tip.label
+
+## Visualizing the body mass values on the tree
+plotTree.wBars(prim.tree, mass, type = &quot;fan&quot;, col = brewer.pal(4, &quot;Set3&quot;)[4], border = &quot;lightgrey&quot;)
+
+## For this analysis, we will assume a standard deviation of 1/50 for all species
+mass.sd &lt;- 1/50
+
+sp.quasse &lt;- starting.point.quasse(prim.tree, mass)</code></pre>
+<div id="defining-the-functions-that-describe-the-relationship-between-trait-values-and-rates" class="section level2">
+<h2>Defining the functions that describe the relationship between trait values and rates</h2>
+<pre class="r"><code>## These two functions are just to make things easier when writing the code
+make.primates &lt;- function(lambda, mu){
+    make.quasse(prim.tree, mass, mass.sd, lambda, mu)
+}
+
+nodrift &lt;- function(f){
+    constrain(f, drift ~ 0)
+}
+
+## Linear function (conditioned that the derivatives of this function tend to 0 closer to the borders of the parameter space)
+xr &lt;- range(mass) + c(-1, 1) * 20 * sp.quasse[&quot;diffusion&quot;]
+linear.x &lt;- make.linear.x(xr[1], xr[2])
+
+## Constant relationship
+f.c &lt;- make.primates(constant.x, constant.x)
+
+## Linear relationship with speciation and constant relationship with extinction
+f.l &lt;- make.primates(linear.x, constant.x)
+
+## Sigmoid relationship with speciation and constant relationship with extinction
+f.s &lt;- make.primates(sigmoid.x, constant.x)
+
+## &quot;Hump-shaped&quot; relationship with speciation and constant relationship with extinction
+f.h &lt;- make.primates(noroptimal.x, constant.x)
+
+## Defining some parameters for the optimization
+control &lt;- list(parscale = 0.1, reltol = 0.001)</code></pre>
+<p>Different from discrete trait models, each model here takes a very long time to run even in the Maximum Likelihood framework. Thus, even though the code is available below, we will use the results from a previous run due to time constrains (just so you have a clear idea: the fastest model to run takes about 45 minutes on a personal computer).</p>
+</div>
+<div id="adjusting-the-constant-model" class="section level2">
+<h2>Adjusting the constant model</h2>
+<pre class="r"><code>mle.c &lt;- find.mle(nodrift(f.c), sp.quasse, lower = 0, control = control, verbose = 0) ## Quite long</code></pre>
+<p>Obtaining the initial values from the constant model to be used on each other model.</p>
+<pre class="r"><code>sp.c &lt;- mle.c$par
+sp.l &lt;- c(sp.c[1], l.m = 0, sp.c[2:3])
+sp.s &lt;- c(sp.c[1], sp.c[1], mean(xr), 1, sp.c[2:3])
+sp.h &lt;- c(sp.c[1], sp.c[1], mean(xr), 1, sp.c[2:3])
+
+names(sp.s) &lt;- argnames(nodrift(f.s))
+names(sp.h) &lt;- argnames(nodrift(f.h))
+
+mle.l &lt;- find.mle(nodrift(f.l), sp.l, control = control, verbose = 0) ## ~1h30
+mle.s &lt;- find.mle(nodrift(f.s), sp.s, control = control, verbose = 0) ## ~1h30
+mle.h &lt;- find.mle(nodrift(f.h), sp.h, control = control, verbose = 0) ## ~45min</code></pre>
+<p>Comparing the models:</p>
+<pre class="r"><code>load(&quot;quasse_results.RData&quot;)
+anova(mle.c, linear = mle.l, sigmoidal = mle.s, hump = mle.h)</code></pre>
+<blockquote>
+<p>Based on these results, which model is the best fit for the relationship between body mass and speciation rates in Primates? Can you think of a possible biological mechanism that could be behind your conclusion?</p>
+</blockquote>
+<p>Para mais informações, consulte o <a href="http://www.zoology.ubc.ca/prog/diversitree/doc/diversitree-tutorial.pdf">tutorial</a> do pacote!</p>
+</div>
+</div>
+
+</div>
+
+
+    </main>
+
+    
+      
+    
+  </body>
+</html>

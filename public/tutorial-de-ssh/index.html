@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
 <head>
-  <link href="//gmpg.org/xfn/11" rel="profile">
+  <link href="https://gmpg.org/xfn/11" rel="profile">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <meta name="generator" content="Hugo 0.59.1" />
+  <meta name="generator" content="Hugo 0.82.0" />
 
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Tutorial de SSH &middot; Materiais de aulas</title>
+  <meta name="description" content="" />
 
   
   <link type="text/css" rel="stylesheet" href="https://resources.gburin.com/css/print.css" media="print">
@@ -23,8 +24,6 @@
   <link rel="shortcut icon" href="/favicon.png">
 
   
-  <link href="" rel="alternate" type="application/rss+xml" title="Materiais de aulas" />
-
   
 </head>
 
@@ -45,143 +44,86 @@
       </ul>
     </nav>
 
-    <p>&copy; 2020. All rights reserved. </p>
+    <p>&copy; 2022. All rights reserved. </p>
   </div>
-  <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
-      }
-    });
-    </script>
-    <script type="text/javascript"
-      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-    </script>
 </aside>
 
     <main class="content container">
     <div class="post">
   <h1>Tutorial de SSH</h1>
   <time datetime=2015-07-28T14:05:19Z class="post-date">Tue, Jul 28, 2015</time>
-  
-
-<p>SSH é a sigla para &lsquo;Secure SHell&rsquo;, e é basicamente um protocolo de rede que permite computadores se conectarem via rede de forma a permitir que um computador execute comandos em unidades remotas de maneira segura (criptografada). Essa segurança é garantida por uma chave de segurança que é armazenada tanto em no computador local quanto na máquina remota. Além disso, na maioria das vezes esse acesso é somente autorizado através de senhas de acesso.</p>
-
+  <p>SSH é a sigla para &lsquo;Secure SHell&rsquo;, e é basicamente um protocolo de rede que permite computadores se conectarem via rede de forma a permitir que um computador execute comandos em unidades remotas de maneira segura (criptografada). Essa segurança é garantida por uma chave de segurança que é armazenada tanto em no computador local quanto na máquina remota. Além disso, na maioria das vezes esse acesso é somente autorizado através de senhas de acesso.</p>
 <h2 id="acesso">Acesso</h2>
-
 <p>O acesso básico a uma máquina remota via SSH é bastante simples:</p>
-
-<pre><code class="language-r">$ ssh usuario@ip
-</code></pre>
-
-<p>No entanto, alguns argumentos podem ser usados conjuntamente com esse comando básico quando a tarefa requer especificações extras. Uma lista destes argumentos e suas funções pode ser facilmente obtida usando o comando</p>
-
-<pre><code class="language-r">$ man ssh
-</code></pre>
-
-<p>que abre o manual deste programa. (Esta sintaxe pode ser usada para qualquer programa na linha de comando. <em>Ex. man cp, man emacs, etc.</em>)</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#f92672">$</span> ssh usuario<span style="color:#f92672">@</span>ip
+</code></pre></div><p>No entanto, alguns argumentos podem ser usados conjuntamente com esse comando básico quando a tarefa requer especificações extras. Uma lista destes argumentos e suas funções pode ser facilmente obtida usando o comando</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#f92672">$</span> man ssh
+</code></pre></div><p>que abre o manual deste programa. (Esta sintaxe pode ser usada para qualquer programa na linha de comando. <em>Ex. man cp, man emacs, etc.</em>)</p>
 <p>No primeiro acesso, uma mensagem de aviso aparecerá perguntando se você tem certeza se quer continuar.</p>
-
-<pre><code class="language-r"># The authenticity of host 'github.com (207.97.227.239)' can't be established.
-# RSA key fingerprint is 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48.
-# Are you sure you want to continue connecting (yes/no)?
-</code></pre>
-
-<p>Isso acontece pois o protocolo SSH é baseado no reconhecimento entre as chaves públicas do computador local e do computador remoto. No primeiro acesso tanto a chave local quanto a chave remota serão armazenadas nos dois locais, evitando que a identidade das máquinas precise ser verificada pelo usuário em todo acesso. Por fim, basta digitar <em>yes</em> que sua senha será pedida. (<em>Nota: ao digitar sua senha, a maioria dos sistemas operacionais não mostrará nenhum caracter representando sua senha, ou seja, você digitará a senha e nada vai aparecer na tela. Não se preocupe, isso é mais uma medida de segurança.</em>)</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e"># The authenticity of host &#39;github.com (207.97.227.239)&#39; can&#39;t be established.</span>
+<span style="color:#75715e"># RSA key fingerprint is 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48.</span>
+<span style="color:#75715e"># Are you sure you want to continue connecting (yes/no)?</span>
+</code></pre></div><p>Isso acontece pois o protocolo SSH é baseado no reconhecimento entre as chaves públicas do computador local e do computador remoto. No primeiro acesso tanto a chave local quanto a chave remota serão armazenadas nos dois locais, evitando que a identidade das máquinas precise ser verificada pelo usuário em todo acesso. Por fim, basta digitar <em>yes</em> que sua senha será pedida. (<em>Nota: ao digitar sua senha, a maioria dos sistemas operacionais não mostrará nenhum caracter representando sua senha, ou seja, você digitará a senha e nada vai aparecer na tela. Não se preocupe, isso é mais uma medida de segurança.</em>)</p>
 <h1 id="rotinas-comuns">Rotinas Comuns</h1>
-
 <h2 id="armazenando-os-endereços-de-ip-das-máquinas">Armazenando os endereços de IP das máquinas</h2>
-
 <p>Lembrar dos endereços numéricos de IP das máquinas é algo que não precisa ser feito. Em sistemas UNIX, é possível atribuir nomes a esses endereços ao editar o arquivo /etc/hosts utilizando seu editor de preferência (nano, vi, emacs, gedit, etc.)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#f92672">$</span> emacs <span style="color:#f92672">/</span>etc<span style="color:#f92672">/</span>hosts
 
-<pre><code class="language-r">$ emacs /etc/hosts
-
-##
-# Host Database
-#
-# localhost is used to configure the loopback interface
-# when the system is booting.  Do not change this entry.
-##
-127.0.0.1       localhost
-255.255.255.255 broadcasthost
-::1             localhost
-fe80::1%lo0     localhost
-</code></pre>
-
-<p>Ao editar esse arquivo, basta inserir na primeira coluna o endereço de IP da máquina desejada e na segunda coluna o nome que você quer atribuir à ela.</p>
-
-<pre><code class="language-r">##
-# Host Database
-#
-# localhost is used to configure the loopback interface
-# when the system is booting.  Do not change this entry.
-##
-127.0.0.1       localhost
-255.255.255.255 broadcasthost
-::1             localhost
-fe80::1%lo0     localhost
-143.107.xxx.xxx labmeme1
-143.107.yyy.yyy jabba
-</code></pre>
-
-<p>Após atribuir um <em>alias</em> (nome que damos a qualquer &ldquo;codinome&rdquo; de um objeto ou função em UNIX) aos servidores, podemos nos conectar a eles tanto através do endereço de IP quanto através de seu <em>alias</em>.</p>
-
-<pre><code class="language-r">$ ssh usuario@labmeme1
-$ ssh usuario@jabba
-</code></pre>
-
-<p>Neste exemplo, o mesmo nome do servidor foi atribuído ao seu , porém isso pode ser modificado de acordo com sua vontade/necessidade.</p>
-
-<pre><code class="language-r">##
-# Host Database
-#
-# localhost is used to configure the loopback interface
-# when the system is booting.  Do not change this entry.
-##
-127.0.0.1       localhost
-255.255.255.255 broadcasthost
-::1             localhost
-fe80::1%lo0     localhost
-143.107.xxx.xxx servidor-mac
-143.107.yyy.yyy servidor-linux
-</code></pre>
-
-<p>Aqui o acesso seria feito da seguinte maneira:</p>
-
-<pre><code class="language-r">$ ssh usuario@servidor-mac
-$ ssh usuario@servidor-linux
-</code></pre>
-
-<h2 id="acessando-nós-escravos">Acessando nós escravos</h2>
-
+<span style="color:#75715e">##</span>
+<span style="color:#75715e"># Host Database</span>
+<span style="color:#75715e">#</span>
+<span style="color:#75715e"># localhost is used to configure the loopback interface</span>
+<span style="color:#75715e"># when the system is booting.  Do not change this entry.</span>
+<span style="color:#75715e">##</span>
+<span style="color:#ae81ff">127.0.0.1</span>       localhost
+<span style="color:#ae81ff">255.255.255.255</span> broadcasthost
+<span style="color:#f92672">::</span><span style="color:#ae81ff">1</span>             localhost
+fe80<span style="color:#f92672">::</span><span style="color:#ae81ff">1</span>%lo0     localhost
+</code></pre></div><p>Ao editar esse arquivo, basta inserir na primeira coluna o endereço de IP da máquina desejada e na segunda coluna o nome que você quer atribuir à ela.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">##</span>
+<span style="color:#75715e"># Host Database</span>
+<span style="color:#75715e">#</span>
+<span style="color:#75715e"># localhost is used to configure the loopback interface</span>
+<span style="color:#75715e"># when the system is booting.  Do not change this entry.</span>
+<span style="color:#75715e">##</span>
+<span style="color:#ae81ff">127.0.0.1</span>       localhost
+<span style="color:#ae81ff">255.255.255.255</span> broadcasthost
+<span style="color:#f92672">::</span><span style="color:#ae81ff">1</span>             localhost
+fe80<span style="color:#f92672">::</span><span style="color:#ae81ff">1</span>%lo0     localhost
+<span style="color:#ae81ff">143.107</span>.xxx.xxx labmeme1
+<span style="color:#ae81ff">143.107</span>.yyy.yyy jabba
+</code></pre></div><p>Após atribuir um <em>alias</em> (nome que damos a qualquer &ldquo;codinome&rdquo; de um objeto ou função em UNIX) aos servidores, podemos nos conectar a eles tanto através do endereço de IP quanto através de seu <em>alias</em>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#f92672">$</span> ssh usuario<span style="color:#f92672">@</span>labmeme1
+<span style="color:#f92672">$</span> ssh usuario<span style="color:#f92672">@</span>jabba
+</code></pre></div><p>Neste exemplo, o mesmo nome do servidor foi atribuído ao seu , porém isso pode ser modificado de acordo com sua vontade/necessidade.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#75715e">##</span>
+<span style="color:#75715e"># Host Database</span>
+<span style="color:#75715e">#</span>
+<span style="color:#75715e"># localhost is used to configure the loopback interface</span>
+<span style="color:#75715e"># when the system is booting.  Do not change this entry.</span>
+<span style="color:#75715e">##</span>
+<span style="color:#ae81ff">127.0.0.1</span>       localhost
+<span style="color:#ae81ff">255.255.255.255</span> broadcasthost
+<span style="color:#f92672">::</span><span style="color:#ae81ff">1</span>             localhost
+fe80<span style="color:#f92672">::</span><span style="color:#ae81ff">1</span>%lo0     localhost
+<span style="color:#ae81ff">143.107</span>.xxx.xxx servidor<span style="color:#f92672">-</span>mac
+<span style="color:#ae81ff">143.107</span>.yyy.yyy servidor<span style="color:#f92672">-</span>linux
+</code></pre></div><p>Aqui o acesso seria feito da seguinte maneira:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#f92672">$</span> ssh usuario<span style="color:#f92672">@</span>servidor<span style="color:#f92672">-</span>mac
+<span style="color:#f92672">$</span> ssh usuario<span style="color:#f92672">@</span>servidor<span style="color:#f92672">-</span>linux
+</code></pre></div><h2 id="acessando-nós-escravos">Acessando nós escravos</h2>
 <p>Da mesma forma como você pode fazer no seu computador, o nó escravo do nosso servidor Linux (<em>leia</em>) pode ser acessado via ssh através do nó <em>jabba</em></p>
-
-<pre><code class="language-r">$ *dentro do nó jabba* ssh usuario@leia
-</code></pre>
-
-<h2 id="tunneling-por-ssh"><em>Tunneling</em> por ssh</h2>
-
-<p>Em alguns casos, como no serviço de computação em nuvem da USP, para maior segurança o acesso aos servidores não é feito de forma direta. Nesse caso, o acesso é inicialmente feito a uma máquina (virtual nesse caso, podendo ser física) que media a &ldquo;conversa&rdquo; entre a máquina local e os servidores de processamento. Sendo assim, o acesso aos servidores de processamento deve ser feito em duas etapas: 1. Acesso via ssh: <strong>ssh usuario@shark.lcca.usp.br</strong>; 2. Acesso via ssh a partir dessa máquina aos servidores <em>aguia</em> e <em>jaguar</em>: <strong>ssh usuario@aguia</strong> ou <strong>ssh usuario@jaguar</strong>.</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#f92672">$</span> <span style="color:#f92672">*</span>dentro do nó jabba<span style="color:#f92672">*</span> ssh usuario<span style="color:#f92672">@</span>leia
+</code></pre></div><h2 id="tunneling-por-ssh"><em>Tunneling</em> por ssh</h2>
+<p>Em alguns casos, como no serviço de computação em nuvem da USP, para maior segurança o acesso aos servidores não é feito de forma direta. Nesse caso, o acesso é inicialmente feito a uma máquina (virtual nesse caso, podendo ser física) que media a &ldquo;conversa&rdquo; entre a máquina local e os servidores de processamento. Sendo assim, o acesso aos servidores de processamento deve ser feito em duas etapas: 1. Acesso via ssh: <strong>ssh <a href="mailto:usuario@shark.lcca.usp.br">usuario@shark.lcca.usp.br</a></strong>; 2. Acesso via ssh a partir dessa máquina aos servidores <em>aguia</em> e <em>jaguar</em>: <strong>ssh usuario@aguia</strong> ou <strong>ssh usuario@jaguar</strong>.</p>
 <p>Sendo assim, a cópia de arquivos de/para o servidor (capítulo 2) precisaria também ser feita seguindo essas duas etapas. Porém, as máquinas intermediárias costumam ter limitação de recursos (principalmente de armazenamento), além de ser um processo bastante inconveniente copiar arquivos para um determinado lugar para em seguida copiá-los novamente para uma nova localidade. Para evitar esse tipo de problemas, é possível estabelecer uma conexão de <em>tunneling</em> por ssh, que cria literalmente um túnel de acesso direto entre a máquina local e os servidores de processamento. Essa conexão é criada da seguinte forma (usando uma conexão com o servidor <em>aguia</em> como exemplo:</p>
-
-<pre><code class="language-r">$ ssh -2 -L 8020:aguia.lcca.usp.br:22 usuario@shark.lcca.usp.br
-</code></pre>
-
-<p>onde <strong>-L</strong> indica que o link entre sua máquina e o servidor deve ser feito através da porta 8020 (a porta 22 é a porta padrão de comunicação via ssh). Essa conexão deve ser mantida aberta para que os arquivos possam ser copiados diretamente da máquina local para os servidores de processamento e vice-versa.</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#f92672">$</span> ssh <span style="color:#ae81ff">-2</span> <span style="color:#f92672">-</span>L <span style="color:#ae81ff">8020</span><span style="color:#f92672">:</span>aguia.lcca.usp.br<span style="color:#f92672">:</span><span style="color:#ae81ff">22</span> usuario<span style="color:#f92672">@</span>shark.lcca.usp.br
+</code></pre></div><p>onde <strong>-L</strong> indica que o link entre sua máquina e o servidor deve ser feito através da porta 8020 (a porta 22 é a porta padrão de comunicação via ssh). Essa conexão deve ser mantida aberta para que os arquivos possam ser copiados diretamente da máquina local para os servidores de processamento e vice-versa.</p>
 <h2 id="encerrando-uma-conexão">Encerrando uma conexão</h2>
-
 <p>Para encerrar uma conexão ssh, basta digitar <strong>exit</strong> ou apertar as teclas <strong>Ctrl+d</strong></p>
-
 <h1 id="copiando-arquivos-via-ssh">Copiando arquivos <em>via</em> ssh</h1>
-
 <p>A rotina de trabalho em servidores remotos envolve muitas etapas de cópia de arquivos tanto do computador local para o remoto quanto no caminho inverso. A cópia de arquivos via ssh se assemelha bastante à cópia de arquivos localmente, porém usa-se o comando <strong>scp</strong> e seus argumentos.</p>
-
 <p>Os argumentos mais comumente usados são:</p>
-
 <table>
 <thead>
 <tr>
@@ -189,79 +131,54 @@ $ ssh usuario@servidor-linux
 <th>Função</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>-r</td>
 <td><strong>recursive</strong>: necessário para copiar múltiplos arquivos e/ou pastas</td>
 </tr>
-
 <tr>
 <td>-v</td>
 <td><strong>verbose</strong>: imprime mensagens de progresso</td>
 </tr>
-
 <tr>
 <td>-P</td>
 <td><strong>port</strong>: indica a porta pela qual os arquivos devem ser copiados</td>
 </tr>
-
 <tr>
 <td>-q</td>
 <td><strong>quiet</strong>: não imprime mensagens nem avisos</td>
 </tr>
-
 <tr>
 <td>-l</td>
 <td><strong>limit</strong>: limita o uso de banda de conexão (em bytes) para a cópia dos arquivos</td>
 </tr>
 </tbody>
 </table>
-
 <h2 id="copiando-um-arquivo">Copiando um arquivo</h2>
-
 <p>Neste exemplo, vamos copiar o arquivo <strong>foo.txt</strong> do computador local para a pasta <em>/home</em> do servidor. (Para os exemplos a seguir, assumiremos que você já domina os comandos básicos de shell).</p>
-
-<pre><code class="language-r">$ scp foo.txt usuario@jabba:~/
-</code></pre>
-
-<h2 id="copiando-vários-arquivos-ou-pasta">Copiando vários arquivos ou pasta</h2>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#f92672">$</span> scp foo.txt usuario<span style="color:#f92672">@</span>jabba<span style="color:#f92672">:~/</span>
+</code></pre></div><h2 id="copiando-vários-arquivos-ou-pasta">Copiando vários arquivos ou pasta</h2>
 <p>Agora, vamos copiar a pasta <em>phylogenies</em> localizada na pasta <em>/home/usuario/</em> para a pasta <em>~/Dropbox</em>.</p>
-
-<pre><code class="language-r">$ scp -r usuario@143.107.xxx.xxx:~/usuario/phylogenies ~/Dropbox
-</code></pre>
-
-<p>Lembre-se de tomar cuidado com os caminhos para os arquivos. Verifique se você está na pasta desejada para usar a forma simplificada de caminho, ou certifique-se de passar o caminho completo do(s) arquivo(s)/pasta(s) a ser(em) copiados(as).</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#f92672">$</span> scp <span style="color:#f92672">-</span>r usuario<span style="color:#f92672">@</span><span style="color:#ae81ff">143.107</span>.xxx.xxx<span style="color:#f92672">:~/</span>usuario<span style="color:#f92672">/</span>phylogenies <span style="color:#f92672">~/</span>Dropbox
+</code></pre></div><p>Lembre-se de tomar cuidado com os caminhos para os arquivos. Verifique se você está na pasta desejada para usar a forma simplificada de caminho, ou certifique-se de passar o caminho completo do(s) arquivo(s)/pasta(s) a ser(em) copiados(as).</p>
 <h2 id="copiando-arquivos-usando-o-tunneling">Copiando arquivos usando o <em>tunneling</em></h2>
-
 <p>Como mencionado anteriormente, em servidores como o da nuvem da USP podemos copiar arquivos diretamente para os servidores de processamento sem ter que copiar primeiro os arquivos para o gatekeeper e em seguida copiar de lá para os servidores. Para isso, o primeiro passo é ativar a conexão de <em>tunneling</em> como indicado na seção <strong>2.3</strong>.</p>
-
 <p>Em seguida, utilizando o protocolo scp, podemos copiar um ou mais arquivos ou pastas diretamente para os servidores. IMPORTANTE: lembrar a porta usada no <em>tunneling</em>! Ela será necessária nesta etapa.</p>
-
-<pre><code class="language-r">$ scp -r -P 8020 ~/Dropbox/phylogenies usuario@localhost:~/projects
-</code></pre>
-
-<p>Este comando copiou a pasta de filogenias diretamente para o servidor ao qual nos conectamos usando a porta 8020 que foi determinada na conexão de <em>tunneling</em>. O comando para copiar arquivos do servidor para o computador local é similar:</p>
-
-<pre><code class="language-r">$ scp -r -P 8020 usuario@localhost:~/projects/phylogenies ~/backup/
-</code></pre>
-
-<h2 id="copiando-arquivos-usando-o-rsync">Copiando arquivos usando o <em>rsync</em></h2>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#f92672">$</span> scp <span style="color:#f92672">-</span>r <span style="color:#f92672">-</span>P <span style="color:#ae81ff">8020</span> <span style="color:#f92672">~/</span>Dropbox<span style="color:#f92672">/</span>phylogenies usuario<span style="color:#f92672">@</span>localhost<span style="color:#f92672">:~/</span>projects
+</code></pre></div><p>Este comando copiou a pasta de filogenias diretamente para o servidor ao qual nos conectamos usando a porta 8020 que foi determinada na conexão de <em>tunneling</em>. O comando para copiar arquivos do servidor para o computador local é similar:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#f92672">$</span> scp <span style="color:#f92672">-</span>r <span style="color:#f92672">-</span>P <span style="color:#ae81ff">8020</span> usuario<span style="color:#f92672">@</span>localhost<span style="color:#f92672">:~/</span>projects<span style="color:#f92672">/</span>phylogenies <span style="color:#f92672">~/</span>backup<span style="color:#f92672">/</span>
+</code></pre></div><h2 id="copiando-arquivos-usando-o-rsync">Copiando arquivos usando o <em>rsync</em></h2>
 <p>Recentemente descobri outro programa que pode ser usado para copiar arquivos de e para o servidor, chamado <em>rsync</em>. Ele apresenta uma característica que o coloca na frente do scp: ele consegue retomar transferências que falharam ao analisar quais arquivos já foram copiados e continuando dali para frente. A utilização dele é bastante parecida com a do scp, e geralmente uso apenas dois argumentos.</p>
-
-<pre><code class="language-r">$ rsync -r -v ~/Dropbox/exemplos usuario@servidor:~/apostilas
-</code></pre>
-
-<p>onde <strong>-r</strong> indica que a cópia deve ser recursiva, ou seja, que arquivos localizados em subpastas também devem ser copiados, e <strong>-v</strong> indica <em>verbose</em>, ou seja, ele imprime na tela a lista dos arquivos à medida em que são copiados.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#f92672">$</span> rsync <span style="color:#f92672">-</span>r <span style="color:#f92672">-</span>v <span style="color:#f92672">~/</span>Dropbox<span style="color:#f92672">/</span>exemplos usuario<span style="color:#f92672">@</span>servidor<span style="color:#f92672">:~/</span>apostilas
+</code></pre></div><p>onde <strong>-r</strong> indica que a cópia deve ser recursiva, ou seja, que arquivos localizados em subpastas também devem ser copiados, e <strong>-v</strong> indica <em>verbose</em>, ou seja, ele imprime na tela a lista dos arquivos à medida em que são copiados.</p>
 
 </div>
 
 
     </main>
 
+    
+      
     
   </body>
 </html>
