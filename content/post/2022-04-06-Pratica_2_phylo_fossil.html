@@ -384,7 +384,6 @@ sum(gammaStat(sim.bd.decl) &lt;= unlist(lapply(gamma.null.cresc, gammaStat)))/10
 <p>O que podemos afirmar com relação à capacidade da estatística <code>gamma</code> em distingüir entre os diferentes cenários?</p>
 </blockquote>
 <hr />
-<hr />
 </div>
 </div>
 <div id="simulações-do-registro-fóssil" class="section level1">
@@ -470,8 +469,6 @@ record.10.rang &lt;- setNames(ldply(record.10, range)[, c(1, 3, 2)], c(&quot;tax
 record.50.plot &lt;- taxa.for.plot(record.50)
 record.10.plot &lt;- taxa.for.plot(record.10)
 
----
-
 ## Ocorrências para 50% de preservação
 
 rec50.plot &lt;-
@@ -545,8 +542,8 @@ for(i in 1:3){
 div.data &lt;- dplyr::bind_rows(rang.list)
 
 ggplot(data = div.data) +
-    geom_segment(aes(x = -int.start, xend = -abs(int.end), y = factor(int.div), yend = factor(int.div), colour = name), size = 1, alpha = 0.75) +
-    geom_segment(aes(x = -int.start, xend = -int.start, y = factor(int.div), yend = factor(foo), colour = name), size = 1, alpha = 0.75) +
+    geom_segment(aes(x = -int.start, xend = -abs(int.end), y = int.div, yend = int.div, colour = name), size = 1, alpha = 0.75) +
+    geom_segment(aes(x = -int.start, xend = -int.start, y = int.div, yend = foo, colour = name), size = 1, alpha = 0.75) +
     scale_colour_brewer(palette = &quot;Set1&quot;, labels = c(&quot;Perfeito&quot;, &quot;50%&quot;, &quot;10%&quot;)) +
     labs(x = &quot;Tempo&quot;, y = &quot;Número de Espécies&quot;, colour = &quot;Preservação&quot;) +
     theme(legend.position = &quot;bottom&quot;)

@@ -472,8 +472,6 @@ sum(gammaStat(sim.bd.decl) <= unlist(lapply(gamma.null.cresc, gammaStat)))/100
 
 ---
 
----
-
 # Simulações do registro fóssil
 
 Como vimos no tutorial da aula passada, os modelos usados para analisar dados do registro fóssil são bastante similares (muitas vezes idênticos) aos modelos usados com filogenias moleculares. Sendo assim, não vamos focar muito nas propriedades desses modelos (estocasticidade, valores esperados, etc.) que já vimos anteriormente, mas vamos avaliar algumas propriedades que são exclusivas dos dados fósseis. 
