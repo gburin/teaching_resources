@@ -9,15 +9,15 @@ author = "Gustavo Burin"
   Subtitle = "Tutoriais e exercícios"
   GithubID = "gburin"
   TwitterID = "gustavoburin"
-  AnalyticsID = "G-5ST4RJ1ZH5"
-  gtagId = "G-5ST4RJ1ZH5"
+  AnalyticsID = "G-YJFQG8J3GJ"
+  gtagId = "G-YJFQG8J3GJ"
   DisqusShortname = "gburin"
   Summary = true  # takes true or false
   Content = false  # takes true or false
   math = true
   # if both are set to true, summary is shown.
   # FooterMsg = "Copyright Me 2016. Powered by Hugo."
-  googleAnalytics = "G-5ST4RJ1ZH5"
+  googleAnalytics = "G-YJFQG8J3GJ"
   # Date and time format (refer to Go's date format: http://fuckinggodateformat.com )
   #   Examples: "Mon, Jan 2, 2006" or "2006-01-02"
   date_format = "Jan 2, 2006"
