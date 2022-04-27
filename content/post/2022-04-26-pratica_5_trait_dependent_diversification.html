@@ -46,7 +46,7 @@ legend(&quot;bottomright&quot;, legend = c(&quot;Misto&quot;, &quot;Terrestre Ab
 </div>
 <div id="gerando-modelo-completo-todas-as-taxas-livres-para-serem-estimadas" class="section level2">
 <h2>Gerando modelo completo (todas as taxas livres para serem estimadas)</h2>
-<pre class="r"><code>viper.musse &lt;- make.musse(tree = trait.data.plot$phy, states = trait.data.musse, k = 4, sampling.f = 0.79)
+<pre class="r"><code>viper.musse &lt;- make.musse(tree = viper.tree, states = trait.data.musse, k = 4, sampling.f = 0.79)
 
 sp.musse &lt;- starting.point.musse(tree = viper.tree, k = 4)
 

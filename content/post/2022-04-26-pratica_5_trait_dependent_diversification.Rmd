@@ -57,7 +57,7 @@ As versões "originais" dos modelos do `diversitree` são baseadas em abordagens
 
 ```{r eval = FALSE}
 
-viper.musse <- make.musse(tree = trait.data.plot$phy, states = trait.data.musse, k = 4, sampling.f = 0.79)
+viper.musse <- make.musse(tree = viper.tree, states = trait.data.musse, k = 4, sampling.f = 0.79)
 
 sp.musse <- starting.point.musse(tree = viper.tree, k = 4)
 
