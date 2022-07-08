@@ -27,7 +27,7 @@
   
 </head>
 
-  <body class="theme-base-0c layout-reverse">
+  <body class="theme-base-08 layout-reverse">
   <aside class="sidebar">
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
@@ -51,7 +51,7 @@
     <main class="content container">
     <div class="post">
   <h1>Modelos de Evolução Fenotípica</h1>
-  <time datetime=2018-10-03T00:00:00Z class="post-date">Wed, Oct 3, 2018</time>
+  <time datetime=2022-04-29T00:00:00Z class="post-date">Fri, Apr 29, 2022</time>
   
 <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
@@ -69,7 +69,7 @@ library(&quot;picante&quot;)</code></pre>
 <div id="stochastic-mapping-simmap" class="section level2">
 <h2>Stochastic Mapping (SIMMAP)</h2>
 <p>Da mesma forma que não sabemos a verdadeira história de diversificação de um grupo (tampouco a topologia da filogenia), é impossível reconstruir a verdadeira história de evolução de um caráter ao longo da existência de um clado <a href="https://media.giphy.com/media/Xpa9TmISjaaju/giphy.gif" target="_blank"><del>a não ser que você tenha uma máquina do tempo</del></a>. Sendo assim, nos resta reconstruir diversas histórias plausíveis segundo algum modelo que assumirmos ser possível, e avaliar as probabilidades associadas a todas elas.</p>
-<p>Vamos então usar um método chamado <em>Stochastic Mapping</em> (<a href="https://academic.oup.com/sysbio/article/52/2/131/1634311" target="_blank">Huelsenbeck <em>et al.</em> 2003</a>), implementado no famoso pacote <a href="http://blog.phytools.org/" target="_blank"><em>phytools</em></a>. Para ajustarmos esse modelo, usaremos uma filogenia somente (por questões didáticas) e os habitats de cada uma das espécies da filogenia. Primeiro vamos importar os dados de habitat, bem como uma das filogenias usadas no artigo.</p>
+<p>Vamos então usar um método chamado <em>Stochastic Mapping</em> (<a href="https://academic.oup.com/sysbio/article/52/2/131/1634311" target="_blank">Huelsenbeck <em>et al.</em> 2003</a>), implementado no famoso pacote <a href="http://blog.phytools.org/" target="_blank"><em>phytools</em></a>. Para ajustarmos esse modelo, usaremos uma filogenia somente (por questões didáticas) e os habitats de cada uma das espécies da filogenia. Primeiro vamos importar os dados de habitat, bem como uma das filogenias usadas no artigo. O arquivo com os dados necessários para o tutorial está <a href="https://www.dropbox.com/s/zoszd1fmafxq03f/data_traitevol.zip?dl=0">neste link</a>. Lembre-se de alterar o diretório de trabalho do R para a pasta gerada após a descompressão desse arquivo.</p>
 <pre class="r"><code>habitat &lt;- read.csv(&quot;habitat_vipers_all.csv&quot;, sep = &quot;;&quot;, header = FALSE)
 hab &lt;- habitat[,2]
 names(hab) &lt;- habitat[,1]
@@ -84,7 +84,7 @@ colors &lt;- c(&quot;#ffa500&quot;, &quot;#a52a2a&quot;, &quot;#0000ff&quot;, &q
 <li><p><strong>model = “ARD”</strong>: ARD significa All Rates Different, ou seja, estamos deixando todas as transições serem estimadas independentemente, não impondo nenhuma restrição (exceto aquelas inerentes aos modelos Mk). Isso torna o modelo mais complexo, mas no nosso caso também mais realista já que não temos nenhuma hipótese a priori sobre eventuais restrições.</p></li>
 <li><p><strong>Q = “empirical”</strong>: A matriz de probabilidades de transição é estimada usando a configuração de habitats das espécies existentes (ajustando um modelo Mk simples).</p></li>
 </ul>
-<pre class="r"><code>set.seed(20181003)
+<pre class="r"><code>set.seed(20220503)
 
 simmap.vipers &lt;- make.simmap(tree.simmap, hab, model = &quot;ARD&quot;, Q = &quot;empirical&quot;, nsim = 9) ## esse comando leva aproximadamente 3,5 minutos para rodar</code></pre>
 <p>De posse das 9 réplicas, podemos plotá-las lado a lado (agora vem a razão de 9 réplicas e não 10 :-p) para visualizar as diferenças. Note que os nomes das espécies não foram incluídos para facilitar a visualização dos mapas em si.</p>

@@ -27,7 +27,7 @@
   
 </head>
 
-  <body class="theme-base-0c layout-reverse">
+  <body class="theme-base-08 layout-reverse">
   <aside class="sidebar">
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
@@ -51,13 +51,16 @@
     <main class="content container">
     <div class="post">
   <h1>Análises de diversificação utilizando BAMM e RPANDA</h1>
-  <time datetime=2018-09-24T00:00:00Z class="post-date">Mon, Sep 24, 2018</time>
+  <time datetime=2022-04-21T00:00:00Z class="post-date">Thu, Apr 21, 2022</time>
   
 <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
+<div id="carregando-os-pacotes" class="section level1">
+<h1>Carregando os pacotes</h1>
 <pre class="r"><code>library(&quot;BAMMtools&quot;)
 library(&quot;RPANDA&quot;)</code></pre>
+</div>
 <div id="bamm" class="section level1">
 <h1>BAMM</h1>
 <div id="baixando-e-instalando-o-bamm" class="section level2">
@@ -84,7 +87,9 @@ library(&quot;RPANDA&quot;)</code></pre>
 <div id="rodando-o-bamm" class="section level2">
 <h2>Rodando o BAMM</h2>
 <p>Em seu terminal, navegue para a pasta contendo o arquivo executável do BAMM, o control file e a filogenia.</p>
-<pre class="bash"><code>./bamm -c divcontrol.txt ## copie e cole no terminal</code></pre>
+<pre class="bash"><code>
+./bamm -c divcontrol.txt ## copie e cole no terminal
+</code></pre>
 </div>
 <div id="pacote-bammtools" class="section level2">
 <h2>Pacote BAMMtools</h2>
@@ -174,6 +179,7 @@ delphinidae.tree &lt;- drop.tip(whales, whales$tip.label[-match(delphinidae, wha
 phocoenidae.tree &lt;- drop.tip(whales, whales$tip.label[-match(phocoenidae, whales$tip.label)])
 ziphidae.tree &lt;- drop.tip(whales, whales$tip.label[-match(ziphidae, whales$tip.label)])
 othercetaceans.tree &lt;- drop.tip(whales, c(balaenopteridae, delphinidae,  phocoenidae,  ziphidae))
+
 fit.multi.rpanda &lt;- function(tree, par)
     {
         bcstdcst &lt;- fit_bd(tree,  max(branching.times(tree)),  f.lamb = lambda.cst,  f.mu = mu.cst,  lamb_par = par[[1]][1], mu_par = par[[1]][2], cst.lamb = TRUE, cst.mu = TRUE, cond = &quot;crown&quot;, f = 87/89, dt = 1e-3)
@@ -200,9 +206,12 @@ for(i in 1:5)
                 aic.table[j, i] &lt;- results[[i]][[j]]$aicc
             }
     }
+
 colnames(aic.table) &lt;- c(&quot;Balaenopteridae&quot;, &quot;Delphinidae&quot;, &quot;Phocoenidae&quot;, &quot;Ziphidae&quot;, &quot;Other Cetaceans&quot;)
 rownames(aic.table) &lt;- c(&quot;bcstdcst&quot;, &quot;bvardcst&quot;, &quot;bcstdvar&quot;, &quot;bvardvar&quot;)
+
 aic.table
+
 par.table &lt;- data.frame(&quot;Balaenopteridae&quot; = c(results[[1]]$bcstdcst$lamb_par[1:2], results[[1]]$bcstdcst$mu_par[1:2]), &quot;Delphinidae&quot; = c(results[[2]]$bvardcst$lamb_par[1:2], results[[2]]$bvardcst$mu_par[1:2]), &quot;Phocoenidae&quot; = c(results[[3]]$bcstdcst$lamb_par[1:2], results[[3]]$bcstdcst$mu_par[1:2]), &quot;Ziphidae&quot; = c(results[[4]]$bcstdcst$lamb_par[1:2], results[[4]]$bcstdcst$mu_par[1:2]), &quot;Other Cetaceans&quot; = c(results[[5]]$bcstdvar$lamb_par[1:2], results[[5]]$bcstdvar$mu_par[1:2]))
 par.table</code></pre>
 </div>

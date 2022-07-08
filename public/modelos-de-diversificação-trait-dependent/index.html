@@ -27,7 +27,7 @@
   
 </head>
 
-  <body class="theme-base-0c layout-reverse">
+  <body class="theme-base-08 layout-reverse">
   <aside class="sidebar">
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
@@ -51,7 +51,7 @@
     <main class="content container">
     <div class="post">
   <h1>Modelos de Diversificação Trait Dependent</h1>
-  <time datetime=2018-09-24T00:00:00Z class="post-date">Mon, Sep 24, 2018</time>
+  <time datetime=2022-04-26T00:00:00Z class="post-date">Tue, Apr 26, 2022</time>
   
 <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
@@ -70,7 +70,7 @@ library(&quot;qgraph&quot;)</code></pre>
 <h1>MuSSE + Vipers</h1>
 <p>Nesse tutorial vamos usar alguns dos modelos de <em>trait-dependent speciation anad extinction</em>, implementados no pacote <code>diversitree</code>. Para o exemplo do MuSSE (<strong>Mu</strong>ltiple-<strong>S</strong>tate <strong>S</strong>peciation and <strong>E</strong>xtinction) usaremos os dados de microhabitat e a filogenia de viperídeos usados em <a href="http://rspb.royalsocietypublishing.org/content/284/1869/20171775">Alencar <em>et al.</em>, 2017</a>.</p>
 <p>Já para o exemplo que usa o QuaSSE (<strong>Qua</strong>ntitative <em>S</em>tate <em>S</em>peciation and <em>E</em>xtinction) utilizaremos dados de massa corporal e a filogenia de primatas usadas no <a href="https://academic.oup.com/sysbio/article/59/6/619/1711291">artigo que descreve o método</a>.</p>
-<p>Todos os arquivos necessários estão disponíveis em um arquivo compactado <a href="https://www.dropbox.com/s/mc1omhts9g6od1q/arquivos_pratica_5.zip?dl=0">nesse link</a>.</p>
+<p>Todos os arquivos necessários estão disponíveis em um arquivo compactado <a href="https://www.dropbox.com/s/h8b9nfbptho8q4q/data_tutorial.zip?dl=0">nesse link</a>. Ao descompactar o arquivo, vamos precisar indicar para o R que trabalharemos na nova pasta criada pela extração. Para mudar o diretório de trabalho de uma sessão do R no RStudio, <a href="https://rabovo.wordpress.com/2015/05/30/bem-vindo-ao-blog-r-ab-ovo-software-r-para-iniciantes/">esse post</a> mostra como fazer.</p>
 <div id="importando-e-visualizando-os-dados" class="section level2">
 <h2>Importando e visualizando os dados</h2>
 <pre class="r"><code>viper.tree &lt;- read.tree(&quot;tree1.txt&quot;)
@@ -87,7 +87,7 @@ legend(&quot;bottomright&quot;, legend = c(&quot;Misto&quot;, &quot;Terrestre Ab
 </div>
 <div id="gerando-modelo-completo-todas-as-taxas-livres-para-serem-estimadas" class="section level2">
 <h2>Gerando modelo completo (todas as taxas livres para serem estimadas)</h2>
-<pre class="r"><code>viper.musse &lt;- make.musse(tree = trait.data.plot$phy, states = trait.data.musse, k = 4, sampling.f = 0.79)
+<pre class="r"><code>viper.musse &lt;- make.musse(tree = viper.tree, states = trait.data.musse, k = 4, sampling.f = 0.79)
 
 sp.musse &lt;- starting.point.musse(tree = viper.tree, k = 4)
 

@@ -27,7 +27,7 @@
   
 </head>
 
-  <body class="theme-base-0c layout-reverse">
+  <body class="theme-base-08 layout-reverse">
   <aside class="sidebar">
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
@@ -51,29 +51,28 @@
     <main class="content container">
     <div class="post">
   <h1>Visualização de dados filogenéticos e fósseis no R - BIE5751</h1>
-  <time datetime=2018-09-19T00:00:00Z class="post-date">Wed, Sep 19, 2018</time>
+  <time datetime=2022-04-06T00:00:00Z class="post-date">Wed, Apr 6, 2022</time>
   
 <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
 <p>Nesse tutorial, vamos relembrar os principais pontos da primeira aula, porém agora observando o que acontece “por trás dos panos” da ferramenta.</p>
 <p>O tutorial não contém <del>nenhum</del> muitos comentários sobre os códigos utilizados, pois a intenção aqui não é ser um tutorial de R, mas sim sobre macroevolução. Sendo assim, o tutorial foi escrito de maneira a simplesmente ser necessário copiar e colar os códigos e rodá-los no seu próprio computador. Qualquer dúvida sobre o código, pode perguntar para qualquer professor(a)/monitor(a).</p>
-<blockquote>
-<p>IMPORTANTE: Todas as perguntas a serem respondidas nessa aula estarão em blocos destacados como esse, e as respostas devem vir acompanhadas de figuras que as justifiquem (sejam elas do próprio tutorial, <em>print screens</em> de valores, ou de sua autoria). As respostas devem ser enviadas por e-mail em formato PDF até o início da próxima aula.</p>
-</blockquote>
 <p>Por fim, quase todos os gráficos criados nesse tutorial foram feitos usando o pacote <em>ggplot2</em>. Caso tenha interesse em entender um pouco melhor como ele funciona, a <a href="http://ggplot2.tidyverse.org/reference/" target="_blank">documentação</a> é ótima, e também preparei um <a href="https://www.gburin.com/tutorial-de-ggplot2/" target="_blank">tutorial em português com as principais funções.</a></p>
 <p>Sem mais <del>enrolação</del> delongas, vamos à prática!</p>
 <hr />
 <div id="carregando-os-pacotes-necessários" class="section level3">
 <h3>Carregando os pacotes necessários</h3>
-<pre class="r"><code>library(&quot;ape&quot;)
+<pre class="r"><code>
+library(&quot;ape&quot;)
 library(&quot;TreeSim&quot;)
 library(&quot;paleotree&quot;)
 library(&quot;ggplot2&quot;)
 library(&quot;cowplot&quot;)
 library(&quot;phytools&quot;)
 library(&quot;plyr&quot;)
-library(&quot;viridis&quot;)</code></pre>
+library(&quot;viridis&quot;)
+</code></pre>
 <hr />
 <p>Como vimos nas aulas teóricas, o número de espécies em um cenário de nascimento puro cresce no tempo segundo um modelo exponencial. No entanto, ao simularmos diferentes filogenias com as mesmas taxas e valores de tempo, notamos que há uma variação no número final de espécies obtidos. Isso se deve à estocasticidade do processo, dado que os modelos usados são modelos probabilísticos e não determinísticos.</p>
 <p>O lado bom é que por serem modelos estocásticos bem definidos, é possível calcular as médias das características das filogenias resultantes e compará-las com os valores esperados segundo os modelos. É isso que faremos no primeiro item.</p>
@@ -81,10 +80,10 @@ library(&quot;viridis&quot;)</code></pre>
 <div id="número-esperado-de-espécies" class="section level1">
 <h1>Número esperado de espécies</h1>
 <p>O crescimento exponencial tem a seguinte forma:</p>
-<p><span class="math display">\[\begin{equation}
+<p><span class="math display">\[
 N(t) = N_{0}(t) * e^{\alpha t}
-\end{equation}\]</span></p>
-<p>onde <span class="math inline">\(\alpha\)</span> é o valor da taxa de acúmulo de espécies. Dependendo da função utilizada, a simulação pode ser iniciada com uma ou duas linhagens, então é importante consultar o <em>help</em> da função sempre que for usá-la.</p>
+\]</span></p>
+<p>onde <code>alpha</code> é o valor da taxa de acúmulo de espécies. Dependendo da função utilizada, a simulação pode ser iniciada com uma ou duas linhagens, então é importante consultar o <em>help</em> da função sempre que for usá-la.</p>
 <p>Podemos então estimar quantas espécies são esperadas após um determinado tempo para uma determinada taxa simplesmente substituindo esses valores diretamente na fórmula:</p>
 <pre class="r"><code>## Número esperado para uma taxa de 0.2 e um tempo de 15 milhões de anos
 
@@ -94,29 +93,37 @@ expect.N.15
 ## Número esperado para uma taxa de 0.2 e um tempo de 30 milhões de anos
 
 expect.N.30 &lt;- 1 * exp(0.2 * 30)
-expect.N.30</code></pre>
+expect.N.30
+</code></pre>
 <p>Vale notar que de maneira similar ao que vimos usando a ferramenta de visualização, ao dobrar o tempo o número de espécies esperado ao fim da simulação aumenta não-linearmente. O mesmo vale comparando simulações que rodam para um mesmo valor de tempo porém com taxas diferentes:</p>
-<pre class="r"><code>expect.N.02 &lt;- 1 * exp(0.2 * 15)
+<pre class="r"><code>
+expect.N.02 &lt;- 1 * exp(0.2 * 15)
 expect.N.02
 
 expect.N.04 &lt;- 1 * exp(0.4 * 15)
-expect.N.04</code></pre>
+expect.N.04
+</code></pre>
 <p>Mesmo simulando várias vezes o processo é praticamente impossível obter exatamente os valores (arredondados claro) esperados segundo o modelo. Porém, o modelo nos diz a expectativa <strong>média</strong> do número de espécies, então se pudermos simular várias árvores e calcular a média do número de espécies, provavelmente esse valor se aproximará do número de espécies esperado para o valor taxa utilizado.</p>
 <p>Vamos então simular 1000 filogenias com os mesmos valores de taxa e tempo, e depois calcular o número médio de espécies desse conjunto de filogenias. Os comandos abaixo demoram alguns segundos para terminarem de rodar, então não se preocupem.</p>
-<pre class="r"><code>phylo.list.15 &lt;- sim.bd.age(age = 15, numbsim = 1000, lambda = 0.2, mu = 0, complete = TRUE)
+<pre class="r"><code>
+phylo.list.15 &lt;- sim.bd.age(age = 15, numbsim = 1000, lambda = 0.2, mu = 0, complete = TRUE)
 ntip.15 &lt;- unlist(lapply(phylo.list.15, function(x){ifelse(class(x) == &quot;phylo&quot;, Ntip(x), 1)}))
 
 phylo.list.30 &lt;- sim.bd.age(age = 30, numbsim = 1000, lambda = 0.2, mu = 0, complete = TRUE)
-ntip.30 &lt;- unlist(lapply(phylo.list.30, function(x){ifelse(class(x) == &quot;phylo&quot;, Ntip(x), 1)}))</code></pre>
+ntip.30 &lt;- unlist(lapply(phylo.list.30, function(x){ifelse(class(x) == &quot;phylo&quot;, Ntip(x), 1)}))
+</code></pre>
 <p>Comparando os valores médios obtidos com os esperados:</p>
-<pre class="r"><code>expect.N.15
+<pre class="r"><code>
+expect.N.15
 mean(ntip.15)
 
 expect.N.30 &lt;- 1 * exp(0.2 * 30)
 expect.N.30
-mean(ntip.30)</code></pre>
+mean(ntip.30)
+</code></pre>
 <p>Podemos analisar visualmente também:</p>
-<pre class="r"><code>data.plot &lt;- data.frame(ntip15 = ntip.15, ntip30 = ntip.30)
+<pre class="r"><code>
+data.plot &lt;- data.frame(ntip15 = ntip.15, ntip30 = ntip.30)
 
 ggplot(data = data.plot) +
     geom_histogram(aes(x = ntip15)) +
@@ -161,14 +168,18 @@ ntip.bd.15 &lt;- unlist(lapply(phylo.list.bd.15, function(x){ifelse(class(x) == 
 phylo.list.bd.30 &lt;- sim.bd.age(age = 30, numbsim = 200, lambda = 0.4, mu = 0.2, complete = TRUE)
 
 ## Obter o número de espécies para as filogenias moleculares que representam o momento final da simulação
-ntip.bd.30 &lt;- unlist(lapply(phylo.list.bd.30, function(x){ifelse(class(x) == &quot;phylo&quot;, Ntip(drop.fossil(x)), 0)}))</code></pre>
-<pre class="r"><code>expect.N.bd.15
+ntip.bd.30 &lt;- unlist(lapply(phylo.list.bd.30, function(x){ifelse(class(x) == &quot;phylo&quot;, Ntip(drop.fossil(x)), 0)}))
+</code></pre>
+<pre class="r"><code>
+expect.N.bd.15
 mean(ntip.bd.15, na.rm = TRUE)
 
 expect.N.bd.30
-mean(ntip.bd.30, na.rm = TRUE)</code></pre>
+mean(ntip.bd.30, na.rm = TRUE)
+</code></pre>
 <p>E graficamente:</p>
-<pre class="r"><code>data.plot.bd &lt;- data.frame(ntip15 = ntip.bd.15, ntip30 = ntip.bd.30)
+<pre class="r"><code>
+data.plot.bd &lt;- data.frame(ntip15 = ntip.bd.15, ntip30 = ntip.bd.30)
 
 ggplot(data = data.plot.bd) +
     geom_histogram(aes(x = ntip15)) +
@@ -187,14 +198,15 @@ ggplot(data = data.plot.bd) +
     theme(legend.position = &quot;bottom&quot;)
 </code></pre>
 <blockquote>
-<p>O número esperado de espécies é muito similar entre os cenários sem e com extinção que simulamos acima, porém os dois cenários resultam em uma coleção de árvores completamente distinta. Qual é essa diferença e o porquê dela? (Não se esqueça de incluir as figuras que justifiquem sua resposta)</p>
+<p>O número esperado de espécies é muito similar entre os cenários sem e com extinção que simulamos acima, porém os dois cenários resultam em uma coleção de árvores completamente distinta. Qual é essa diferença e o porquê dela?</p>
 </blockquote>
 <hr />
 </div>
-<div id="fração-de-extinção-epsilon" class="section level2">
-<h2>Fração de extinção (<span class="math inline">\(\epsilon\)</span>)</h2>
-<p>Até agora temos olhado para a relação entre especiação e extinção através do <span class="math inline">\(r\)</span> (diversificação líquida). Porém outra forma de olhar para isso é através da taxa que chamamos de <strong>fração de extinção</strong> (<em>extinction fraction</em> em inglês). Essa taxa nos indica qual a importância relativa da extinção frente à especiação. Para entendermos melhor o que é a fração de extinção, vamos simular filogenias com o mesmo valor de <span class="math inline">\(r\)</span>, porém com diferentes valores de <span class="math inline">\(\epsilon\)</span>:</p>
-<pre class="r"><code>lambda.1 &lt;- 0.2
+<div id="fração-de-extinção" class="section level2">
+<h2>Fração de extinção</h2>
+<p>Até agora temos olhado para a relação entre especiação e extinção através do <code>r</code> (diversificação líquida). Porém outra forma de olhar para isso é através da taxa que chamamos de <strong>fração de extinção</strong> (<em>extinction fraction</em> em inglês). Essa taxa nos indica qual a importância relativa da extinção frente à especiação. Para entendermos melhor o que é a fração de extinção, vamos simular filogenias com o mesmo valor de <code>r</code>, porém com diferentes valores de <code>epsilon</code>:</p>
+<pre class="r"><code>
+lambda.1 &lt;- 0.2
 lambda.2 &lt;- 1
 mu.1 &lt;- 0.1
 mu.2 &lt;- 0.9
@@ -243,14 +255,15 @@ par(mfrow = c(3, 3))
 lapply(lapply(sim.r.eps.2[samp.plot.2], drop.fossil), function(x){plot(x, show.tip.label = FALSE);axisPhylo()})
 </code></pre>
 <blockquote>
-<p>Por que no segundo cenário (Epsilon 2) apenas cerca de 10%-20% das simulações são bem sucedidas (chegam até o presente), enquanto no primeiro esse número gira em torno de 60%? (Não se esqueça de incluir as figuras que justifiquem sua resposta)</p>
+<p>Por que no segundo cenário (Epsilon 2) apenas cerca de 10%-20% das simulações são bem sucedidas (chegam até o presente), enquanto no primeiro esse número gira em torno de 60%?</p>
 </blockquote>
 <hr />
 </div>
 <div id="pull-of-the-present" class="section level2">
 <h2>Pull of the present</h2>
 <p>Como discutido anteriormente, em um cenário de nascimento puro o número de espécies cresce exponencialmente com o tempo. Sendo assim, espera-se que o LTT plot de árvores resultantes desse cenário apresentem um crescimento linear quando plotados em escala semi-logarítmica.</p>
-<pre class="r"><code>par(mfrow = c(1, 1))
+<pre class="r"><code>
+par(mfrow = c(1, 1))
 
 pb.trees &lt;- sim.bd.taxa.age(n = 100, numbsim = 100, lambda = 0.2, mu = 0, age = 20)
 
@@ -258,26 +271,29 @@ ltt.plot(pb.trees[[1]], log = &quot;y&quot;, xlab = &quot;Tempo&quot;, ylab = &q
 lapply(pb.trees[2:100], ltt.lines)
 </code></pre>
 <p>Agora repetiremos o processo para árvores simuladas em cenários com extinção. Observe as diferenças em relação aos mesmos plots para um cenário sem extinção (simulações anteriores).</p>
-<pre class="r"><code>bd.trees &lt;- sim.bd.taxa.age(n = 200, numbsim = 100, lambda = 0.5, mu = 0.3, age = 20)
+<pre class="r"><code>
+bd.trees &lt;- sim.bd.taxa.age(n = 200, numbsim = 100, lambda = 0.5, mu = 0.3, age = 20)
 
 ltt.plot(bd.trees[[1]], log = &quot;y&quot;, xlab = &quot;Tempo&quot;, ylab = &quot;Número cumulativo de linhagens&quot;)
 lapply(bd.trees[2:100], ltt.lines)
 </code></pre>
 <p>Essa diferença é ainda mais acentuada quando a fração de extinção é maior:</p>
-<pre class="r"><code>bd.trees &lt;- sim.bd.taxa.age(n = 200, numbsim = 100, lambda = 1, mu = 0.8, age = 20)
+<pre class="r"><code>
+bd.trees &lt;- sim.bd.taxa.age(n = 200, numbsim = 100, lambda = 1, mu = 0.8, age = 20)
 
 ltt.plot(bd.trees[[1]], log = &quot;y&quot;, xlab = &quot;Tempo&quot;, ylab = &quot;Número cumulativo de linhagens&quot;)
 lapply(bd.trees[2:100], ltt.lines)
 </code></pre>
 <blockquote>
-<p>Podemos notar que os LTT plots nos cenários com extinção não são iguais aos do cenário de Pure Birth, especialmente próximos do presente. Por que isso acontece? (Não se esqueça de incluir as figuras que justifiquem sua resposta)</p>
+<p>Podemos notar que os LTT plots nos cenários com extinção não são iguais aos do cenário de Pure Birth, especialmente próximos do presente. Por que isso acontece?</p>
 </blockquote>
 <hr />
 </div>
-<div id="estatística-gamma-gamma" class="section level2">
-<h2>Estatística Gamma (<span class="math inline">\(\gamma\)</span>)</h2>
+<div id="estatística-gamma" class="section level2">
+<h2>Estatística Gamma</h2>
 <p>Uma das formas que temos para resumir as características de uma filogenia é a estatística Gamma (Pybus &amp; Harvey, 2000). Essa métrica representa, de maneira grosseira, o “centro de massa” da filogenia, ou seja, é um teste para analisar se os nós de uma filogenia estão mais concentrados próximos à raiz ou aos terminais da filogenia quando comparados a um modelo nulo (nascimento puro), onde a expectativa é que os nós estejam espaçados regularmente desde a raiz até o presente.</p>
-<pre class="r"><code>phylo.gamma.null &lt;- sim.bd.taxa(n = 200, numbsim = 1000, lambda = 0.2, mu = 0)
+<pre class="r"><code>
+phylo.gamma.null &lt;- sim.bd.taxa(n = 200, numbsim = 1000, lambda = 0.2, mu = 0)
 gamma.null &lt;- unlist(lapply(phylo.gamma.null, gammaStat))
 
 ## Simular uma árvore sob Pure Birth
@@ -297,8 +313,9 @@ lapply(phylo.gamma.null[sample(1:1000, 3)], function(x){plot.phylo(x, show.tip.l
 sum(gamma.null &lt;= gammaStat(phylo.test.pb[[1]]))/1000
 sum(gamma.null &lt;= gammaStat(phylo.test.decel))/1000
 </code></pre>
-<p>Para variar um pouco e sair do mundo das simulações, vamos agora analisar o valor de <span class="math inline">\(\gamma\)</span> para uma árvore empírica. Para isso, baixem <a href="https://github.com/labmeme/labmeme.github.io/blob/master/viper_tree.txt">este arquivo</a> que contém uma filogenia de Viperidae (<a href="https://www.sciencedirect.com/science/article/pii/S1055790316301853">Alencar <em>et al.</em>, 2016, Mol. Phy. Evol.</a>), que vamos assumir que contém 100% da diversidade vivente.</p>
-<pre class="r"><code>viper.tree &lt;- read.tree(&quot;viper_tree.txt&quot;)
+<p>Para variar um pouco e sair do mundo das simulações, vamos agora analisar o valor de <code>gamma</code> para uma árvore empírica. Para isso, baixem <a href="https://raw.githubusercontent.com/labmeme/labmeme.github.io/master/viper_tree.txt">este arquivo</a> que contém uma filogenia de Viperidae (<a href="https://www.sciencedirect.com/science/article/pii/S1055790316301853">Alencar <em>et al.</em>, 2016, Mol. Phy. Evol.</a>), que vamos assumir que contém 100% da diversidade vivente.</p>
+<pre class="r"><code>
+viper.tree &lt;- read.tree(&quot;viper_tree.txt&quot;)
 
 ## Visualizando a árvore
 par(mfrow = c(1, 1))
@@ -310,9 +327,11 @@ gammaStat(viper.tree)
 ## Gerando uma distribuição nula de Gamma para testar a significância do valor de gamma da árvore empírica
 phylo.gamma.null.viper &lt;- sim.bd.taxa(n = Ntip(viper.tree), numbsim = 1000, lambda = 0.2, mu = 0)
 
-sum(unlist(lapply(phylo.gamma.null.viper, gammaStat)) &lt;= gammaStat(viper.tree))</code></pre>
-<p>Importante ressaltar que, apesar de nos dois casos acima as filogenias geradas para a construção do modelo nulo possuírem o mesmo número de espécies que a filogenia com a qual estamos comparando, isso não é necessário. Para mostrar isso, vamos simular uma distribuição nula de valores de <span class="math inline">\(\gamma\)</span> com árvores um pouco maiores (demora um pouco também):</p>
-<pre class="r"><code>phylo.gamma.null.large &lt;- sim.bd.taxa(n = 1000, numbsim = 1000, lambda = 0.2, mu = 0)
+sum(unlist(lapply(phylo.gamma.null.viper, gammaStat)) &lt;= gammaStat(viper.tree))
+</code></pre>
+<p>Importante ressaltar que, apesar de nos dois casos acima as filogenias geradas para a construção do modelo nulo possuírem o mesmo número de espécies que a filogenia com a qual estamos comparando, isso não é necessário. Para mostrar isso, vamos simular uma distribuição nula de valores de <code>gamma</code> com árvores um pouco maiores (demora um pouco também):</p>
+<pre class="r"><code>
+phylo.gamma.null.large &lt;- sim.bd.taxa(n = 1000, numbsim = 1000, lambda = 0.2, mu = 0)
 
 ## Plotando lado a lado as distribuições nulas (geradas para a árvore empírica e as com um maior número de tips)
 gamma.viper &lt;- unlist(lapply(phylo.gamma.null.viper, gammaStat))
@@ -320,9 +339,11 @@ gamma.large &lt;- unlist(lapply(phylo.gamma.null.large, gammaStat))
 
 hist(gamma.viper, freq = FALSE, main = NULL,  xlab = &quot;Gamma&quot;, ylab = &quot;Densidade&quot;)
 hist(gamma.large, freq = FALSE, xlab = &quot;Gamma&quot;, ylab = &quot;Densidade&quot;, add = TRUE, border = &quot;red&quot;)
-legend(&quot;topright&quot;, legend = c(&quot;Vipers&quot;, &quot;Árvores Grandes&quot;), col = 1:2, lty = 1)</code></pre>
-<p>Nos casos acima (tanto simulado quanto empírico), há uma premissa importante que assumimos: as filogenias contém 100% das espécies viventes. Na maioria dos casos isso não acontece, e isso pode ter um impacto bastante importante nas conclusões tiradas a partir do valor de <span class="math inline">\(\gamma\)</span>.</p>
-<pre class="r"><code>## Removendo aleatoriamente 10% das espécies
+legend(&quot;topright&quot;, legend = c(&quot;Vipers&quot;, &quot;Árvores Grandes&quot;), col = 1:2, lty = 1)
+</code></pre>
+<p>Nos casos acima (tanto simulado quanto empírico), há uma premissa importante que assumimos: as filogenias contém 100% das espécies viventes. Na maioria dos casos isso não acontece, e isso pode ter um impacto bastante importante nas conclusões tiradas a partir do valor de <code>gamma</code>.</p>
+<pre class="r"><code>
+## Removendo aleatoriamente 10% das espécies
 viper.tree.80 &lt;- drop.random(viper.tree, round(Ntip(viper.tree) * 0.2))
 
 ## Removendo aleatoriamente 30% das espécies
@@ -339,14 +360,15 @@ gamma.viper.40 &lt;- gammaStat(viper.tree.40)
 setNames(c(gammaStat(viper.tree), gamma.viper.80, gamma.viper.60, gamma.viper.40), c(&quot;Completa&quot;, &quot;80%&quot;, &quot;60%&quot;, &quot;40%&quot;))
 </code></pre>
 <blockquote>
-<p>Qual é o efeito do grau de sub-amostragem da filogenia nos valores de <span class="math inline">\(\gamma\)</span>? Qual seria um possível teste que leve em consideração essa sub-amostragem? (Não se esqueça de incluir as figuras que justifiquem sua resposta)</p>
+<p>Qual é o efeito do grau de sub-amostragem da filogenia nos valores de <code>gamma</code>? Qual seria um possível teste que leve em consideração essa sub-amostragem?</p>
 </blockquote>
 <hr />
 </div>
 <div id="taxas-variáveis" class="section level2">
 <h2>Taxas variáveis</h2>
 <p>Até agora, usamos modelos onde as taxas são constantes ao longo do tempo em todas as árvores que simulamos. Em alguns casos essas taxas constantes podem até representar bem a dinâmica do clado (por exemplo quando analisamos a diversificação de um gênero por exemplo, que se dá em “curtas” escalas temporais). No entanto, é possível relaxarmos essa restrição e simular cenários mais realísticos para níveis hierárquicos superiores, onde a premissa de taxas constantes passa a ser pouco plausível. (Para facilitar a análise do resultado, copie e cole o código abaixo inteiro).</p>
-<pre class="r"><code>set.seed(2018)
+<pre class="r"><code>
+set.seed(2018)
 
 ## Expansão de Diversidade
 b.cresc &lt;- function(t){0.1}
@@ -383,7 +405,7 @@ plot(drop.fossil(sim.bd.cresc), show.tip.label = FALSE);axisPhylo()
 plot(drop.fossil(sim.bd.sat), show.tip.label = FALSE);axisPhylo()
 plot(drop.fossil(sim.bd.decl), show.tip.label = FALSE);axisPhylo()
 </code></pre>
-<p>Vamos agora comparar os valores de <span class="math inline">\(\gamma\)</span> para as três filogenias simuladas:</p>
+<p>Vamos agora comparar os valores de <code>gamma</code> para as três filogenias simuladas:</p>
 <pre class="r"><code>gammaStat(sim.bd.cresc)
 gammaStat(sim.bd.sat)
 gammaStat(sim.bd.decl)
@@ -396,11 +418,11 @@ gamma.null.decl &lt;- sim.bd.taxa(n = Ntip(drop.fossil(sim.bd.decl)), numbsim = 
 
 sum(gammaStat(sim.bd.cresc) &lt;= unlist(lapply(gamma.null.cresc, gammaStat)))/100
 sum(gammaStat(sim.bd.sat) &lt;= unlist(lapply(gamma.null.sat, gammaStat)))/100
-sum(gammaStat(sim.bd.decl) &lt;= unlist(lapply(gamma.null.cresc, gammaStat)))/100</code></pre>
+sum(gammaStat(sim.bd.decl) &lt;= unlist(lapply(gamma.null.cresc, gammaStat)))/100
+</code></pre>
 <blockquote>
-<p>O que podemos afirmar com relação à capacidade da estatística <span class="math inline">\(\gamma\)</span> em distingüir entre os diferentes cenários? (Não se esqueça de incluir as figuras que justifiquem sua resposta)</p>
+<p>O que podemos afirmar com relação à capacidade da estatística <code>gamma</code> em distingüir entre os diferentes cenários?</p>
 </blockquote>
-<hr />
 <hr />
 </div>
 </div>
@@ -408,7 +430,8 @@ sum(gammaStat(sim.bd.decl) &lt;= unlist(lapply(gamma.null.cresc, gammaStat)))/10
 <h1>Simulações do registro fóssil</h1>
 <p>Como vimos no tutorial da aula passada, os modelos usados para analisar dados do registro fóssil são bastante similares (muitas vezes idênticos) aos modelos usados com filogenias moleculares. Sendo assim, não vamos focar muito nas propriedades desses modelos (estocasticidade, valores esperados, etc.) que já vimos anteriormente, mas vamos avaliar algumas propriedades que são exclusivas dos dados fósseis.</p>
 <p>Usaremos as seguintes funções para converter os dados das simulações em dados mais amigáveis para os plots.</p>
-<pre class="r"><code>fossil.for.plot &lt;- function(x){
+<pre class="r"><code>
+fossil.for.plot &lt;- function(x){
     first.last &lt;- plyr::ldply(x, function(y){y$taxa.data})
     sampling.occs &lt;- setNames(plyr::llply(x, function(y){y$sampling.times}), NULL)
     occs &lt;- data.frame(samp.times = 0, taxon.id = 0) #matrix(NA, ncol = length(sampling.occs[which.max(unlist(lapply(sampling.occs, length)))][[1]]))
@@ -439,7 +462,8 @@ taxa.for.plot &lt;- function(x){
 <div id="registro-perfeito" class="section level3">
 <h3>Registro “perfeito”</h3>
 <p>Inicialmente vamos simular um cenário ideal: todos os fósseis que aparecem na história do grupo são preservados, e sabemos os momentos de surgimento e desaparecimento verdadeiros das espécies. O comando a seguir simula o registro, bem como plot as curvas de diversidade real e amostrada.</p>
-<pre class="r"><code>record.full &lt;- simFossilRecord(p = 0.3, q = 0.2, r = sProb2sRate(R = 0.99999), nTotalTaxa = c(30, 50), nExtant = c(0, 10))
+<pre class="r"><code>
+record.full &lt;- simFossilRecord(p = 0.3, q = 0.2, r = sProb2sRate(R = 0.99999), nTotalTaxa = c(30, 50), nExtant = c(0, 10))
 
 record.full.plot &lt;- fossil.for.plot(record.full)
 
@@ -461,7 +485,9 @@ recfull.plot &lt;-
 recfull.plot
 </code></pre>
 <p>É possível notar que os dois gráficos acima mostram praticamente a mesma informação, já que quando a amostragem é quase perfeita, os momentos de aparecimento e desaparecimento das espécies são muito próximos (se não idênticos) aos “verdadeiros”. Isso também é ressaltado ao plotarmos as curvas de diversidade real e amostrada:</p>
-<pre class="r"><code>## Plotando as curvas de diversidade
+<pre class="r"><code>
+## Plotando as curvas de diversidade
+par(mfrow = c(1, 1))
 divCurveFossilRecordSim(record.full)
 </code></pre>
 <p>Veremos o que acontece quando o registro não é perfeito no próximo passo.</p>
@@ -471,7 +497,8 @@ divCurveFossilRecordSim(record.full)
 <div id="degradando-o-registro-perfeito" class="section level2">
 <h2>Degradando o registro perfeito</h2>
 <p>Agora vamos usar os dados simulados acima com preservação perfeita e simular cenários onde a preservação é mediana e baixa.</p>
-<pre class="r"><code>record.full.taxa &lt;- fossilRecord2fossilTaxa(record.full)
+<pre class="r"><code>
+record.full.taxa &lt;- fossilRecord2fossilTaxa(record.full)
 
 record.50 &lt;- sampleRanges(record.full.taxa, r = sProb2sRate(0.5), ranges.only = FALSE)
 record.10 &lt;- sampleRanges(record.full.taxa, r = sProb2sRate(0.1), ranges.only = FALSE)
@@ -481,8 +508,6 @@ record.10.rang &lt;- setNames(ldply(record.10, range)[, c(1, 3, 2)], c(&quot;tax
 
 record.50.plot &lt;- taxa.for.plot(record.50)
 record.10.plot &lt;- taxa.for.plot(record.10)
-
----
 
 ## Ocorrências para 50% de preservação
 
@@ -544,7 +569,8 @@ plot_grid(range.full.plot,
           )
 </code></pre>
 <p>De posse dos registros com diferentes graus de preservação, podemos também traçar as curvas de diversidade para cada um dos casos:</p>
-<pre class="r"><code>## Preparando os dados para o gráfico
+<pre class="r"><code>
+## Preparando os dados para o gráfico
 rang.data &lt;- list(full = record.full.taxa, pres50 = record.50.rang[,2:3], pres10 = record.10.rang[,2:3])
 rang.list &lt;- list()
 for(i in 1:3){
@@ -556,8 +582,8 @@ for(i in 1:3){
 div.data &lt;- dplyr::bind_rows(rang.list)
 
 ggplot(data = div.data) +
-    geom_segment(aes(x = -int.start, xend = -abs(int.end), y = factor(int.div), yend = factor(int.div), colour = name), size = 1, alpha = 0.75) +
-    geom_segment(aes(x = -int.start, xend = -int.start, y = factor(int.div), yend = factor(foo), colour = name), size = 1, alpha = 0.75) +
+    geom_segment(aes(x = -int.start, xend = -abs(int.end), y = int.div, yend = int.div, colour = name), size = 1, alpha = 0.75) +
+    geom_segment(aes(x = -int.start, xend = -int.start, y = int.div, yend = foo, colour = name), size = 1, alpha = 0.75) +
     scale_colour_brewer(palette = &quot;Set1&quot;, labels = c(&quot;Perfeito&quot;, &quot;50%&quot;, &quot;10%&quot;)) +
     labs(x = &quot;Tempo&quot;, y = &quot;Número de Espécies&quot;, colour = &quot;Preservação&quot;) +
     theme(legend.position = &quot;bottom&quot;)
@@ -584,7 +610,7 @@ ggplot(data = subset(div.data.res, int.start &lt; 37)) +
     facet_grid(name  ~ .)
 </code></pre>
 <blockquote>
-<p>Avalie o efeito da preservação e da resolução temporal na caracterização da trajetória da diversidade no tempo. (Não se esqueça de incluir as figuras que justifiquem sua resposta)</p>
+<p>Avalie o efeito da preservação e da resolução temporal na caracterização da trajetória da diversidade no tempo.</p>
 </blockquote>
 <p style="text-align:center;">
 <img src="solong.jpg" alt="see ya'" width="300px">

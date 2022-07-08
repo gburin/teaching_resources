@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Instalação on Materiais de aulas</title>
+    <link>https://resources.gburin.com/tags/instala%C3%A7%C3%A3o/</link>
+    <description>Recent content in Instalação on Materiais de aulas</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 05 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://resources.gburin.com/tags/instala%C3%A7%C3%A3o/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Instalação de pacotes no R</title>
+      <link>https://resources.gburin.com/instala%C3%A7%C3%A3o-de-pacotes-no-r/</link>
+      <pubDate>Tue, 05 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://resources.gburin.com/instala%C3%A7%C3%A3o-de-pacotes-no-r/</guid>
+      <description>  Para instalar pacotes no R, existem basicamente duas formas. A primeira é através da função install.packages usada em um script ou diretamente no console:
+ install.packages(&amp;quot;ggplot2&amp;quot;)  Porém, a forma mais fácil de se fazer no RStudio é através do menu. O vídeo a seguir ensina como instalar pacotes usando o menu de ferramentas desse software:
+ </description>
+    </item>
+    
+  </channel>
+</rss>

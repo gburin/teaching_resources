@@ -17,7 +17,7 @@ author = "Gustavo Burin"
   math = true
   # if both are set to true, summary is shown.
   # FooterMsg = "Copyright Me 2016. Powered by Hugo."
-  googleAnalytics = "G-YJFQG8J3GJ"
+  googleAnalyticsID = "G-YJFQG8J3GJ"
   # Date and time format (refer to Go's date format: http://fuckinggodateformat.com )
   #   Examples: "Mon, Jan 2, 2006" or "2006-01-02"
   date_format = "Jan 2, 2006"

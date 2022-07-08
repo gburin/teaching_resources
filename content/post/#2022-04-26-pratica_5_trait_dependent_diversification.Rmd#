@@ -1,0 +1,226 @@
+---
+title: "Modelos de Diversificação Trait Dependent"
+date: 2022-04-26
+categories: ["R"]
+tags: ["R", "Tutorial", "Macroevolução", "Visualização"]
+fontsize: 14pt
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    highlight: textmate
+    self_contained: true
+---
+
+# Carregando os pacotes necessários
+
+```{r eval = FALSE}
+
+library("phytools")
+library("diversitree")
+library("picante")
+library("RColorBrewer")
+library("ggplot2")
+library("cowplot")
+library("qgraph")
+
+```
+
+# MuSSE + Vipers
+
+Nesse tutorial vamos usar alguns dos modelos de *trait-dependent speciation anad extinction*, implementados no pacote `diversitree`. Para o exemplo do MuSSE (**Mu**ltiple-**S**tate **S**peciation and **E**xtinction) usaremos os dados de microhabitat e a filogenia de viperídeos usados em [Alencar *et al.*, 2017](http://rspb.royalsocietypublishing.org/content/284/1869/20171775).
+
+Já para o exemplo que usa o QuaSSE (**Qua**ntitative *S*tate *S*peciation and *E*xtinction) utilizaremos dados de massa corporal e a filogenia de primatas usadas no [artigo que descreve o método](https://academic.oup.com/sysbio/article/59/6/619/1711291).
+
+Todos os arquivos necessários estão disponíveis em um arquivo compactado [nesse link](https://www.dropbox.com/s/h8b9nfbptho8q4q/data_tutorial.zip?dl=0). Ao descompactar o arquivo, vamos precisar indicar para o R que trabalharemos na nova pasta criada pela extração. Para mudar o diretório de trabalho de uma sessão do R no RStudio, [esse post](https://rabovo.wordpress.com/2015/05/30/bem-vindo-ao-blog-r-ab-ovo-software-r-para-iniciantes/) mostra como fazer.
+
+## Importando e visualizando os dados
+
+```{r eval = FALSE}
+
+viper.tree <- read.tree("~/Documents/disciplina_macroevo_2022/aulas_ari/pratica_5_trait_dependent_diversification/data_tutorial/tree1.txt")
+viper.tree <- force.ultrametric(viper.tree, method = "nnls")
+
+trait.table <- read.csv("~/Documents/disciplina_macroevo_2022/aulas_ari/pratica_5_trait_dependent_diversification/data_tutorial/habitat_vipers_all.csv", sep = ";", header = FALSE)
+names(trait.table) <- c("sp", "hab")
+trait.data.musse <- setNames(trait.table$hab, trait.table$sp)
+
+plot(viper.tree, type = "fan", label.offset = 3, cex = 0.5, no.margin = TRUE)
+tiplabels(pch = 21, col = "black", bg = brewer.pal(4, "Set1")[trait.data.musse[match(viper.tree$tip.label, names(trait.data.musse))]], cex = 1.3, offset = 1.5)
+legend("bottomright", legend = c("Misto", "Terrestre Aberto", "Terrestre Florestal", "Arborícola"), col = brewer.pal(4, "Set1"), pch = 19)
+
+```
+
+As versões "originais" dos modelos do `diversitree` são baseadas em abordagens de máxima verossimilhança. Sendo assim, é possível analisarmos diferentes modelos e ver qual deles melhor explica nossos dados. Os modelos que testaremos são três: um completo (com todos os parâmetros livres para serem estimados), um no qual somente a especiação varia entre os diferentes microhabitats (e todas as outras taxas são idênticas entre eles), e finalmente o modelo mais simples onde não há diferença nenhuma entre as taxas relacionadas aos diferentes microhabitats.
+
+## Gerando modelo completo (todas as taxas livres para serem estimadas)
+
+```{r eval = FALSE}
+
+viper.musse <- make.musse(tree = viper.tree, states = trait.data.musse, k = 4, sampling.f = 0.79)
+
+sp.musse <- starting.point.musse(tree = viper.tree, k = 4)
+
+fit.musse <- find.mle(func = viper.musse, x.init = sp.musse)
+
+```
+
+Baseado no modelo completo, podemos restringir esse modelo para que apenas as taxas de especiação sejam diferentes (todas as outras são iguais entre estados) e também para o modelo mais simples (Birth Death simples - uma especiação e extinção e transições iguais)
+
+```{r eval = FALSE}
+
+viper.onlysp <- constrain(viper.musse, mu2 ~ mu1, mu3 ~ mu1, mu4 ~ mu1, q12 ~ q21, q13 ~ q31, q14 ~ q41, q23 ~ q32, q24 ~ q42, q34 ~ q43)
+sp.musse.onlysp <- sp.musse[argnames(viper.onlysp)]
+
+fit.musse.onlysp <- find.mle(func = viper.onlysp, x.init = sp.musse.onlysp)
+
+viper.minimal <- constrain(viper.musse, lambda2 ~ lambda1, lambda3 ~ lambda1, lambda4 ~ lambda1, mu2 ~ mu1, mu3 ~ mu1, mu4 ~ mu1, q12 ~ q21, q13 ~ q31, q14 ~ q41, q23 ~ q32, q24 ~ q42, q34 ~ q43)
+sp.musse.minimal <- sp.musse[argnames(viper.minimal)]
+
+fit.minimal <- find.mle(func = viper.minimal, x.init = sp.musse.minimal)
+
+anova(fit.musse, only.lambda = fit.musse.onlysp, minimal = fit.minimal)
+
+```
+
+> Repita o procedimento acima para as outras 4 árvores disponíveis no arquivo. Quais são as conclusões que você pode tirar dos resultados globais?
+
+Essa análise é bastante simples, onde não levamos em conta incertezas relativas tanto às estimativas dos parâmetros quanto incertezas externas ao modelo como por exemplo a incerteza filogenética. Sendo assim, refazer a análise acima sob uma abordagem bayesiana (usando múltiplas árvores) nos permite incorporar ambas as fontes de incerteza citadas. No entanto, isso tem um custo: para que os parâmetros sejam confiáveis (i.e. para que as distribuições posteriores dos valores de cada um dos parâmetros seja bem explorada) as cadeias de MCMC dessa abordagem precisam ser longas e esse processo leva mais tempo do que temos disponível em aula. Sendo assim, disponibilizamos uma tabela compilada com os resultados da análise de 20 topologias diferentes, que usaremos nas próximas etapas.
+
+```{r eval = FALSE}
+
+post.table <- read.csv("~/Documents/disciplina_macroevo_2022/aulas_ari/pratica_5_trait_dependent_diversification/data_tutorial/posterior_table_vipers.csv")
+
+## Visualizando a distribuição posterior de taxas de especiação para cada microhabitat
+
+ggplot(data = post.table[grep("lambda", post.table$rate),]) +
+    geom_density(aes(x = value, group = rate, fill = rate), alpha = 0.5) +
+    scale_fill_brewer(palette = "Accent", labels = c("Misto", "Terrestre Aberto", "Terrestre Florestal", "Arborícola")) +
+    theme(legend.position = "bottom") +
+    labs(x = "Especiação", y = "Densidade", fill = "Microhabitat")
+
+## Visualizando a distribuição posterior de taxas de extinção para cada microhabitat
+
+ggplot(data = post.table[grep("mu", post.table$rate),]) +
+    geom_density(aes(x = value, group = rate, fill = rate), alpha = 0.5) +
+    scale_fill_brewer(palette = "Accent", labels = c("Misto", "Terrestre Aberto", "Terrestre Florestal", "Arborícola")) +
+    theme(legend.position = "bottom") +
+    labs(x = "Extinção", y = "Densidade", fill = "Microhabitat")
+
+```
+
+Os modelos do pacote `diversitree` estimam não somente as taxas de especiação e extinção associadas a cada estado do caráter estudado como também as taxas de transição anagenética entre esses estados. Vamos visualizar como se dá então as transições entre os microhabitats nos viperídeos.
+
+```{r eval = FALSE}
+## Criando a matriz de transições
+
+trans.vipers <- aggregate(post.table$value[grep("q", post.table$rate)], by = list(post.table$rate[grep("q", post.table$rate)]), FUN = mean)
+trans.vipers.mat <- matrix(c(0, trans.vipers$x[1:4], 0, trans.vipers$x[5:8], 0, trans.vipers$x[9:12], 0), ncol = 4, nrow = 4, byrow = TRUE)
+
+qgraph(trans.vipers.mat, labels = c("Misto", "Terrestre\nAberto", "Terrestre\nFlorestal", "Arborícola"), cut = 0.1, theme = "Borkulo")
+
+```
+
+> Analisando os resultados acima (da análise bayesiana), os resultados e conclusões mudaram em relação à análise inicial? Por que?
+
+
+# QuaSSE
+
+Para essa parte do tutorial utilizaremos os resultados de uma análise previamente feita, já que devido à complexidade dos algoritmos usados para estimar as taxas o processamento das funções é bastante demorado. O arquivo está disponível no arquivo compactado baixado no início do tutorial.
+
+O procedimento básico para análises do QuaSSE é similar ao dos outros modelos do `diversitree`: nomear o vetor dos dados com as espécies, gerar a função de likelihood que será otimizada, e buscar a melhor combinação de parâmetros. No entanto, no QuaSSE não obteremos um valor de taxa para cada valor do trait (matematicamente isso não é definido para traits contínuos); obteremos os parâmetros de modelos que representem a relação entre o aumento/diminuição do valor do trait com as taxas de especiação, extinção e transições. No tutorial abaixo, testaremos modelos de relação linear, sigmóide e "hump-shaped" (com um valor ótimo).
+
+
+```{r eval = FALSE}
+
+prim.tree <- read.nexus("~/Documents/disciplina_macroevo_2022/aulas_ari/pratica_5_trait_dependent_diversification/data_tutorial/Vos-2006.nex")
+prim.data <- read.csv("~/Documents/disciplina_macroevo_2022/aulas_ari/pratica_5_trait_dependent_diversification/data_tutorial/Redding-2010.csv")
+
+mass <- log(prim.data$mass)
+names(mass) <- prim.data$tip.label
+
+## Plotando a filogenia juntamente com os dados de body mass
+plotTree.wBars(prim.tree, mass, type = "fan", col = brewer.pal(4, "Set3")[4], border = "lightgrey")
+
+## Assumiremos um desvio padrão de 1/50 para todas as espécies
+mass.sd <- 1/50
+
+sp.quasse <- starting.point.quasse(prim.tree, mass)
+
+```
+
+## Definindo funções de relação entre trait e taxas
+
+```{r eval = FALSE}
+
+## Funções de ajuda para poupar trabalho
+make.primates <- function(lambda, mu){
+    make.quasse(prim.tree, mass, mass.sd, lambda, mu)
+}
+
+nodrift <- function(f){
+    constrain(f, drift ~ 0)
+}
+
+## Criando função "linear" que obedece a condição de que as derivadas das funções de especiação e extinção dependentes do valor do caráter tendem a 0 próximas às bordas do espaço de parâmetros
+xr <- range(mass) + c(-1, 1) * 20 * sp.quasse["diffusion"]
+linear.x <- make.linear.x(xr[1], xr[2])
+
+## Relação constante
+f.c <- make.primates(constant.x, constant.x)
+
+## Relação linear com especiação e constante com extinção
+f.l <- make.primates(linear.x, constant.x)
+
+## Relação sigmóide com especiação e constante com extinção
+f.s <- make.primates(sigmoid.x, constant.x)
+
+## Relação "hump-shaped" ("normal") com especiação e constante come extinção
+f.h <- make.primates(noroptimal.x, constant.x)
+
+## Definindo parâmetros de otimização para melhorar ajuste
+control <- list(parscale = 0.1, reltol = 0.001)
+
+```
+
+Diferentemente dos modelos para caracteres discretos, mesmo se pensarmos em uma versão bayesiana do QuaSSE o passo de seleção de modelos é de extrema importância. Sendo assim, nos próximos passos ajustamos os diferentes modelos e comparamos os ajustes através dos valores de AICc. Essa etapa não será feita "na unha" pois o modelo que roda mais rápido demora ao menos 45 minutos para terminar.
+
+## Ajuste do modelo constante
+
+```{r eval = FALSE}
+
+mle.c <- find.mle(nodrift(f.c), sp.quasse, lower = 0, control = control, verbose = 0) ## demora bastante
+
+```
+
+Obtendo valores iniciais a partir do ajuste do modelo constante.
+
+```{r eval = FALSE}
+
+sp.c <- mle.c$par
+sp.l <- c(sp.c[1], l.m = 0, sp.c[2:3])
+sp.s <- c(sp.c[1], sp.c[1], mean(xr), 1, sp.c[2:3])
+sp.h <- c(sp.c[1], sp.c[1], mean(xr), 1, sp.c[2:3])
+
+names(sp.s) <- argnames(nodrift(f.s))
+names(sp.h) <- argnames(nodrift(f.h))
+
+mle.l <- find.mle(nodrift(f.l), sp.l, control = control, verbose = 0) ## demora bastante (~1h30)
+mle.s <- find.mle(nodrift(f.s), sp.s, control = control, verbose = 0) ## demora bastante (1h36)
+mle.h <- find.mle(nodrift(f.h), sp.h, control = control, verbose = 0) ## demora bastante (44min)
+
+```
+
+Comparando os modelos:
+
+```{r eval = FALSE}
+
+load("~/Documents/disciplina_macroevo_2022/aulas_ari/pratica_5_trait_dependent_diversification/data_tutorial/quasse_results.RData")
+anova(mle.c, linear = mle.l, sigmoidal = mle.s, hump = mle.h)
+
+```
+
+Para mais informações, consulte o [tutorial](http://www.zoology.ubc.ca/prog/diversitree/doc/diversitree-tutorial.pdf) do pacote!
+
+> Qual é o melhor modelo para a relação entre massa corporal e taxas de especiação em Primatas? Cite um possível mecanismo biológico que possa explicar sua conclusão.
+

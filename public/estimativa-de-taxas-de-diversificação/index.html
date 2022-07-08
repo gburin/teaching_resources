@@ -27,7 +27,7 @@
   
 </head>
 
-  <body class="theme-base-0c layout-reverse">
+  <body class="theme-base-08 layout-reverse">
   <aside class="sidebar">
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
@@ -51,32 +51,21 @@
     <main class="content container">
     <div class="post">
   <h1>Estimativa de Taxas de Diversificação</h1>
-  <time datetime=2018-09-21T00:00:00Z class="post-date">Fri, Sep 21, 2018</time>
+  <time datetime=2022-04-12T00:00:00Z class="post-date">Tue, Apr 12, 2022</time>
   
 <script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
 <p>Carregando os pacotes necessários</p>
 <pre class="r"><code>library(&quot;rmarkdown&quot;)
-library(&quot;phytools&quot;)</code></pre>
-<pre><code>## Loading required package: ape</code></pre>
-<pre><code>## Loading required package: maps</code></pre>
-<pre class="r"><code>library(&quot;RColorBrewer&quot;)
+library(&quot;phytools&quot;)
+library(&quot;RColorBrewer&quot;)
 library(&quot;ggplot2&quot;)
-library(&quot;cowplot&quot;)</code></pre>
-<pre><code>## 
-## ********************************************************</code></pre>
-<pre><code>## Note: As of version 1.0.0, cowplot does not change the</code></pre>
-<pre><code>##   default ggplot2 theme anymore. To recover the previous</code></pre>
-<pre><code>##   behavior, execute:
-##   theme_set(theme_cowplot())</code></pre>
-<pre><code>## ********************************************************</code></pre>
-<pre class="r"><code>library(&quot;bbmle&quot;)</code></pre>
-<pre><code>## Loading required package: stats4</code></pre>
-<pre class="r"><code>library(&quot;diversitree&quot;)
-library(&quot;TreeSim&quot;)</code></pre>
-<pre><code>## Loading required package: geiger</code></pre>
-<pre class="r"><code>makeTransparent&lt;-function(someColor,alpha=10){
+library(&quot;cowplot&quot;)
+library(&quot;bbmle&quot;)
+library(&quot;diversitree&quot;)
+library(&quot;TreeSim&quot;)
+makeTransparent&lt;-function(someColor,alpha=10){
     newColor&lt;-col2rgb(someColor)
     apply(newColor,2,function(curcoldata){
     rgb(red=curcoldata[1],green=curcoldata[2],blue=curcoldata[3],
@@ -131,7 +120,7 @@ fit.pb &lt;- mle2(llik.lambda, start = list(lambda = 0.1))
 
 fit.pb</code></pre>
 <blockquote>
-<p>O valor estimado do parâmetro é bem diferente do que usamos para simular a árvore. O que o valor estimado no passo anterior representa? Se multiplicarmos esse valor pela idade da árvore simulada, o que obtemos? Sugira um modo de confirmar sua resposta à essa última pergunta.</p>
+<p>O valor estimado do parâmetro é bem diferente do que usamos para simular a árvore. O que o valor estimado no passo anterior representa? Se multiplicarmos esse valor pela idade da árvore simulada, o que obtemos? Pense em um modo de confirmar sua resposta à essa última pergunta.</p>
 </blockquote>
 <p>Como vimos na aula teórica, ao tentarmos estimar as taxas de diversificação a partir de uma filogenia molecular ajustando os tempos de espera a uma distribuição exponencial, é necessário fazer <del>um truque matemágico</del> uma conversão para que a taxa estimada represente eventos por linhagem por milhão de anos.</p>
 <pre class="r"><code>fit.pb@coef * (30/sum(tree.pb$edge.length))</code></pre>
@@ -155,7 +144,7 @@ fit.pb.short &lt;- mle2(llik.lambda.short, start = list(lambda = 0.1))
 
 fit.pb.short@coef * (15/sum(tree.pb.short$edge.length))</code></pre>
 <blockquote>
-<p>Cite duas possíveis justificativas para as estimativas em árvores pequenas serem piores que para árvores maiores.</p>
+<p>Pense em duas possíveis justificativas para as estimativas em árvores pequenas serem piores que para árvores maiores.</p>
 </blockquote>
 </div>
 </div>

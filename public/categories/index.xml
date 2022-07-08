@@ -5,6 +5,16 @@
     <link>https://resources.gburin.com/categories/</link>
     <description>Recent content in Categories on Materiais de aulas</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://resources.gburin.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language>
+    <lastBuildDate>Fri, 29 Apr 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://resources.gburin.com/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>R</title>
+      <link>https://resources.gburin.com/categories/r/</link>
+      <pubDate>Fri, 29 Apr 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://resources.gburin.com/categories/r/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>
